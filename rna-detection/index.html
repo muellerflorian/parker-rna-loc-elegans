@@ -1,0 +1,784 @@
+
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+        <meta name="description" content="An ImJoy plugin to quantify RNA localization patterns">
+      
+      
+        <link rel="canonical" href="https://muellerflorian.github.io/rna-loc/rna-detection/">
+      
+      
+        <meta name="author" content="Florian MUELLER">
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="/img/icons8-eukaryotic-cells-filled-100.png">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.0">
+    
+    
+      
+        <title>RNA detection - RNA localization in c. elegans</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/application.0284f74d.css">
+      
+        <link rel="stylesheet" href="../assets/stylesheets/application-palette.01803549.css">
+      
+      
+        
+        
+        <meta name="theme-color" content="#3f51b5">
+      
+    
+    
+      <script src="../assets/javascripts/modernizr.74668098.js"></script>
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+    
+    <link rel="stylesheet" href="../assets/fonts/material-icons.css">
+    
+    
+    
+      
+    
+    
+  </head>
+  
+    
+    
+    <body dir="ltr" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448" viewBox="0 0 416 448" id="__github"><path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19T128 352t-18.125-8.5-10.75-19T96 304t3.125-20.5 10.75-19T128 256t18.125 8.5 10.75 19T160 304zm160 0q0 10-3.125 20.5t-10.75 19T288 352t-18.125-8.5-10.75-19T256 304t3.125-20.5 10.75-19T288 256t18.125 8.5 10.75 19T320 304zm40 0q0-30-17.25-51T296 232q-10.25 0-48.75 5.25Q229.5 240 208 240t-39.25-2.75Q130.75 232 120 232q-29.5 0-46.75 21T56 304q0 22 8 38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0 37.25-1.75t35-7.375 30.5-15 20.25-25.75T360 304zm56-44q0 51.75-15.25 82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5T212 416q-19.5 0-35.5-.75t-36.875-3.125-38.125-7.5-34.25-12.875T37 371.5t-21.5-28.75Q0 312 0 260q0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25 30.875Q171.5 96 212 96q37 0 70 8 26.25-20.5 46.75-30.25T376 64q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34 99.5z"/></svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="#rna-detection-with-fish-quant" tabindex="1" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="https://muellerflorian.github.io/rna-loc/" title="RNA localization in c. elegans" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon">wb_sunny</i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            <span class="md-header-nav__topic">
+              RNA localization in c. elegans
+            </span>
+            <span class="md-header-nav__topic">
+              
+                RNA detection
+              
+            </span>
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+          
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+        
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+
+
+  
+
+<a href="https://github.com/muellerflorian/parker-rna-loc-elegans.git" title="Go to repository" class="md-source" data-md-source="github">
+  
+    <div class="md-source__icon">
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <use xlink:href="#__github" width="24" height="24"></use>
+      </svg>
+    </div>
+  
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+          </div>
+        </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+        
+
+  
+
+<nav class="md-tabs md-tabs--active" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  <li class="md-tabs__item">
+    
+      <a href=".." title="Overview" class="md-tabs__link">
+        Overview
+      </a>
+    
+  </li>
+
+      
+        
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../cell-membrane-dist/" title="RNA localization" class="md-tabs__link">
+          RNA localization
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../image-processing/" title="General workflows" class="md-tabs__link md-tabs__link--active">
+          General workflows
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../release-notes/" title="About" class="md-tabs__link">
+          About
+        </a>
+      
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="https://muellerflorian.github.io/rna-loc/" title="RNA localization in c. elegans" class="md-nav__button md-logo">
+      
+        <i class="md-icon">wb_sunny</i>
+      
+    </a>
+    RNA localization in c. elegans
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+<a href="https://github.com/muellerflorian/parker-rna-loc-elegans.git" title="Go to repository" class="md-source" data-md-source="github">
+  
+    <div class="md-source__icon">
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <use xlink:href="#__github" width="24" height="24"></use>
+      </svg>
+    </div>
+  
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href=".." title="Overview" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../tools/" title="Analysis tools" class="md-nav__link">
+      Analysis tools
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+    
+    <label class="md-nav__link" for="nav-3">
+      RNA localization
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        RNA localization
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../cell-membrane-dist/" title="Cell membrane distance" class="md-nav__link">
+      Cell membrane distance
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../nuc-envelop-dist/" title="Nuclear envelope distance" class="md-nav__link">
+      Nuclear envelope distance
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../granules-coloc/" title="Granule co-localization" class="md-nav__link">
+      Granule co-localization
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4" checked>
+    
+    <label class="md-nav__link" for="nav-4">
+      General workflows
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        General workflows
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../image-processing/" title="Image processing" class="md-nav__link">
+      Image processing
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        RNA detection
+      </label>
+    
+    <a href="./" title="RNA detection" class="md-nav__link md-nav__link--active">
+      RNA detection
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#detection-of-individual-rnas" title="Detection of individual RNAs" class="md-nav__link">
+    Detection of individual RNAs
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#detection-of-clustered-rnas" title="Detection of clustered RNAs" class="md-nav__link">
+    Detection of clustered RNAs
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#detection-settings-for-individual-outline-files" title="Detection settings for individual outline files" class="md-nav__link">
+    Detection settings for individual outline files
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
+    
+    <label class="md-nav__link" for="nav-5">
+      About
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-5">
+        About
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../release-notes/" title="Release Notes" class="md-nav__link">
+      Release Notes
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../licence/" title="Licence" class="md-nav__link">
+      Licence
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#detection-of-individual-rnas" title="Detection of individual RNAs" class="md-nav__link">
+    Detection of individual RNAs
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#detection-of-clustered-rnas" title="Detection of clustered RNAs" class="md-nav__link">
+    Detection of clustered RNAs
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#detection-settings-for-individual-outline-files" title="Detection settings for individual outline files" class="md-nav__link">
+    Detection settings for individual outline files
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="rna-detection-with-fish-quant">RNA detection with FISH-quant<a class="headerlink" href="#rna-detection-with-fish-quant" title="Permanent link">&para;</a></h1>
+<p>Two options exist, you can either directly analyse the smFISH channels in FQ to
+detect individual RNAs, or you can use a Matlab script to detect individual RNA
+molecule and then decomposes RNA aggregates into individual RNAs with a Gaussian
+Mixture Model (GMM).</p>
+<h2 id="detection-of-individual-rnas">Detection of individual RNAs<a class="headerlink" href="#detection-of-individual-rnas" title="Permanent link">&para;</a></h2>
+<p>Below only a quick summary of the workflow is presented. For more details consult the 
+<a href="https://bitbucket.org/muellerflorian/fish_quant/src/master/Documentation/FISH_QUANT_v3.pdf" target="_blank"><strong>FQ manual.</strong></a> </p>
+<ol>
+<li>Open FQ</li>
+<li>Set analysis folder to folder containing the image that should be analysed:
+    <code>Menu Folder</code> &gt; <code>Set root folder</code>)</li>
+<li>Open image that should be analysed.</li>
+<li>Draw outline of embryo / cells:<ol>
+<li>Open dedicated interface:   Button  <code>Define outlines</code></li>
+<li>Draw a new cell: Button <code>New cell</code></li>
+<li>Save outline: Button    <code>Quick-save</code></li>
+<li>Return to main FQ: Button   <code>Finished</code></li>
+</ol>
+</li>
+<li>Filter image (default filter with <code>LoG</code> is usually good).</li>
+<li>Inspect image. On the right part of the interface select <code>Filtered image</code>,
+    disable <code>outline</code>, and double click on the image. This will show a maximum
+    intensity projection of the filtered image in a separate window. Here, you can
+    change the contrast and zoom. In order to determine an appropriate threshold
+    in the next step, determine a generous range of intensities range corresponding
+    to the individual RNA molecules.</li>
+<li>
+<p>Set <strong>pre-detection settings</strong>. FQ will test how many RNAs are detected with a
+    range of user-defined intensity thresholds (based on the manual inspection of
+    the image from above).</p>
+<ol>
+<li>Open dedicated interface:    Button <code>Detect</code></li>
+<li>In the user-dialog change the first two parameter: minimum and maximum
+       threshold to test. We usually use a minimum value that’s somewhat lower
+       than the lowest RNAs to also consider intensity value corresponding to background.</li>
+<li>FQ will calculate the number of detected RNAs for a range of values in
+       this interval. Depending on the size of the image, this can take a little while. Once done, a plot with the number of detected RNAs as a function of the different thresholds is shown. If the specified range is not appropriate, it can be changed in this interface the computation be repeated.</li>
+<li>Ideally, this curve shows a plateau for a value range corresponding to a
+       good detection threshold. If that’s not the case, a reasonable value
+       corresponding to a visual assessment of what individual RNAs are should be chosen. A pre-detection with a given detection threshold can be perform and the results be inspected in a separate window.</li>
+</ol>
+<p>One other parameter that could be important to adjust is the <strong>cropping region</strong> around each RNA that is considered for analysis and fitting. Reducing this size allows sometimes to better detect closely spaced RNAs but at the cost of an  imprecision in the fit. For most applications a value of +/- 2 voxels in XY and Z are a good compromise.</p>
+</li>
+<li>
+<p>Once you are satisfied with the settings press on <code>Perform detection for all cells</code> to return the main window.</p>
+</li>
+<li>Press button <code>Fit</code> to fit each detected spot with a 3D Gaussian function.</li>
+<li>[Optional]. You can set threshold values for the different fitting parameters,
+    e.g. remove spots with very small or very large standard deviations.</li>
+<li>You can now save the detection settings: <code>[FQ] Main</code>&gt;<code>Save</code>&gt;<code>Save detection settings</code>.
+    As a file-name specify <code>FQ__settings_MATURE.txt</code></li>
+<li>Depending on which analysis you want to perform, you either save the detection
+    results or only the specified cell outline</li>
+<li>If you are satisfied with these detection results, you can save them directly:  <code>[FQ] Main</code>&gt;<code>Save</code>&gt;<code>Detection spots [All]</code>.</li>
+<li>If you would like to also analyse RNA aggregates, you can save only the outline: <code>[FQ] Main</code>&gt;<code>Save</code>&gt;<code>Outline of cells</code>.</li>
+</ol>
+<h2 id="detection-of-clustered-rnas">Detection of clustered RNAs<a class="headerlink" href="#detection-of-clustered-rnas" title="Permanent link">&para;</a></h2>
+<p>Her we use an approach that detects individual RNAs and then decomposes aggregates into individual RNAs 
+(for more information see our 
+<a href="https://www.nature.com/articles/s41467-018-06868-w" target="_blank"><strong>Nature Communications paper</strong></a>). 
+This requires that the detection of individual RNA as described above has been performed.</p>
+<p>After performing the steps above you will have two text files (1) the cell outline,
+(2) FQ detection settings. The latter can be for an entire experiment or for individual
+outline files. Depending on how your data is organised a different workflow below
+will be adequate</p>
+<h3 id="detection-settings-for-individual-outline-files">Detection settings for individual outline files<a class="headerlink" href="#detection-settings-for-individual-outline-files" title="Permanent link">&para;</a></h3>
+<p>Here, each outline has it's own settings file. We provide a script on the FQ BitBucket repository to analyse these data
+<a href="https://bitbucket.org/muellerflorian/fish_quant/src/master/locFISH/WRAPPER_smFISH__GMM_v1.m" target="_blank"><strong>(WRAPPER_smFISH__GMM_v1.m)</strong></a>. </p>
+<ol>
+<li>The scripts requires that images, outlines, and settings are in the same folder.</li>
+<li>You have to specify a string that identifies outline files, and a  string that
+ identifies the settings files. Importantly, replacing one string by the other should
+ then yield the respective other files.</li>
+<li>The script will then loop over all outlines, and process them with the GMM approach</li>
+<li>Results will stored in a newly created folder with the same name as the outline file.
+  Here two subfolders are created,</li>
+<li><code>results_GMM</code> contains the RNA detection with the GMM (to decompose foci into
+      individual RNAs). The most important files are the text files ending
+      with <code>_res_GMM.txt</code> containing the RNA detection results, which will be used
+      to perform the co-localisation. The folder further contains a subfolder <code>#plots</code>
+      with a PDF showing the results of the GMM detection. Individual RNAs are
+       shown in green, decomposed foci with a red number indicating how many RNAs
+      were estimated to be in each foci.</li>
+<li><code>results_noGMM</code> contains the RNA detection results without the GMM.</li>
+</ol>
+<p>In the example below, the strings would be <code>outlines.txt</code> for outlines, and
+<code>settings_MATURE.txt</code> for the settings. It also shows the newly created folder,
+containing the GMM results.</p>
+<div class="highlight"><pre><span></span>.
+├─ fish_data/
+│  ├─ exp1_ch1_pos01.tif                  # smFISH image
+│  ├─ exp1_ch1_pos01__outlines.txt         # FQ outlines results
+│  ├─ exp1_ch1_pos01__settings_MATURE.txt  # FQ detection settings
+│  ├─ exp1_ch1_pos01__spots.txt            # FQ spot detection
+│  ├─ exp1_ch1_pos01__outlines/
+│     ├─ exp1_ch1_pos01__outlines/
+│        ├─ results_GMM
+│           ├─ exp1_ch1_pos01_res_GMM.txt
+│           ├─ ...
+.
+</pre></div>
+                
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../image-processing/" title="Image processing" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Image processing
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../release-notes/" title="Release Notes" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Release Notes
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2019 Florian MUELLER
+          </div>
+        
+        powered by
+        <a href="https://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+  <div class="md-footer-social">
+    <link rel="stylesheet" href="../assets/fonts/font-awesome.css">
+    
+      <a href="https://github.com/muellerflorian" class="md-footer-social__link fa fa-github-alt"></a>
+    
+      <a href="https://www.linkedin.com/in/muellerflorian/" class="md-footer-social__link fa fa-linkedin"></a>
+    
+      <a href="https://scholar.google.fr/citations?user=WrEj9t4AAAAJ" class="md-footer-social__link fa fa-google"></a>
+    
+  </div>
+
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../assets/javascripts/application.245445c6.js"></script>
+      
+      <script>app.initialize({version:"1.0.4",url:{base:".."}})</script>
+      
+    
+  </body>
+</html>
