@@ -1,0 +1,132 @@
+﻿
+<docs lang="markdown">
+Contains three bars
+1. `bar_annot_categ`
+2. `bar_annot_file`  
+3. `bar_slices`
+</docs>
+
+<config lang="json">
+{
+  "name": "MembraneDistProgress",
+  "type": "window",
+  "tags": [],
+  "ui": "UI for Untitled Plugin",
+  "version": "0.1.0",
+  "api_version": "0.1.2",
+  "description": "Plugin to display progress during processing of large z-stacks.",
+  "icon": "extension",
+  "inputs": null,
+  "outputs": null,
+  "runnable": false,
+  "env": "",
+  "requirements": ["https://cdn.plot.ly/plotly-latest.min.js",
+        "https://www.w3schools.com/w3css/4/w3.css",
+        "https://www.w3schools.com/lib/w3-theme-indigo.css"],
+  "dependencies": [],
+  "defaults": {"w": 15, "h": 12}
+}
+</config>
+
+<script lang="javascript">
+class ImJoyPlugin {
+  async setup() {
+    this.set_bar("bar_annot_categ","initiated",0)
+    this.set_bar("bar_annot_file","initiated",0)
+    this.set_bar("bar_slices","initiated",0)
+    this.set_bar("bar_masks","initiated",0)
+  }
+
+// Function to set each progress bar (text and progress)
+ set_bar(id,text,progress){
+    document.getElementById(id).innerHTML = text;
+    var progress_string = "width:"+progress.toString()+"%"
+    document.getElementById(id).style = progress_string;
+  };
+
+  run(my) {
+    console.log('running in the plugin ', my)
+
+switch(my.data["task"]) {
+    case "import_annot_categ":
+        this.set_bar("bar_annot_categ",my.data["text"],my.data["progress"])
+        break;
+    case "import_annot_files":
+        this.set_bar("bar_annot_file",my.data["text"],my.data["progress"])
+        break;
+    case "analyze_slices":
+        this.set_bar("bar_slices",my.data["text"],my.data["progress"])
+        break;
+    case "create_masks":
+        this.set_bar("bar_masks",my.data["text"],my.data["progress"])
+        break;
+
+    case "show_results":
+        document.getElementById("img_results").src = my.data["src"]
+    }
+  }
+}
+
+api.export(new ImJoyPlugin())
+</script>
+
+<window lang="html">
+  <div>
+
+   <h3>Progress window for cell membrane analysis</h3>
+
+    <!-- Reading annotation -->
+<div class="w3-row">
+  <div class="w3-col m3">
+    <div class="w3-container">Annotations [Categ] [Files]</div>
+  </div>
+  <div class="w3-col m2">
+    <div class="w3-light-grey">
+        <div class="w3-container w3-cyan" id="bar_annot_categ" style="width:75%">75%</div>
+    </div>
+  </div>
+  <div class="w3-col m1"><p></p></div>
+  <div class="w3-col m6">
+    <div class="w3-light-grey">
+        <div class="w3-container w3-light-blue" id="bar_annot_file" style="width:75%">75%</div>
+    </div>
+  </div>
+  
+</div>
+
+<!-- Masks -->
+<div class="w3-row">
+  <div class="w3-col m3">
+    <div class="w3-container">Generating masks</div>
+  </div>
+  <div class="w3-col m9">
+    <div class="w3-light-grey">
+        <div class="w3-container w3-amber" id="bar_masks" style="width:75%">75%</div>
+    </div>
+  </div>
+</div>
+
+<!-- Slices -->
+<div class="w3-row">
+  <div class="w3-col m3">
+    <div class="w3-container">Processing slices</div>
+  </div>
+  <div class="w3-col m9">
+    <div class="w3-light-grey">
+        <div class="w3-container w3-light-green" id="bar_slices" style="width:75%">75%</div>
+    </div>
+  </div>
+</div>
+
+<!-- Results -->
+<br>
+<div class="w3-row">
+<img  class="w3-round-small" id="img_results" alt="RESULT IMAGE" style="width:70%">
+</div>
+  </div>
+</window>
+
+<style lang="css">
+ /* https://css-tricks.com/when-using-important-is-the-right-choice/  */
+    body {font-size: 12px !important;} 
+</style>

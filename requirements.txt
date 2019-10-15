@@ -1,0 +1,11 @@
+numpy
+scikit-image
+scikit-learn
+matplotlib-venn
+nested_lookup
+read-roi
+scipy
+matplotlib
+Pillow
+pandas
+seaborn

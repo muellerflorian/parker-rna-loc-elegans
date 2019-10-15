@@ -1,0 +1,139 @@
+<docs lang="markdown">
+[TODO: write documentation for this plugin.]
+</docs>
+
+<config lang="json">
+{
+  "name": "NuclearEnvelopeDistance",
+  "type": "native-python",
+  "version": "0.1.9",
+  "description": "Plugin to analyze enrichment of RNAs relative to nuclear membrane.",
+  "tags": ["stable","dev"],
+  "ui": [
+        "dZ: {id: 'dZ', type: 'number', placeholder: 0}",
+        "Zmin [pix; 0 for all]: {id: 'Z_min', type: 'number', placeholder: 0}",
+        "Zmax [pix; 0 for all]: {id: 'Z_max', type: 'number', placeholder: 0}",
+        "Hist [bins]: {id: 'hist_bins', type: 'string', placeholder: '-100,-50,-10,10,50,100,300'}"
+    ],
+  "cover": "",
+  "inputs": null,
+  "outputs": null,
+  "flags": [],
+  "icon": "border_outer",
+  "api_version": "0.1.5",
+  "env": "conda create -n rna-localization python=3.6",
+  "requirements": { "stable":["pip: -U git+https://github.com/muellerflorian/parker-rna-loc-elegans@44ab682#egg=rnaloc",
+                              "pip: scikit-image read-roi nested-lookup"],
+                    "dev": ["pip: scikit-image read-roi nested-lookup",
+                            "pip: --editable /Volumes/PILON_HD2/fmueller/Documents/code/projects/parker-rna-loc-elegans"]},
+  "dependencies": ["muellerflorian/parker-rna-loc-elegans:MembraneDistProgress"]
+}
+</config>
+
+<script lang="python">
+from imjoy import api
+
+import sys
+import os
+import asyncio
+import requests
+import shutil
+import base64
+import json
+import copy
+import numpy as np
+
+if sys.platform == "darwin":
+    import matplotlib
+    matplotlib.use('PS')
+
+from rnaloc import LOCtoolbox
+
+class ImJoyPlugin():
+
+    async def setup(self):
+
+        # Operation to specify root folder
+        api.register({
+            "name": "Root folder",
+            "ui": "Define root folder to load files.",
+            "run":self.config_root,
+        })
+        self.load_root(await api.getConfig('root_folder_NE'))
+
+        api.log(' ')
+        api.log('== Nuclear Envelope Enrichment Plugin: initialization')
+        api.log(f'Plugin is running with tag: {api.TAG}')
+
+    async def run(self, ctx):
+
+        # Specify files
+        ret = await api.showFileDialog(type="file",uri_type="path",root=self.root)
+
+        if not ret:
+            return
+
+        file_open = ret['path']
+        api.log(f'Membrane Enrichment Plugin: analysing file{file_open}')
+
+        # Open Progress window
+        self.window_update = await api.createWindow({
+                            'name':'Analysis progress',
+                            'type':'MembraneDistProgress',
+                            'w':17, 'h':15,
+                            'data': {
+                                "task":"import_annot_categ",
+                                "text":"Initated!",
+                                "progress":0
+                            }
+            })
+
+        # Process files
+        LOCtoolbox.calc_nuclear_enrichment(
+                        FQ_file=file_open,
+                        binsHist=np.fromstring(ctx.config.hist_bins,dtype=int, sep=','),
+                        channels={'nuclei':''},
+                        show_plots = False,
+                        Zrange=(ctx.config.Z_min,ctx.config.Z_max),
+                        dZ = ctx.config.dZ,
+                        plot_callback=None,
+                        progress_callback = self.update_progress,
+                        log_callback = api.log
+        )
+        api.showStatus('Nuclear Membrane Enrichment Plugin: FINISHED!')
+
+
+    # Show plot in ImJoy interface
+    def show_plot(self, plot_path):
+        with open(plot_path, 'rb') as f:
+            data = f.read()
+            result = base64.b64encode(data).decode('ascii')
+            imgurl = 'data:image/png;base64,' + result
+            api.createWindow(name='Membrane enrichment', type='imjoy/image', w=15, h=15, data= {"src": imgurl})
+
+    # Show plot in ImJoy interface
+    def update_progress(self, data):
+        self.window_update.run({'data': data})
+
+    # Specify root folder
+    async def config_root(self,ctx):
+        ret = await api.showFileDialog(uri_type="path",root='~')
+
+        if ret:
+            root_folder = ret['path']
+            if os.path.isdir(root_folder):
+                self.root = root_folder
+                api.setConfig('root_folder_NE', root_folder)
+                api.log(f'Root folder set to {root_folder}')
+
+    # Load root from browser memory
+    def load_root(self,root):
+        api.log(f'Found root directory {root}')
+        if root is None or not os.path.isdir(root):
+            self.root = '~'
+        else:
+            self.root = root
+            api.log('Root folder set')
+
+api.export(ImJoyPlugin())
+</script>
