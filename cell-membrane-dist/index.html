@@ -718,25 +718,25 @@
 <ul>
 <li><a href="https://bitbucket.org/muellerflorian/fish_quant/"  target="_blank"><strong>FISH-quant</strong></a>
 to detect RNA positions.</li>
-<li><strong>ImJoy</strong>: you can install the plugin from <a href="http://imjoy.io/#/app?w=RNA-localization&plugin=muellerflorian/rna-loc:CellMembraneDistance@stable&upgrade=1" target="_blank"><strong>here.</strong></a></li>
+<li><strong>ImJoy</strong>: you can install the plugin from <a href="http://imjoy.io/#/app?w=RNA-localization&plugin=muellerflorian/parker-rna-loc-elegans:CellMembraneDistance@stable&upgrade=1" target="_blank"><strong>here.</strong></a></li>
 </ul>
 <p>ImJoy plugins will be available in the workspace: <strong><code>RNA-localization</code></strong></p>
-<p>You will also need the ImJoy plugin engine, please consult the 
+<p>You will also need the ImJoy plugin engine, please consult the
 <a href="https://imjoy.io/docs/#/user-manual?id=python-engine/" target="_blank"><strong>ImJoy documentation</strong></a></p>
 <h2 id="test-date">Test date<a class="headerlink" href="#test-date" title="Permanent link">&para;</a></h2>
 <p>You can download already processed test data for the Cell membrane enrichment plugin,
-from 
+from
 <a href="https://www.dropbox.com/s/0sbsmbg5xlccamp/img1.zip?dl=0"  target="_blank"><strong>Dropbox.</strong></a></p>
 <p>The zip archive contains data following the naming conventions of the examples below.</p>
 <h2 id="analysis-overview">Analysis overview<a class="headerlink" href="#analysis-overview" title="Permanent link">&para;</a></h2>
-<p>For each RNA, we determine the closest distance of an RNA to a membrane. One thing to keep in mind more pixel close 
-to the membrane than far away, e.g. in the centre of the cell. A simple example is a circle. The maximum distance that 
-you can be away from the “membrane” is the radius of the circle. However, there is only one possibility to be that far 
-away (in the centre). However, there are many more “close” positions.  Plotting a histogram of the distance to the 
+<p>For each RNA, we determine the closest distance of an RNA to a membrane. One thing to keep in mind more pixel close
+to the membrane than far away, e.g. in the centre of the cell. A simple example is a circle. The maximum distance that
+you can be away from the “membrane” is the radius of the circle. However, there is only one possibility to be that far
+away (in the centre). However, there are many more “close” positions.  Plotting a histogram of the distance to the
 membrane for all possible positions in the circle,  will yield a distribution that strongly enriched for small distances.</p>
 <p>To normalised for this effect, we calculate all possible distance from the membrane
 for a given cell with a <strong>distance transformation</strong>. This transformation results in
-an image, where the pixel values are not fluorescence intensities but distance values. An example is shown below. 
+an image, where the pixel values are not fluorescence intensities but distance values. An example is shown below.
 The blue lines are the cell outlines. The green dots are the detected RNAs. The image is the distance transform. The intensity values are distance to the membrane in pixels.</p>
 <p><img src="https://raw.githubusercontent.com/muellerflorian/rna-loc/master/docs/img/dist_transform.png" width="400px"></img></p>
 <p>We measure for all RNAs the distance to the membrane and calculate a
@@ -749,7 +749,7 @@ histogram. We report the</p>
 </ul>
 <p><img src="https://raw.githubusercontent.com/muellerflorian/rna-loc/master/docs/img/CMD-summary-plot.png" width="600px"></img></p>
 <h2 id="data-organisation">Data organisation<a class="headerlink" href="#data-organisation" title="Permanent link">&para;</a></h2>
-<p>We enforce a strict data organisation for this analysis. 
+<p>We enforce a strict data organisation for this analysis.
 More information about can be found in the dedicated section below.</p>
 <ol>
 <li>One folder per sample ("parental folder"). Images have to be stored as
@@ -792,8 +792,8 @@ in the future automated segmentation results could be considered as well.</p>
 <li>For each multi-channel image, the annotations are stored in a dedicated sub-folder
     called <code>zstack_segmentation</code>.</li>
 <li>
-<p>Each annotated z-slice has to be saved as an individual image and the file name has to end with the 
-    corresponding z-slice <code>i</code> in the format <code>_Zi</code>. For instance, file name ends with <code>img1_ch3_Z3.tif</code>, 
+<p>Each annotated z-slice has to be saved as an individual image and the file name has to end with the
+    corresponding z-slice <code>i</code> in the format <code>_Zi</code>. For instance, file name ends with <code>img1_ch3_Z3.tif</code>,
     where <code>3</code> is the actual slice number.</p>
 <p>In <strong>FIJI</strong>, open the z-stack and go to menu <code>Image</code> &gt; <code>Stack</code> &gt; <code>Stack to images</code>.
 You can then save each image with the according file-name.</p>

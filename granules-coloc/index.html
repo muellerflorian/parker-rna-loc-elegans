@@ -692,61 +692,61 @@
 <ul>
 <li><a href="https://bitbucket.org/muellerflorian/fish_quant/"  target="_blank"><strong>FISH-quant</strong></a>
   to detect RNA positions.</li>
-<li><strong>ImJoy</strong>: you can install the plugin from  <a href="http://imjoy.io/#/app?w=RNA-localization&plugin=muellerflorian/rna-loc:GranuleColocalization@stable&upgrade=1"  target="_blank"><strong>here.</strong></a></li>
+<li><strong>ImJoy</strong>: you can install the plugin from  <a href="http://imjoy.io/#/app?w=RNA-localization&plugin=muellerflorian/parker-rna-loc-elegans:GranuleColocalization@stable&upgrade=1"  target="_blank"><strong>here.</strong></a></li>
 </ul>
 <p>ImJoy plugins will be available in the  workspace: <strong><code>RNA-localization</code></strong></p>
-<p>You will also need the ImJoy plugin engine, please consult the 
+<p>You will also need the ImJoy plugin engine, please consult the
 <a href="https://imjoy.io/docs/#/user-manual?id=python-engine/" target="_blank"><strong>ImJoy documentation</strong></a></p>
 <h2 id="analysis-overview">Analysis overview<a class="headerlink" href="#analysis-overview" title="Permanent link">&para;</a></h2>
-<p>Co-localization between RNA clusters and granules is estimated. RNA detection is performed in FISH-quant. The rest of the analysis in a dedicated ImJoy plugin. </p>
+<p>Co-localization between RNA clusters and granules is estimated. RNA detection is performed in FISH-quant. The rest of the analysis in a dedicated ImJoy plugin.</p>
 <ol>
 <li>
-<p><strong>RNA clusters</strong> are identified by first analyzing smFISH images with FISH-quant and then performing a DB-scan. 
-In order to spatially resolve close RNAs, we use our approach the decompose close RNAs (see section on RNA detection). 
-The RNA detection results are then analyzed with the DB-scan approach. </p>
+<p><strong>RNA clusters</strong> are identified by first analyzing smFISH images with FISH-quant and then performing a DB-scan.
+In order to spatially resolve close RNAs, we use our approach the decompose close RNAs (see section on RNA detection).
+The RNA detection results are then analyzed with the DB-scan approach.</p>
 </li>
 <li>
 <p><strong>Granules</strong> are detected with a blob detection method (https://scikit-image.org/docs/dev/auto_examples/features_detection/plot_blob.html).
-The user can adjust a threshold for the detection of these blobs. </p>
+The user can adjust a threshold for the detection of these blobs.</p>
 </li>
 </ol>
 <p>Spatial overlap of clusters and granules is then computed.</p>
 <p><img src="https://raw.githubusercontent.com/muellerflorian/rna-loc/master/docs/img/GRANULES-venn-diagram.png" width="400px"></img></p>
 <h2 id="data-organisation">Data organisation<a class="headerlink" href="#data-organisation" title="Permanent link">&para;</a></h2>
-<p>We enforce the following data organisation for this analysis. </p>
+<p>We enforce the following data organisation for this analysis.</p>
 <ol>
 <li>One folder per multi-channel image ('sample folder').</li>
 <li>Each channel is saved as a separate <code>.tif</code> file containing all z-slices. Information
     for how to convert stacks can be found here are <a href="../image-processing/#multi-channel-conversion">here</a>.</li>
-<li>Channels containing smFISH data are in a sub-separate folder. RNA molecules are detected with <a href="https://bitbucket.org/muellerflorian/fish_quant">FISH-quant</a>. 
-    Analysis results are also stored directly in the sample folder. RNA detection  is described in more detail <a href="../rna-detection/">here</a>. </li>
+<li>Channels containing smFISH data are in a sub-separate folder. RNA molecules are detected with <a href="https://bitbucket.org/muellerflorian/fish_quant">FISH-quant</a>.
+    Analysis results are also stored directly in the sample folder. RNA detection  is described in more detail <a href="../rna-detection/">here</a>.</li>
 <li>All other channels (Granules, DAPI) are in the parental sample folder</li>
 </ol>
 <p>As an example, we have one image <code>img1</code> with 4 channels. The first two channels contain
-analysed smFISH data, the third one contains the image of the granules, and the 4th the DAPI image. </p>
+analysed smFISH data, the third one contains the image of the granules, and the 4th the DAPI image.</p>
 <pre><code>.
 ├─ img1/
 │  ├─ C3-img1.tif                          # Granules image
 │  ├─ C4-img1.tif                          # DAPI image
 │  ├─ C1/                                  # CHANNEL 1
-│  │  ├─ C1-img1.tif                       # smFISH image 
-│  │  ├─ C1-img1__settings_MATURE.txt      # FQ detection settings 
+│  │  ├─ C1-img1.tif                       # smFISH image
+│  │  ├─ C1-img1__settings_MATURE.txt      # FQ detection settings
 │  │  ├─ results_GMM/                      # Spot decomposition results
 │  │  │  ├─ C1-img1_res_GMM.txt
 │  ├─ C2/                                  # CHANNEL 2
-│  │  ├─ C2-img1.tif                       # smFISH image 
-│  │  ├─ C2-img1__settings_MATURE.txt      # FQ detection settings 
+│  │  ├─ C2-img1.tif                       # smFISH image
+│  │  ├─ C2-img1__settings_MATURE.txt      # FQ detection settings
 │  │  ├─ results_GMM/                      # Spot decomposition results
 │  │  │  ├─ C2-img1_res_GMM.txt
 │  ├─ coloc_granules/                      # Analysis results
 │  │  ├─ Channel_C1/                       # Results for channel 1
-│  │  │  ├─ ....  
+│  │  │  ├─ ....
 │  │  ├─ Channel_C2/                       # Results for channel 2
-│  │  │  ├─ ....      
+│  │  │  ├─ ....
 .
 </code></pre>
 <h2 id="rna-detection">RNA detection<a class="headerlink" href="#rna-detection" title="Permanent link">&para;</a></h2>
-<p>Please consult the dedicated section <a href="../rna-detection/">here</a>.  </p>
+<p>Please consult the dedicated section <a href="../rna-detection/">here</a>.</p>
 <h2 id="analysis-in-imjoy">Analysis in ImJoy<a class="headerlink" href="#analysis-in-imjoy" title="Permanent link">&para;</a></h2>
 <p>The entire functionality of the plugin can be controlled within the plugin
 window. If you expand the plugin, you will see all parameters and operations
@@ -759,60 +759,60 @@ desired folder.</p>
 <p>The specified root folder is also saved, and will be reused the next time you launch ImJoy.</p>
 <h3 id="loading-data">Loading data<a class="headerlink" href="#loading-data" title="Permanent link">&para;</a></h3>
 <p>Here the FQ results and all image data are loaded. You have to specify the strings that specify the smFISH image and the
-granules image. For example, <code>C1</code> and <code>C3</code> for the data-set explained above. </p>
-<p>Once these parameters are specified, you can click on <code>Load data</code>. Here you have to specify the FQ results file that you 
-want to analyze, e.g. <code>C1-img1_res_GMM.txt</code> for the example above. </p>
+granules image. For example, <code>C1</code> and <code>C3</code> for the data-set explained above.</p>
+<p>Once these parameters are specified, you can click on <code>Load data</code>. Here you have to specify the FQ results file that you
+want to analyze, e.g. <code>C1-img1_res_GMM.txt</code> for the example above.</p>
 <p><strong>Important</strong>: make sure that the channel identifiers are correct, if you analyze another FISH channel.</p>
 <h3 id="granule-detection">Granule detection<a class="headerlink" href="#granule-detection" title="Permanent link">&para;</a></h3>
-<p>Here, you can specify a threshold to detect granules. Lower value results in more detections. Click <code>Test granule threshold</code> 
-to apply the currently selected threshold. Note that for testing thresholds the analysis is only performed on a 2D 
+<p>Here, you can specify a threshold to detect granules. Lower value results in more detections. Click <code>Test granule threshold</code>
+to apply the currently selected threshold. Note that for testing thresholds the analysis is only performed on a 2D
 maximum intensity projection (otherwise it takes too long). Once the detection is finished, ImJoy will display a
 window with the results as shown below.</p>
 <p><img src="https://raw.githubusercontent.com/muellerflorian/rna-loc/master/docs/img/GRANULES-blob-2d.png" width="500px"></img></p>
-<p>Once you identified a good threshold, you can click on <code>Detect granules in 3D</code>, to perform the analysis on the full 3D image. </p>
+<p>Once you identified a good threshold, you can click on <code>Detect granules in 3D</code>, to perform the analysis on the full 3D image.</p>
 <p><strong>Note</strong>: if you load a new FISH results from the same sample, you don't need to redo the granule detection. The ImJoy plugin
-stored the last analysis, and it can be reused. In this case, you only have to readjust the DB-scan parameters. </p>
+stored the last analysis, and it can be reused. In this case, you only have to readjust the DB-scan parameters.</p>
 <h3 id="db-scan">DB-scan<a class="headerlink" href="#db-scan" title="Permanent link">&para;</a></h3>
 <p>In order to identify RNA clusers, we anlalyze the 3D RNA positions with a DB-scan. Here you have to set two parameters</p>
 <p>Here spatial clusters are called based on two criteria (1) maximum allowed distance
-* <code>eps</code>: maximum allowed distance between spots within a cluster 
+* <code>eps</code>: maximum allowed distance between spots within a cluster
 * <code>Min samples</code>: minimum number of spots to be considered as a cluster</p>
 <p>You can change these values and then perform an analysis by pressing on <code>Perform DB-scan</code>. ImJoy will again show an image
-with the analysis results. </p>
+with the analysis results.</p>
 <h3 id="co-localization-analysis">Co-localization analysis<a class="headerlink" href="#co-localization-analysis" title="Permanent link">&para;</a></h3>
-<p>Once you are satisfied with the results, you can determine the co-localization between RNA clusters and 
-granules by pressing <code>Analyze co-localzation</code>. </p>
+<p>Once you are satisfied with the results, you can determine the co-localization between RNA clusters and
+granules by pressing <code>Analyze co-localzation</code>.</p>
 <h2 id="stored-results">Stored results<a class="headerlink" href="#stored-results" title="Permanent link">&para;</a></h2>
 <p>The analysis script will create a folder <code>coloc_granules</code> in the sample folder. Here a separate folder for each
-analyzed channel is created. A number of images and csv files summarizing the analysis will be stored. </p>
+analyzed channel is created. A number of images and csv files summarizing the analysis will be stored.</p>
 <ul>
-<li><strong><code>iD_blob_detection__ABC-XYZ.png</code></strong>: results of the blob detection. <ul>
+<li><strong><code>iD_blob_detection__ABC-XYZ.png</code></strong>: results of the blob detection.<ul>
 <li><code>iD</code>: dimension of analyzed image (2D or 3D).</li>
 <li><code>ABC</code>: blob detection method. Currently only <code>log</code> is supported.</li>
 <li><code>XYZ</code>: detection threshold.</li>
 </ul>
 </li>
 <li><strong><code>COMPARE_granules_clusters.png</code></strong>: results of the coloc analysis. See also image below.<ul>
-<li>1st first row is is the granule image, 2nd row the FISH image. </li>
-<li>2nd column shows detected granules or RNA clusters. </li>
-<li>3rd column shows granules/clusters in a color-code to indicate if the co-localize or not. </li>
+<li>1st first row is is the granule image, 2nd row the FISH image.</li>
+<li>2nd column shows detected granules or RNA clusters.</li>
+<li>3rd column shows granules/clusters in a color-code to indicate if the co-localize or not.</li>
 </ul>
 </li>
-<li><strong><code>DB_scan_eps-ABC__min-samples-XYZ</code></strong>: results of the DBSCAN. <ul>
+<li><strong><code>DB_scan_eps-ABC__min-samples-XYZ</code></strong>: results of the DBSCAN.<ul>
 <li><code>ABC</code>: used <code>eps</code>.</li>
 <li><code>XYZ</code>: used minimum number of samples.</li>
 </ul>
 </li>
-<li><strong><code>img_ABC_XyZ.tif</code></strong>: mask or label images of granules or RNA clusters. <ul>
+<li><strong><code>img_ABC_XyZ.tif</code></strong>: mask or label images of granules or RNA clusters.<ul>
 <li><code>ABC</code>: granules or RNA clusters</li>
 <li><code>XYZ</code>: either <code>label</code> (each object has a unique pixel intensity), or <code>mask</code> (all objects have pixel intensity 1)</li>
 </ul>
 </li>
-<li><strong><code>Intensity_vs_clustering.png</code></strong>. Show the number of RNAs per cluster, or mean granule intensity as a function 
-    of being co-localized or not.   </li>
-<li><strong><code>ABC.csv</code></strong>: properties of granules and clusters such as position, size, or co-localization. These file can 
-    be used to summarize multiple images.   <ul>
-<li><code>ABC</code>: granules or RNA clusters   </li>
+<li><strong><code>Intensity_vs_clustering.png</code></strong>. Show the number of RNAs per cluster, or mean granule intensity as a function
+    of being co-localized or not.</li>
+<li><strong><code>ABC.csv</code></strong>: properties of granules and clusters such as position, size, or co-localization. These file can
+    be used to summarize multiple images.<ul>
+<li><code>ABC</code>: granules or RNA clusters</li>
 </ul>
 </li>
 <li><strong><code>VENN_diagram_overlap.png</code></strong>:: VENN diagram showing total number of clusters/granules and how many co-localize.</li>
