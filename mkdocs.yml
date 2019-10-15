@@ -34,9 +34,8 @@ theme:
   font:
     text: Roboto
     code: Roboto Mono
-  favicon: /img/icons8-eukaryotic-cells-filled-100.png
-  logo:
-    icon: wb_sunny
+  favicon: img/icons8-earth-worm-80.png
+  logo: img/icons8-earth-worm-80.png
 
 # Customization
 extra:
