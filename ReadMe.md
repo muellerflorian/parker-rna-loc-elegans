@@ -1,5 +1,5 @@
 # Analyze RNA localization in c. elegans
-We provide an analyze workflow to calculate **spatial expression gradients**
+We provide an analyze workflow to analyze **RNA localization patterns** in c. elegans 
 in single molecule FISH (smFISH images).
 
 - [Documentation](#documentation)
@@ -7,6 +7,8 @@ in single molecule FISH (smFISH images).
 - [Installation Guide](#installation-guide)
 - [Instructions for use](#instructions-for-use)
 - [License](#license)
+
+<img src="https://raw.githubusercontent.com/muellerflorian/rna-loc/master/docs/img/dist_transform.png" width="400px"></img>
 
 # Documentation
 Here we provide only a brief overview. The officiel documentation with usage is at: 
