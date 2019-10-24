@@ -1,8 +1,12 @@
+<a href="https://imjoy.io" target="_blank" ><img src="https://muellerflorian.github.io/parker-rna-loc-elegans/img/imjoy-logo-powered.svg?sanitize=true" width="100"></img>
+</a>
 ![GitHub](https://img.shields.io/github/license/muellerflorian/parker-rna-loc-elegans)
 
 # Analyze RNA localization in c. elegans
 We provide an analyze workflow to analyze **RNA localization patterns** in c. elegans 
 in single molecule FISH (smFISH images).
+
+Analysis is performed in Matlab and in Python scripts running in ImJoy.
 
 <img src="https://muellerflorian.github.io/parker-rna-loc-elegans/img/dist_transform.png" width="400px"></img>
 
@@ -40,6 +44,8 @@ FISH-quant has been tested on **Matlab 2017b**.
 
 ### ImJoy
 ImJoy plugin were tested on **ImJoy (v0.9.93)** running on **Google Chrome (Version 77)** with the **ImJoy plugin engine (0.8.22)**.
+
+More information on ImJoy: [https://arxiv.org/abs/1905.13105](https://arxiv.org/abs/1905.13105)
 
 ### Python Dependencies
 `parker-rna-loc-elegans` mainly depends on the Python scientific stack, a few smaller libraries 
