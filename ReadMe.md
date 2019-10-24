@@ -2,7 +2,7 @@
 We provide an analyze workflow to analyze **RNA localization patterns** in c. elegans 
 in single molecule FISH (smFISH images).
 
-<img src="https://muellerflorian.github.io/parker-rna-loc-elegans/img/dist_transform.png" width="300px"></img>
+<img src="https://muellerflorian.github.io/parker-rna-loc-elegans/img/dist_transform.png" width="400px"></img>
 
 - [Documentation](#documentation)
 - [System Requirements](#system-requirements)
