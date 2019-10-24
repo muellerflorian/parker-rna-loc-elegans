@@ -1,3 +1,5 @@
+![GitHub](https://img.shields.io/github/license/muellerflorian/parker-rna-loc-elegans)
+
 # Analyze RNA localization in c. elegans
 We provide an analyze workflow to analyze **RNA localization patterns** in c. elegans 
 in single molecule FISH (smFISH images).
