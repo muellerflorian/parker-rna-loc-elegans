@@ -1,4 +1,4 @@
-<a href="https://imjoy.io" target="_blank" ><img src="https://muellerflorian.github.io/parker-rna-loc-elegans/img/imjoy-logo-powered.svg?sanitize=true" width="100"></img>
+<a href="https://imjoy.io" target="_blank" ><img src="https://muellerflorian.github.io/parker-rna-loc-elegans/img/imjoy-logo-powered.png" width="140"></img>
 </a>
 ![GitHub](https://img.shields.io/github/license/muellerflorian/parker-rna-loc-elegans)
 
