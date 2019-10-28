@@ -52,7 +52,7 @@ More information on ImJoy: [https://arxiv.org/abs/1905.13105](https://arxiv.org/
 are required to read FIJI region definition files. 
 
 Complete list of dependencies can be found in 
-[here](https://github.com/muellerflorian/parker-rna-loc-elegans/blob/master/setup.py)
+[here](https://github.com/muellerflorian/parker-rna-loc-elegans/blob/master/setup.py#L4:L14)
 
 # Installation guide
 
