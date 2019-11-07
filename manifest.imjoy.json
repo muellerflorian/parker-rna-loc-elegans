@@ -46,7 +46,7 @@
   {
    "name": "GranuleColocalization",
    "type": "native-python",
-   "version": "0.1.3",
+   "version": "0.1.4",
    "description": "Plugin to analyze colocalization of RNA clusters and cellular granules.",
    "tags": [
     "stable",
@@ -77,8 +77,8 @@
    "name": "MembraneDistProgress",
    "type": "window",
    "tags": [],
-   "ui": "UI for Untitled Plugin",
-   "version": "0.1.0",
+   "ui": "Helper plugin to report analysis progress.",
+   "version": "0.1.1",
    "api_version": "0.1.2",
    "description": "Plugin to display progress during processing of large z-stacks.",
    "icon": "extension",
@@ -101,7 +101,7 @@
   {
    "name": "NuclearEnvelopeDistance",
    "type": "native-python",
-   "version": "0.1.9",
+   "version": "0.1.10",
    "description": "Plugin to analyze enrichment of RNAs relative to nuclear membrane.",
    "tags": [
     "stable",

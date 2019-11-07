@@ -1,4 +1,4 @@
-<docs lang="markdown">
+﻿<docs lang="markdown">
 [TODO: write documentation for this plugin.]
 </docs>
 
@@ -6,7 +6,7 @@
 {
   "name": "NuclearEnvelopeDistance",
   "type": "native-python",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "description": "Plugin to analyze enrichment of RNAs relative to nuclear membrane.",
   "tags": ["stable","dev"],
   "ui": [
@@ -58,6 +58,7 @@ class ImJoyPlugin():
             "name": "Root folder",
             "ui": "Define root folder to load files.",
             "run":self.config_root,
+            "type": "op"
         })
         self.load_root(await api.getConfig('root_folder_NE'))
 
