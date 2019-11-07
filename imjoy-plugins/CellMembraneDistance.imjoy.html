@@ -6,7 +6,7 @@
 {
   "name": "CellMembraneDistance",
   "type": "native-python",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Plugin to analyze enrichment of RNAs relative to cell membranes.",
   "tags": ["stable","dev"],
   "ui": [
@@ -31,7 +31,6 @@
   "dependencies": ["muellerflorian/parker-rna-loc-elegans:MembraneDistProgress"]
 }
 </config>
-
 
 
 <script lang="python">
@@ -62,6 +61,7 @@ class ImJoyPlugin():
             "name": "Root folder",
             "ui": "Define root folder to load files.",
             "run":self.config_root,
+            "type": "op"
         })
         self.load_root(await api.getConfig('root_folder'))
 
@@ -71,7 +71,6 @@ class ImJoyPlugin():
 
 
     async def run(self, ctx):
-
 
         # Specify files
         ret = await api.showFileDialog(type="file",uri_type="path",root=self.root)
@@ -140,7 +139,6 @@ class ImJoyPlugin():
             self.root = '~'
         else:
             self.root = root
-
 
 api.export(ImJoyPlugin())
 </script>
