@@ -1,0 +1,100 @@
+---
+title: "191021_plot_Fig4BD_membraneNG.Rmd"
+author: "Erin Nishimura"
+date: "10/21/2019"
+output: html_document
+---
+
+## Load Packages
+
+dplyr  
+ggplot2
+gridExtra
+
+```{r setup, include=FALSE}
+
+#Load libraries
+library(dplyr)
+library(ggplot2)
+library(gridExtra)
+
+```
+
+## Import
+
+Import the data. 
+
+```{r cars}
+
+#Import the datasets
+erm1_df <- read.table(file="../1_input/figure4_Sourcedata1_191022.txt", header = TRUE)
+imb2_df <- read.table(file="../1_input/figure4_Sourcedata2_191022.txt", header = TRUE)
+
+#inspect the datasets
+dim(erm1_df)
+head(erm1_df)
+str(erm1_df)
+
+dim(imb2_df)
+head(imb2_df)
+str(imb2_df)
+
+
+```
+
+## Plotting
+
+Create plots for erm-1 and imb-2 datasets that compare endogenous transcript locations versus neongreen locations
+
+```{r pressure, echo=FALSE, warning = FALSE}
+
+p_erm1plot <- ggplot(erm1_df, aes(x=center, y=hist_RNA_all_normPix, fill = probe)) +
+  geom_bar(stat="identity",position = "identity", alpha=.3) +
+  geom_line(stat="identity",position = "identity", aes(color=probe), size=1, alpha =0.5) +
+  scale_fill_manual(values=c("magenta4", "green3")) +
+  scale_color_manual(values=c("magenta4", "green3")) +
+  theme_linedraw() +
+  theme(strip.text = element_text(face = "italic"), panel.grid.minor = element_blank(), panel.grid.major = element_blank()) 
+
+p_erm1plot
+
+
+p_imb2plot <- ggplot(imb2_df, aes(x=center, y=histRNA_SCALED, fill = probe)) +
+  geom_bar(stat="identity",position = "identity", alpha=.3) +
+  geom_line(stat="identity",position = "identity", aes(color=probe), size=1, alpha =0.5) +
+  scale_fill_manual(values=c("magenta4", "green3")) +
+  scale_color_manual(values=c("magenta4", "green3")) +
+  theme_linedraw() +
+  theme(strip.text = element_text(face = "italic"), panel.grid.minor = element_blank(), panel.grid.major = element_blank()) 
+
+p_imb2plot
+
+```
+
+## Export plots
+
+```{r, echo = FALSE, warning = FALSE}
+
+#Set date
+date <- format(Sys.time(), "%y%m%d")
+#set filename
+filename <- paste("../3_output/", date, "_output_plots_Fig4bd.pdf", sep = "")
+
+#export pdf
+pdf(file = filename, width = 8, height = 2.75)
+grid.arrange(p_erm1plot, p_imb2plot, nrow = 1)
+dev.off()
+dev.off()
+
+#Report
+print("The following output plot was saved: ", quote = FALSE)
+print(filename, quote = FALSE)
+```
+
+
+
+## Get versions
+```{r, echo = TRUE}
+sessionInfo()
+```
+

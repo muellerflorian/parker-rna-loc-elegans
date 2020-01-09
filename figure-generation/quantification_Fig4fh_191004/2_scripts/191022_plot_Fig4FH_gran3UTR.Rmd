@@ -1,0 +1,391 @@
+---
+title: "191022_plot_Fig4FH_gran3UTR.Rmd"
+output: html_document
+---
+
+### Setting up libraries and obtaining the data
+
+Requires:
+
+ggplot2
+
+ggthemes
+
+tidyr 
+
+broom
+
+gridExtra
+
+dplyr
+
+```{r setup, include=FALSE}
+
+print("script initiated on", quote = FALSE)
+Sys.time()
+
+library(ggplot2)
+library(ggthemes)
+library(gridExtra)
+library(tidyr)
+library(broom)
+library(dplyr)
+
+```
+
+### Import
+
+Import the data. Organize the order of factor data. Clean up the dataframe.
+
+```{r, echo = FALSE}
+
+# import the data
+quantTable <- read.table(file = "../1_input/figure4_Sourcedata3_191022.txt", header = TRUE, row.names = 1) 
+
+```
+
+### Exploratory Data Analysis
+
+Explore the data. Determine the dimensions & the data structure
+
+```{r pressure, echo=TRUE}
+quantTable$Cell_Stage <- factor(quantTable$Cell_Stage, levels = c("2-cell", "4-cell", "8-cell", "10-16-cell", "18-28-cell"))
+
+dim(quantTable)
+head(quantTable)
+str(quantTable)
+```
+
+
+
+### Functionify the data
+
+Write a function called data_summary to summarize the data
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+
+# Make a function to summarize the data
+data_summary <- function(data, varname, groupnames){
+  require(plyr)
+  summary_func <- function(x, col){
+    c(mean = mean(x[[col]], na.rm=TRUE),
+      sd = sd(x[[col]], na.rm=TRUE))
+  }
+  data_sum<-ddply(data, groupnames, .fun=summary_func,
+                  varname)
+  data_sum <- rename(data_sum, c("mean" = varname))
+ return(data_sum)
+}
+
+
+
+```
+
+# Plotting
+
+### Ribbon plots
+
+#### The number of RNA molecules by transcript type
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+
+#summarize the total number of RNAs
+UTR_summ_total_RNA <- data_summary(quantTable, varname="Total_No_RNA", 
+                    groupnames=c("Transcript", "X3UTR", "Cell_Stage"))
+
+# plot number of RNA molecules by transcript type
+ggplot(UTR_summ_total_RNA, aes(x=Cell_Stage, y=Total_No_RNA, group=Transcript, color=Transcript))+ 
+  geom_ribbon(aes(ymin=Total_No_RNA-sd, ymax=Total_No_RNA+sd, fill = Transcript), alpha=0.1, linetype = 0) +
+  facet_grid(. ~ X3UTR , scales = "free_y") +
+  geom_line() + geom_point() +
+  theme_linedraw() +
+  theme(strip.text = element_text(face = "italic"))
+
+
+```
+
+
+#### The number of clusters by transcript type
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+
+# plot number of clusters by transcript type
+
+UTR_summ_total_clusters <- data_summary(quantTable, varname="No_RNA_clusters", 
+                    groupnames=c("Transcript", "X3UTR", "Cell_Stage"))
+
+
+ggplot(UTR_summ_total_clusters, aes(x=Cell_Stage, y=No_RNA_clusters, group=Transcript, color=Transcript))+ 
+  geom_ribbon(aes(ymin=No_RNA_clusters-sd, ymax=No_RNA_clusters+sd, fill = Transcript), alpha=0.1, linetype = 0) +
+  facet_grid(. ~ X3UTR , scales = "free_y") +
+  geom_line() + geom_point() +
+  theme_linedraw() +
+  theme(strip.text = element_text(face = "italic"))
+
+```
+
+
+#### The fraction of RNAs in clusters by transcript type
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+
+# plot fraction_RNA_in_clusters by transcript type
+
+
+UTR_summ_fraction <- data_summary(quantTable, varname="fraction_RNA_in_clusters", 
+                    groupnames=c("Transcript", "X3UTR", "Cell_Stage"))
+
+
+ggplot(UTR_summ_fraction, aes(x=Cell_Stage, y=fraction_RNA_in_clusters, group=Transcript, color=Transcript))+ 
+  geom_ribbon(aes(ymin=fraction_RNA_in_clusters-sd, ymax=fraction_RNA_in_clusters+sd, fill = Transcript), alpha=0.1, linetype = 0) +
+  facet_grid(. ~ X3UTR , scales = "free_y") +
+  geom_line() + geom_point() +
+  theme_linedraw() +
+  theme(strip.text = element_text(face = "italic"))
+
+
+```
+
+
+#### The RNA content of clusters by transcript type
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+
+# summarize RNA content of clusters by transcript type
+UTR_summ_total_content <- data_summary(quantTable, varname="Average_No_RNA_per_Cluster", 
+                    groupnames=c("Transcript", "X3UTR", "Cell_Stage"))
+
+# summarize RNA content of clusters by transcript type
+ggplot(UTR_summ_total_content, aes(x=Cell_Stage, y=Average_No_RNA_per_Cluster, group=Transcript, color=Transcript))+ 
+  geom_ribbon(aes(ymin=Average_No_RNA_per_Cluster-sd, ymax=Average_No_RNA_per_Cluster+sd, fill = Transcript), alpha=0.1, linetype = 0) +
+  facet_grid(. ~ X3UTR , scales = "free_y") +
+  geom_line() + geom_point() +
+  theme_linedraw() +
+  theme(strip.text = element_text(face = "italic"))
+
+
+
+```
+
+### For figure plot
+
+This plot will illustrate _cpg-2_ and _nos-2_ that are in the main plot (Fig2F, Fig2H)
+
+```{r, echo = FALSE, warning = FALSE}
+
+#Filter for cpg-2 and nos-2 that will be in the main figure
+cpgnos2_summTotalSubset <- UTR_summ_total_content[which(UTR_summ_total_content$X3UTR == "cpg-2" | UTR_summ_total_content$X3UTR ==  "nos-2"),]
+
+p_cpg2_nos2_AveMolPlot <- ggplot(cpgnos2_summTotalSubset, aes(x=Cell_Stage, y=Average_No_RNA_per_Cluster, group=Transcript, color=Transcript, shape = Transcript))+ 
+  geom_ribbon(aes(ymin=Average_No_RNA_per_Cluster-sd, ymax=Average_No_RNA_per_Cluster+sd, fill = Transcript), alpha=0.1, linetype = 0) +
+  facet_grid(. ~ X3UTR , scales = "free_y") +
+  ylab("mRNA molecules per cluster") +
+  geom_line() + geom_point() +
+  theme_linedraw() +
+  scale_fill_manual(values=c("magenta4", "green3", "magenta4")) +
+  scale_color_manual(values=c("magenta4", "green3", "magenta4")) +
+  scale_shape_manual(values=c(15, 17, 18, 6)) +
+  theme(strip.text = element_text(face = "italic"), panel.grid.minor = element_blank(), panel.grid.major = element_line(colour = "grey"), axis.text.y = element_text(angle=90), axis.text.x = element_text(angle=90)) 
+
+p_cpg2_nos2_AveMolPlot
+
+#Set date
+date <- format(Sys.time(), "%y%m%d")
+#set filename
+filename <- paste("../3_output/", date, "_output_plots_Fig4FH.pdf", sep = "")
+
+
+#export pdf
+pdf(file = filename, width = 4, height = 2.5)
+grid.arrange(p_cpg2_nos2_AveMolPlot)
+dev.off()
+dev.off()
+
+#Report
+print("The following output plot was saved: ", quote = FALSE)
+print(filename, quote = FALSE)
+```
+
+
+### P value calculations
+
+Perform Benjamini Hochberg adjusted t-tests on cpg-2 granule size v. neongreen::cpg-2 3'UTR granule size.
+
+```{r, echo = FALSE, warning = FALSE}
+
+##### Perform t-tests on cpg-2 v. neongreen::cpg-2 3'UTR localization to granules ########
+
+# select cpg-2 data
+cpg2QuantTable <- quantTable%>%
+  filter(X3UTR == "cpg-2")
+cpg2QuantTable$Transcript <- factor(cpg2QuantTable$Transcript, levels = c("cpg-2", "mNG"))
+
+# summarize cpg-2 data
+cpg2SummaryTable <- cpg2QuantTable%>%
+  dplyr::group_by(Cell_Stage, Transcript) %>%
+  dplyr::summarize(value = list(Average_No_RNA_per_Cluster)) %>%
+  spread(Transcript, value)
+
+# Perform t-tests
+cpg2_pvalues <- data.frame()
+for (i in 1:4){
+  cpg2_pvalues[i,1] <- t.test(cpg2SummaryTable[[i,2]], cpg2SummaryTable[[i,3]])$p.value
+  rownames(cpg2_pvalues)[i] <- as.character(cpg2SummaryTable$Cell_Stage[i])
+}
+colnames(cpg2_pvalues) <- c("p.value")
+
+# Perform multiple test corrections using the Benjamini Hochberg method
+cpg2_pvalues <- cbind(cpg2_pvalues, BH_padjust = p.adjust(cpg2_pvalues$p.value, method = "BH"))
+
+# Report p values
+cpg2_pvalues
+```
+
+Perform Benjamini Hochberg adjusted t-tests on nos-2 granule size v. neongreen::nos-2 3'UTR granule size.
+
+```{r, echo = FALSE, warning = FALSE}
+
+##### Perform t-tests on nos-2 v. neongreen::nos-2 3'UTR localization to granules ########
+
+# select nos-2 data
+nos2QuantTable <- quantTable%>%
+  filter(X3UTR == "nos-2")
+nos2QuantTable$Transcript <- factor(nos2QuantTable$Transcript, levels = c("nos-2", "mNG"))
+
+# summarize nos-2 data
+nos2SummaryTable <- nos2QuantTable%>%
+  dplyr::group_by(Cell_Stage, Transcript) %>%
+  dplyr::summarize(value = list(Average_No_RNA_per_Cluster)) %>%
+  spread(Transcript, value)
+
+# Perform t-tests
+nos2_pvalues <- data.frame()
+for (i in 1:4){
+  nos2_pvalues[i,1] <- t.test(nos2SummaryTable[[i,2]], nos2SummaryTable[[i,3]])$p.value
+  rownames(nos2_pvalues)[i] <- as.character(nos2SummaryTable$Cell_Stage[i])
+}
+colnames(nos2_pvalues) <- c("p.value")
+
+# Perform multiple test corrections using the Benjamini Hochberg method
+nos2_pvalues <- cbind(nos2_pvalues, BH_padjust = p.adjust(nos2_pvalues$p.value, method = "BH"))
+
+# Report p values
+nos2_pvalues
+
+```
+
+Next, I'll filter for chs-1 and clu-1. These will be in a supplemental figure: Figure4 Supplement 1.
+
+```{r, echo = FALSE, warning = FALSE}
+
+#Filter for chs-1 and clu-1 that will be in the main figure
+chsclu_summTotalSubset <- UTR_summ_total_content[which(UTR_summ_total_content$X3UTR == "chs-1" | UTR_summ_total_content$X3UTR ==  "clu-1"),]
+
+chsclu_summTotalSubset <- replace(chsclu_summTotalSubset, is.na(chsclu_summTotalSubset), 0)
+
+p_chs1clu1_AveMolPlot <- ggplot(chsclu_summTotalSubset, aes(x=Cell_Stage, y=Average_No_RNA_per_Cluster, group=Transcript, color=Transcript, shape = Transcript))+ 
+  geom_ribbon(aes(ymin=Average_No_RNA_per_Cluster-sd, ymax=Average_No_RNA_per_Cluster+sd, fill = Transcript), alpha=0.1, linetype = 0) +
+  facet_grid(. ~ X3UTR , scales = "free_y") +
+  ylab("mRNA molecules per cluster") +
+  geom_line() + geom_point() +
+  theme_linedraw() +
+  scale_fill_manual(values=c("magenta4", "magenta4", "green3" )) +
+  scale_color_manual(values=c("magenta4", "magenta4", "green3")) +
+  scale_shape_manual(values=c(15, 17, 18, 6)) +
+  theme(strip.text = element_text(face = "italic"), panel.grid.minor = element_blank(), panel.grid.major = element_line(colour = "grey"), axis.text.y = element_text(angle=90), axis.text.x = element_text(angle=90)) 
+
+p_chs1clu1_AveMolPlot
+
+#Set date
+date <- format(Sys.time(), "%y%m%d")
+#set filename
+filename <- paste("../3_output/", date, "_output_plots_Fig4Supp1.pdf", sep = "")
+
+
+#export pdf
+pdf(file = filename, width = 4, height = 2.5)
+p_chs1clu1_AveMolPlot
+dev.off()
+dev.off()
+
+#Report
+print("The following output plot was saved: ", quote = FALSE)
+print(filename, quote = FALSE)
+
+
+```
+
+### P value calculations
+
+Perform Benjamini Hochberg adjusted t-tests on chs-1 v. neongreen::chs-1 3'UTR granule size.
+
+```{r, echo = FALSE, warning = FALSE}
+
+##### Perform t-tests on chs-1 v. neongreen::chs-1 3'UTR localization to granules ########
+
+# select chs-1 data
+chs1QuantTable <- quantTable%>%
+  filter(X3UTR == "chs-1")
+chs1QuantTable$Transcript <- factor(chs1QuantTable$Transcript, levels = c("chs-1", "mNG"))
+
+# summarize chs-1 data
+chs1SummaryTable <- chs1QuantTable%>%
+  dplyr::group_by(Cell_Stage, Transcript) %>%
+  dplyr::summarize(value = list(Average_No_RNA_per_Cluster)) %>%
+  spread(Transcript, value)
+
+# Perform t-tests
+chs1_pvalues <- data.frame()
+
+for (i in 1:2){
+  chs1_pvalues[i,1] <- t.test(chs1SummaryTable[[i,2]], chs1SummaryTable[[i,3]])$p.value
+  rownames(chs1_pvalues)[i] <- as.character(chs1SummaryTable$Cell_Stage[i])
+}
+colnames(chs1_pvalues) <- c("p.value")
+
+
+# Perform multiple test corrections using the Benjamini Hochberg method
+chs1_pvalues <- cbind(chs1_pvalues, BH_padjust = p.adjust(chs1_pvalues$p.value, method = "BH"))
+
+# Report p values
+chs1_pvalues
+```
+
+Perform Benjamini Hochberg adjusted t-tests on clu-1 v. neongreen::clu-1 3'UTR granule size.
+
+```{r, echo = FALSE, warning = FALSE}
+
+##### Perform t-tests on clu-1 v. neongreen::clu 3'UTR localization to granules ########
+
+# select clu-1 data
+cluQuantTable <- quantTable%>%
+  filter(X3UTR == "clu-1")
+cluQuantTable$Transcript <- factor(cluQuantTable$Transcript, levels = c("clu-1", "mNG"))
+
+# summarize chs-1 data
+clu1SummaryTable <- cluQuantTable%>%
+  dplyr::group_by(Cell_Stage, Transcript) %>%
+  dplyr::summarize(value = list(Average_No_RNA_per_Cluster)) %>%
+  spread(Transcript, value)
+
+# Perform t-tests
+clu1_pvalues <- data.frame()
+
+for (i in 1:4){
+  clu1_pvalues[i,1] <- t.test(clu1SummaryTable[[i,2]], clu1SummaryTable[[i,3]])$p.value
+  rownames(clu1_pvalues)[i] <- as.character(clu1SummaryTable$Cell_Stage[i])
+}
+colnames(clu1_pvalues) <- c("p.value")
+
+# Perform multiple test corrections using the Benjamini Hochberg method
+clu1_pvalues <- cbind(clu1_pvalues, BH_padjust = p.adjust(clu1_pvalues$p.value, method = "BH"))
+
+# Report p values
+clu1_pvalues
+```
+
+
+# Get versions
+```{r, echo = TRUE}
+sessionInfo()
+```

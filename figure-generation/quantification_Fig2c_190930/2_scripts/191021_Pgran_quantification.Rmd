@@ -1,0 +1,399 @@
+---
+title: "191021_Pgran_quantification.Rmd"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+# Load libraries
+
+Dependencies:   
+
+dplyr   
+
+ggplot2
+
+gridExtra  
+
+tidyr
+
+```{r setup, include=FALSE}
+library(dplyr)
+library(ggplot2)
+library(gridExtra)
+library(tidyr)
+```
+
+### Import
+
+Import the data. Organize the order of factor data. Clean up the dataframe.
+
+```{r, echo = FALSE}
+
+# Import
+quantTable <- read.table(file = "../1_input/figure2_sourcedata3_191018.txt", header = TRUE, row.names = 1) # import the data
+
+print("Input data is ../1_input/figure2_sourceData3_191018.txt", quote = FALSE)
+# re-order the factors
+quantTable$Cell_Stage <- factor(quantTable$Cell_Stage, levels = c("2-cell", "4-cell", "8-cell", "12-14-cell", "16-24-cell", "26-48-cell"))
+
+
+```
+
+### Exploratory Data Analysis
+
+Explore the data. Determine the dimensions & the data structure
+
+```{r pressure, echo=FALSE}
+
+# report structure
+str(quantTable)
+dim(quantTable)
+head(quantTable)
+
+```
+
+
+# Plotting
+
+### Ribbon plots
+
+
+#### Create functions
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+
+# Make a function to summarize the data
+# data_summary(data, varname, groupnames)
+#    data <- this is a dataset in the form 'quantTable'
+#    varname <- this corresponds to a colname in 'data'
+#    groupnames  <- this is a vector of colnames in 'data' that are the factor variables.
+data_summary <- function(data, varname, groupnames){
+  require(plyr)
+  summary_func <- function(x, col){
+    c(mean = mean(x[[col]], na.rm=TRUE),
+      sd = sd(x[[col]], na.rm=TRUE))
+  }
+  data_sum<-ddply(data, groupnames, .fun=summary_func,
+                  varname)
+  data_sum <- rename(data_sum, c("mean" = varname))
+ return(data_sum)
+}
+
+# Make a function to plot the data
+# plotStats(dataset, varname, titleY)
+#    dataset <- this is a dataset in the form produced by 'data_summary'
+#    varname <- this corresponds to a colname in 'dataset'
+#    titleY  <- this is a title for the Y axis of the plot
+plotStats <- function(dataset, varname, titleY){
+  ggplot(dataset, aes(x=Cell_Stage, y=varname, group=Transcript, color=Transcript))+ 
+  geom_ribbon(aes(ymin=varname-sd, ymax=varname+sd, fill = Transcript), alpha=0.1, linetype = 0) +
+  facet_grid(. ~ Transcript , scales = "free_y") +
+  labs(y = titleY) +
+  geom_line() + geom_point() +
+  theme_linedraw() +
+  theme(strip.text = element_text(face = "italic"), 
+        panel.grid.minor = element_blank(), 
+        panel.grid.major = element_line(colour = "grey"), 
+        axis.text.y = element_text(angle=90), 
+        axis.text.x = element_text(angle=90))
+}
+
+```
+
+#### The number of RNA molecules by transcript type
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+# Gather the number of total RNAs by transcript type
+Pgran_summ_total_RNA <- data_summary(quantTable, varname="Total_No_RNA", 
+                    groupnames=c("Transcript", "Cell_Stage"))
+
+# plot number of RNA molecules by transcript type
+p_NoRNA <- plotStats(Pgran_summ_total_RNA, Pgran_summ_total_RNA$Total_No_RNA, "Molecules of mRNA")
+
+p_NoRNA
+
+```
+
+
+#### The number of clusters by transcript type
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+
+# plot number of clusters by transcript type
+Pgran_summ_total_clusters <- data_summary(quantTable, varname="No_RNA_clusters", 
+                    groupnames=c("Transcript", "Cell_Stage"))
+
+
+# plot number of clusters by transcript type
+p_clusters <- plotStats(Pgran_summ_total_clusters, Pgran_summ_total_clusters$No_RNA_clusters, "Clusters of mRNA")
+
+p_clusters
+
+```
+
+#### The fraction of RNAs in clusters by transcript type
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+
+# calculate fraction of mRNA in clusters by transcript type
+Pgran_summ_fraction <- data_summary(quantTable, varname="fraction_RNA_in_clusters",
+                    groupnames=c("Transcript", "Cell_Stage"))
+
+# plot fraction of mRNA in clusters transcript type
+p_fraction <- plotStats(Pgran_summ_fraction, Pgran_summ_fraction$fraction_RNA_in_clusters, "Fraction of mRNA in clusters")
+
+p_fraction
+
+```
+
+
+#### The RNA content of clusters by transcript type
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+
+
+# plot RNA content of clusters by transcript type
+Pgran_avg_content <- data_summary(quantTable,
+                                         varname="Average_No_RNA_per_Cluster",
+                                         groupnames=c("Transcript", "Cell_Stage"))
+
+# plot RNA content of clusters transcript type
+p_content <- plotStats(Pgran_avg_content, Pgran_avg_content$Average_No_RNA_per_Cluster, "Average number of mRNAs per cluster")
+
+p_content
+
+```
+
+#### Printout the pdf file output
+```{r, echo = FALSE, warning = FALSE}
+#Set date
+date <- format(Sys.time(), "%y%m%d")
+#set filename
+filename <- paste("../3_output/", date, "_output_plots_Fig2c.pdf", sep = "")
+
+#export pdf
+pdf(file = filename, width = 8, height = 11)
+grid.arrange(p_NoRNA, p_clusters, p_fraction, p_content, ncol = 1)
+dev.off()
+dev.off()
+
+#Report
+print("The following output plot was saved: ", quote = FALSE)
+print(filename, quote = FALSE)
+
+```
+
+## Statistics
+
+Calculate statistically significant differences
+
+Create statistical test functions first
+```{r, echo = FALSE}
+
+t.testdiffs_molecules <- function(data, transcpt){
+  
+  # filter for transcripts
+  transcript_quantTable <- quantTable%>%
+    filter(Transcript == transcpt | Transcript == "set-3")
+  
+  # re-do factoring
+  transcript_quantTable$Transcript <- factor(transcript_quantTable$Transcript, levels = c(transcpt, "set-3"))
+  
+  # summarize transcript-specific data
+  transcript_SummaryTable <- transcript_quantTable%>%
+    dplyr::group_by(Cell_Stage, Transcript) %>%
+    dplyr::summarize(value = list(Total_No_RNA)) %>%
+    spread(Transcript, value)
+
+  # Perform t-tests
+  transcript_pvalues <- data.frame()
+
+  for (i in 1:6){
+  transcript_pvalues[i,1] <- t.test(transcript_SummaryTable[[i,2]],
+                                    transcript_SummaryTable[[i,3]])$p.value
+    rownames(transcript_pvalues)[i] <- as.character(transcript_SummaryTable$Cell_Stage[i])
+  }
+  
+  colnames(transcript_pvalues) <- c("p.value")
+  
+  # Perform multiple test corrections using the Benjamini Hochberg method
+  transcript_pvalues <- cbind(transcript_pvalues, BH_padjust = p.adjust(transcript_pvalues$p.value, method = "BH"))
+  
+  # Report p values
+  return(transcript_pvalues)
+}
+
+t.testdiffs_clusters <- function(data, transcpt){
+  
+  # filter for transcripts
+  transcript_quantTable <- quantTable%>%
+    filter(Transcript == transcpt | Transcript == "set-3")
+  
+  # re-do factoring
+  transcript_quantTable$Transcript <- factor(transcript_quantTable$Transcript, levels = c(transcpt, "set-3"))
+  # summarize transcript-specific data
+  transcript_SummaryTable <- transcript_quantTable%>%
+    dplyr::group_by(Cell_Stage, Transcript) %>%
+    dplyr::summarize(value = list(No_RNA_clusters)) %>%
+    spread(Transcript, value)
+
+  # Perform t-tests
+  transcript_pvalues <- data.frame()
+
+  for (i in 1:6){
+  transcript_pvalues[i,1] <- t.test(transcript_SummaryTable[[i,2]],
+                                    transcript_SummaryTable[[i,3]])$p.value
+    rownames(transcript_pvalues)[i] <- as.character(transcript_SummaryTable$Cell_Stage[i])
+  }
+  
+  colnames(transcript_pvalues) <- c("p.value")
+  
+  # Perform multiple test corrections using the Benjamini Hochberg method
+  transcript_pvalues <- cbind(transcript_pvalues, BH_padjust = p.adjust(transcript_pvalues$p.value, method = "BH"))
+  
+  # Report p values
+  return(transcript_pvalues)
+}
+
+t.testdiffs_fraction <- function(data, transcpt){
+  
+  # filter for transcripts
+  transcript_quantTable <- quantTable%>%
+    filter(Transcript == transcpt | Transcript == "set-3")
+  
+  # re-do factoring
+  transcript_quantTable$Transcript <- factor(transcript_quantTable$Transcript, levels = c(transcpt, "set-3"))
+  # summarize transcript-specific data
+  transcript_SummaryTable <- transcript_quantTable%>%
+    dplyr::group_by(Cell_Stage, Transcript) %>%
+    dplyr::summarize(value = list(fraction_RNA_in_clusters)) %>%
+    spread(Transcript, value)
+
+  # Perform t-tests
+  transcript_pvalues <- data.frame()
+
+  for (i in 1:6){
+  transcript_pvalues[i,1] <- t.test(transcript_SummaryTable[[i,2]],
+                                    transcript_SummaryTable[[i,3]])$p.value
+    rownames(transcript_pvalues)[i] <- as.character(transcript_SummaryTable$Cell_Stage[i])
+  }
+  
+  colnames(transcript_pvalues) <- c("p.value")
+  
+  # Perform multiple test corrections using the Benjamini Hochberg method
+  transcript_pvalues <- cbind(transcript_pvalues, BH_padjust = p.adjust(transcript_pvalues$p.value, method = "BH"))
+  
+  # Report p values
+  return(transcript_pvalues)
+}
+
+
+t.testdiffs_avg <- function(data, transcpt){
+  
+  # filter for transcripts
+  transcript_quantTable <- quantTable%>%
+    filter(Transcript == transcpt | Transcript == "set-3")
+  
+  # re-do factoring
+  transcript_quantTable$Transcript <- factor(transcript_quantTable$Transcript, levels = c(transcpt, "set-3"))
+  # summarize transcript-specific data
+  transcript_SummaryTable <- transcript_quantTable%>%
+    dplyr::group_by(Cell_Stage, Transcript) %>%
+    dplyr::summarize(value = list(Average_No_RNA_per_Cluster)) %>%
+    spread(Transcript, value)
+
+  # Perform t-tests
+  transcript_pvalues <- data.frame()
+
+  for (i in 1:5){
+  transcript_pvalues[i,1] <- t.test(transcript_SummaryTable[[i,2]],
+                                    transcript_SummaryTable[[i,3]])$p.value
+    rownames(transcript_pvalues)[i] <- as.character(transcript_SummaryTable$Cell_Stage[i])
+  }
+
+  colnames(transcript_pvalues) <- c("p.value")
+
+  # Perform multiple test corrections using the Benjamini Hochberg method
+  transcript_pvalues <- cbind(transcript_pvalues, BH_padjust = p.adjust(transcript_pvalues$p.value, method = "BH"))
+  
+  # Report p values
+  return(transcript_pvalues)
+}
+
+
+
+```
+
+### Execute the tests
+
+```{r, echo = FALSE}
+
+## Test molecules p-values 
+molecules_pvals <- lapply(c("chs-1", "clu-1", "cpg-2", "nos-2"), 
+                               function(x) {t.testdiffs_molecules(quantTable, x)})
+names(molecules_pvals) <- c("chs-1", "clu-1", "cpg-2", "nos-2")
+print("P-values: Number of mRNA molecules as compared to set-3" )
+print(molecules_pvals)
+
+# p <- 3.040104e-02
+# (0.05 < p )
+# (0.005 < p )
+# (0.0005 < p )
+# (0.00005 < p )
+# (0.000005 < p )
+
+## Test clusters p-values 
+clusters_pvals <- lapply(c("chs-1", "clu-1", "cpg-2", "nos-2"), 
+                               function(x) {t.testdiffs_clusters(quantTable, x)})
+names(clusters_pvals) <- c("chs-1", "clu-1", "cpg-2", "nos-2")
+print("P-values: Number of clusters as compared to set-3" )
+print(clusters_pvals)
+
+# clusters_pvals[[4]]
+# p <- 0.0066173217
+# (0.05 < p )
+# (0.005 < p )
+# (0.0005 < p )
+# (0.00005 < p )
+# (0.000005 < p )
+
+
+## Test fraction of mRNAs in clusters  p-values 
+fraction_pvals <- lapply(c("chs-1", "clu-1", "cpg-2", "nos-2"), 
+                               function(x) {t.testdiffs_fraction(quantTable, x)})
+names(fraction_pvals) <- c("chs-1", "clu-1", "cpg-2", "nos-2")
+print("P-values: Fraction of mRNA molecules in clusters as compared to set-3" )
+print(fraction_pvals)
+
+# fraction_pvals[[4]]
+# p <- 2.760786e-03
+# (0.05 < p )
+# (0.005 < p )
+# (0.0005 < p )
+# (0.00005 < p )
+# (0.000005 < p )
+
+
+
+## Test average number of mRNAs in clusters - p-values 
+avgClustSize_pvals <- lapply(c("chs-1", "clu-1", "cpg-2", "nos-2"), 
+                               function(x) {t.testdiffs_avg(quantTable, x)})
+names(avgClustSize_pvals) <- c("chs-1", "clu-1", "cpg-2", "nos-2")
+print("P-values: Average number of mRNAs in clusters as compared to set-3" )
+print(avgClustSize_pvals)
+
+# avgClustSize_pvals[[4]]
+# p <- 0.0016355690
+# (0.05 < p )
+# (0.005 < p )
+# (0.0005 < p )
+# (0.00005 < p )
+# (0.000005 < p )
+
+
+```
+
+
+# Get versions
+```{r, echo = TRUE}
+sessionInfo()
+```
