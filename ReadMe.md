@@ -3,10 +3,15 @@
 ![GitHub](https://img.shields.io/github/license/muellerflorian/parker-rna-loc-elegans)
 
 # Analyze RNA localization in c. elegans
-We provide an analyze workflow to analyze **RNA localization patterns** in c. elegans 
-in single molecule FISH (smFISH images).
 
-Analysis is performed in Matlab and in Python scripts running in ImJoy.
+This repository provide the different analyze workflows to analyze **RNA localization patterns** in c. elegans 
+from single molecule FISH (smFISH images), described in our paper:
+
+__Title:__ mRNA localization is linked to translation regulation in the Caenorhabditis elegans germ lineage.
+
+__Authors:__ Dylan M. Parker, Lindsay P. Winkenbach, Samuel P. Boyson, Matthew N. Saxton, Camryn Daidone, Zainab A. Al-Mazaydeh, Marc T. Nishimura, Florian Mueller, Erin Osborne Nishimura
+
+Analysis is performed with Matlab and Python. Python scripts are provided as [ImJoy plugins](https://www.nature.com/articles/s41592-019-0627-0) to simplify usage. 
 
 <img src="https://muellerflorian.github.io/parker-rna-loc-elegans/img/dist_transform.png" width="400px"></img>
 
