@@ -7,9 +7,9 @@ Mixture Model (GMM).
 
 ## Detection of individual RNAs
 
-Below only a quick summary of the workflow is presented. For more details consult the 
-<a href="https://bitbucket.org/muellerflorian/fish_quant/src/master/Documentation/FISH_QUANT_v3.pdf" target="_blank">**FQ manual.**</a> 
- 
+Below only a quick summary of the workflow is presented. For more details consult the
+<a href="https://bitbucket.org/muellerflorian/fish_quant/src/master/Documentation/FISH_QUANT_v3.pdf" target="_blank">**FQ manual.**</a>
+
 1.  Open FQ
 2.  Set analysis folder to folder containing the image that should be analysed:
     `Menu Folder` > `Set root folder`)
@@ -49,14 +49,14 @@ Below only a quick summary of the workflow is presented. For more details consul
 11. You can now save the detection settings: `[FQ] Main`>`Save`>`Save detection settings`.
     As a file-name specify `FQ__settings_MATURE.txt`
 12. Depending on which analysis you want to perform, you either save the detection
-    results or only the specified cell outline
+    results or only the specified cell outline.
 13. If you are satisfied with these detection results, you can save them directly:  `[FQ] Main`>`Save`>`Detection spots [All]`.
 14. If you would like to also analyse RNA aggregates, you can save only the outline: `[FQ] Main`>`Save`>`Outline of cells`.
 
 ## Detection of clustered RNAs
-Her we use an approach that detects individual RNAs and then decomposes aggregates into individual RNAs 
-(for more information see our 
-<a href="https://www.nature.com/articles/s41467-018-06868-w" target="_blank">**Nature Communications paper**</a>). 
+Her we use an approach that detects individual RNAs and then decomposes aggregates into individual RNAs
+(for more information see our
+<a href="https://www.nature.com/articles/s41467-018-06868-w" target="_blank">**Nature Communications paper**</a>).
 This requires that the detection of individual RNA as described above has been performed.
 
 After performing the steps above you will have two text files (1) the cell outline,
@@ -66,7 +66,7 @@ will be adequate
 
 ### Detection settings for individual outline files
 Here, each outline has it's own settings file. We provide a script on the FQ BitBucket repository to analyse these data
-<a href="https://bitbucket.org/muellerflorian/fish_quant/src/master/locFISH/WRAPPER_smFISH__GMM_v1.m" target="_blank">**(WRAPPER_smFISH__GMM_v1.m)**</a>. 
+<a href="https://bitbucket.org/muellerflorian/fish_quant/src/master/locFISH/WRAPPER_smFISH__GMM_v1.m" target="_blank">**(WRAPPER_smFISH__GMM_v1.m)**</a>.
 
 
 1. The scripts requires that images, outlines, and settings are in the same folder.

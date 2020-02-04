@@ -2,8 +2,6 @@
 __pycache__
 *.pyc
 src.zip
-.spyproject
 site/
 rnaloc.egg-info/
-.idea
-.idea/workspace.xml
+.vscode

@@ -59,16 +59,18 @@ markdown_extensions:
 
 nav:
     - Overview: index.md   # Needed for material theme but not for others
-    - Analysis tools: tools.md  # This is strange but onlywith this organization this file shows upd in the overview together with the index.md
+    - Analysis tools: tools.md  # This is strange but only with this organization this file shows upd in the overview together with the index.md
+
+    - General workflows:
+      - Image processing: image-processing.md
+      - RNA detection: rna-detection.md
+
     - RNA localization:
       - Cell membrane distance: cell-membrane-dist.md
       - Nuclear envelope distance: nuc-envelop-dist.md
       - Granule co-localization: granules-coloc.md
-    - General workflows:
-      - Image processing: image-processing.md
-      - RNA detection: rna-detection.md
+
     - About:
-      - Release Notes: release-notes.md
       - Licence: licence.md
 
 
