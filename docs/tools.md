@@ -81,8 +81,9 @@ Please note that this notebooks runs on your local machine, so no data-transfer 
    
     1. go to the ImJoy app and press on the rocket symbol in the upper right corner, 
        select `Add Jupyter-Engine` and paste the URL from the step above. 
-    2. You can now **connect your plugin to this Jupyter Kernel**, by clicking on the puzzle symbol 
-       next to the plugin name, and selecting the Juypyter Notebook as engine.  
+    2. Plugins will then be automatically **connected to this Jupyter Kernel**. You can verify this, 
+       by clicking on the puzzle symbol next to the plugin name. Depending on the plugin, installation
+       might take a while, during this period the plugin name will be in red.  
 
     ![imjoy-connect-jupyter.gif](img/imjoy-connect-jupyter.gif)
     

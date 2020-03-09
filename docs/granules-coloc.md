@@ -69,27 +69,23 @@ Please consult the dedicated section [here](rna-detection.md).
 
 The entire functionality of the plugin can be controlled within the plugin
 window. If you expand the plugin, you will see all parameters and operations
-that can be performed
+that can be performed.
 
-### Defining a root folder
+![GRANULES-ui.png](img/GRANULES-ui.png)
 
-By default, ImJoy will open files in your home folder. If your data is at a different
-location, you can set a root folder. Each time you specify a file, ImJoy will open
-the file-dialog in this root folder. Press the button `Root folder` and specify the
-desired folder.
 
-The specified root folder is also saved, and will be reused the next time you launch ImJoy.
+### Defining a FQ results file
+In the first field, you can copy&paste the **FULL** file name of the FQ results file, that you want to analyze. e.g.
+`C1-img1_res_GMM.txt` in the example above.
 
 ### Loading data
-
 Here the FQ results and all image data are loaded. You have to specify the strings that specify the smFISH image and the
 granules image. For example, `C1` and `C3` for the data-set explained above.
 
-Once these parameters are specified, you can click on `Load data`. Here you have to specify the FQ results file that you
-want to analyze, e.g. `C1-img1_res_GMM.txt` for the example above.
+Once these parameters are specified, you can click on `Load data`. Here, the specified FQ results file will be used to load
+all necessary data.
 
 **Important**: make sure that the channel identifiers are correct, if you analyze another FISH channel.
-
 
 ### Granule detection
 Here, you can specify a threshold to detect granules. Lower value results in more detections. Click `Test granule threshold`
