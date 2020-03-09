@@ -6,10 +6,10 @@
 {
   "name": "GranuleColocalization",
   "type": "native-python",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Plugin to analyze colocalization of RNA clusters and cellular granules.",
   "tags": ["stable","dev"],
-  "ui": ["FQ file: {id: 'file_load', type: 'string', placeholder: 'paste-path-to-file'}"],
+  "ui": "Follow workflow below.",
   "cover": "",
   "inputs": null,
   "outputs": null,
@@ -17,7 +17,7 @@
   "icon": "border_outer",
   "api_version": "0.1.7",
   "env": "",
-  "requirements": { "stable":["pip: -U git+https://github.com/muellerflorian/parker-rna-loc-elegans@020041b#egg=rnaloc"],
+  "requirements": { "stable":["pip: -U git+https://github.com/muellerflorian/parker-rna-loc-elegans@master"],
                     "dev": ["pip: --editable D:\\Documents\\code\\GitHub\\projects\\parker-rna-loc-elegans"]},
   "dependencies": []
 }
@@ -48,10 +48,11 @@ class ImJoyPlugin():
 
         # Load data
         api.register({
-            "name": "Load data",
+            "name": "1. Load data",
             "ui": [
                     {"Channel ident [FISH]": {"id": "ch_ident_fish","type": "string", "placeholder": 'C1'}},
                     {"Channel ident [GRANULES]": {"id": "ch_ident_granules","type": "string", "placeholder": 'C3'}},
+                    {"FQ file": {"id": "file_load","type": "string", "placeholder": 'paste-path-to-file'}},
             ],
             "run":self.load_data,
             "type": "op"
@@ -59,7 +60,7 @@ class ImJoyPlugin():
 
         # Specify granule threshold
         api.register({
-            "name": "Test granule threshold",
+            "name": "2. Test granule threshold",
             "ui": [
                     {"Blobs threshold": {"id": "blobs_threshold","type": "number", "placeholder": 0.001,'min':0}},
             ],
@@ -69,16 +70,15 @@ class ImJoyPlugin():
 
         # Specify granule threshold
         api.register({
-            "name": "Detect granules in 3D",
+            "name": "3. Detect granules in 3D",
             "ui": 'This can take a bit longer.',
             "run":self.detect_blobs_3d,
             "type": "op"
         })
 
-
         # Specify DB scan settings
         api.register({
-            "name": "Perform DB scan",
+            "name": "4. Perform DB scan",
             "ui": [
                     {"Eps": {"id": "eps","type": "number", "placeholder": 500,'min':0}},
                     {"Min samples": {"id": "min_samples","type": "number", "placeholder": 5,'min':0}},
@@ -87,14 +87,14 @@ class ImJoyPlugin():
             "type": "op"
         })
 
-
         # Specify DB scan settings
         api.register({
-            "name": "Analyze co-localization",
-            "ui": ['Use specified settings to determine co-localization.'],
+            "name": "5. Analyze co-localization",
+            "ui": ['With settings defined above.'],
             "run":self.analyze_coloc,
             "type": "op"
         })
+
         api.log(' ')
         api.log('== GranuleColocalization: initialized')
         api.log(f'Plugin is running with tag: {api.TAG}')
@@ -107,7 +107,8 @@ class ImJoyPlugin():
     def load_data(self,ctx):
 
         api.log('[GranuleColocalization][load_data]')
-
+        api.log(f'Plugin run function called with parameters: {ctx.config}')
+        
         # Get path for testing
         if api.TAG == 'stable':
             file_input = ctx.config.file_load

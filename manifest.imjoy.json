@@ -32,7 +32,7 @@
    "permissions": [],
    "requirements": {
     "stable": [
-     "pip: -U git+https://github.com/muellerflorian/parker-rna-loc-elegans@020041b#egg=rnaloc"
+     "pip: -U git+https://github.com/muellerflorian/parker-rna-loc-elegans@master"
     ],
     "dev": [
      "pip: -U --editable D:\\Documents\\code\\GitHub\\projects\\parker-rna-loc-elegans"
@@ -46,15 +46,13 @@
   {
    "name": "GranuleColocalization",
    "type": "native-python",
-   "version": "0.1.6",
+   "version": "0.1.7",
    "description": "Plugin to analyze colocalization of RNA clusters and cellular granules.",
    "tags": [
     "stable",
     "dev"
    ],
-   "ui": [
-    "FQ file: {id: 'file_load', type: 'string', placeholder: 'paste-path-to-file'}"
-   ],
+   "ui": "Follow workflow below.",
    "cover": "",
    "inputs": null,
    "outputs": null,
@@ -64,7 +62,7 @@
    "env": "",
    "requirements": {
     "stable": [
-     "pip: -U git+https://github.com/muellerflorian/parker-rna-loc-elegans@020041b#egg=rnaloc"
+     "pip: -U git+https://github.com/muellerflorian/parker-rna-loc-elegans@master"
     ],
     "dev": [
      "pip: --editable D:\\Documents\\code\\GitHub\\projects\\parker-rna-loc-elegans"
