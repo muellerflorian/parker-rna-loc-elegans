@@ -16,7 +16,7 @@ REQUIRES = [
 
 setup(
       name='rnaloc',
-      version='0.1.3',
+      version='0.1.4',
       description='Code to analyze RNA localization in c. elegans.',
       url='https://github.com/muellerflorian/parker-rna-loc-elegans',
       author='Florian MUELLER',

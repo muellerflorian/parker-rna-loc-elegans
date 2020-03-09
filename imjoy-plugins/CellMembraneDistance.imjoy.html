@@ -6,7 +6,7 @@ Calculate RNA enrichment relative to the cell membrane.
 {
   "name": "CellMembraneDistance",
   "type": "native-python",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "Plugin to analyze enrichment of RNAs relative to cell membranes.",
   "tags": ["stable","dev"],
   "ui": [
@@ -26,7 +26,7 @@ Calculate RNA enrichment relative to the cell membrane.
   "api_version": "0.1.7",
   "env": "",
   "permissions": [],
-  "requirements": { "stable":["pip: -U git+https://github.com/muellerflorian/parker-rna-loc-elegans@4c6e4ed#egg=rnaloc"],
+  "requirements": { "stable":["pip: -U git+https://github.com/muellerflorian/parker-rna-loc-elegans@020041b#egg=rnaloc"],
                     "dev": [ "pip: -U --editable D:\\Documents\\code\\GitHub\\projects\\parker-rna-loc-elegans"]},
   "dependencies": ["muellerflorian/parker-rna-loc-elegans:MembraneDistProgress"]
 }
@@ -64,9 +64,11 @@ class ImJoyPlugin():
 
     async def run(self, ctx):
 
+        api.log(f'Plugin run function called with parameters: {ctx.config}')
+
         # Get path for testing
         if api.TAG == 'stable':
-            file_FQ = ctx.config.path_scan
+            file_FQ = ctx.config.file_FQ
         else:
             file_FQ = r'D:\Documents\Data\test-data\rna-loc\CellCortexEnrichment\C1-img1__spots.txt'
 

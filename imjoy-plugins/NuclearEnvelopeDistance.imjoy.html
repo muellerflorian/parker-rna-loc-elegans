@@ -6,7 +6,7 @@
 {
   "name": "NuclearEnvelopeDistance",
   "type": "native-python",
-  "version": "0.1.11",
+  "version": "0.1.12",
   "description": "Plugin to analyze enrichment of RNAs relative to nuclear membrane.",
   "tags": ["stable","dev"],
   "ui": [
@@ -59,9 +59,11 @@ class ImJoyPlugin():
 
     async def run(self, ctx):
 
+        api.log(f'Plugin run function called with parameters: {ctx.config}')
+
         # Get path for testing
         if api.TAG == 'stable':
-            file_FQ = ctx.config.path_scan
+            file_FQ = ctx.config.file_FQ
         else:
             file_FQ = r'D:\Documents\Data\test-data\rna-loc\NucMembEnrichment\C1-N2_imb-2-670_NG-610_04_R3D__spots.txt'
 
