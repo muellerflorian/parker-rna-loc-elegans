@@ -103,26 +103,14 @@ To perform the actual annotation, follow these steps
 ## Analysis with ImJoy
 
 The entire functionality of the plugin can be controlled within the plugin
-window. If you expand the plugin, you will see all parameters and operations
-that can be performed
+window. If you expand the plugin, you will see all parameters of the plugins. 
 
-<img src="https://raw.githubusercontent.com/muellerflorian/rna-loc/master/docs/img/NED-plugin-ui.png" width="350px"></img>
+![NED-plugin-ui.png](img/NED-plugin-ui.png)
 
-### Defining a root folder
+### Analysis parameters
 
-By default, ImJoy will open files in your home folder. If your data is at a different
-location, you can set a root folder. Each time you specify a file, ImJoy will open
-the file-dialog in this root folder. Press the button `Root folder` and specify the
-desired folder.
-
-The specified root folder is also saved, and will be reused the next time you launch
-ImJoy.
-
-### Analysis options
-
-All options are explained in the Table below. If you change these parameters, the
-changed values will be saved in the browser and reused the next time you launch
-ImJoy.
+If you change these parameters, the changed values will be saved in the browser 
+and reused the next time you launch ImJoy.
 
 | Option        | Type   | Default | Description                                                                                                                                  |
 | ------------- | ------ | ------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -130,17 +118,18 @@ ImJoy.
 | `Zmin`        | int    | 0       | Specify at which Z slice analysis should start. Value of 0 means that entire z-stack will be processed.                                      |
 | `Zmax`        | int    | 0       | As `Z min` but for maximum Z slice.                                                                                                          |
 | `Hist [bins]` | string | ...     | Defines the edges of the bins that will be used. Values are separated by a comma.                                                            |
+`FQ file` | str  |   | **FULL** path name for FQ file to be analyzed.
 
-## Analyze a file and monitor progress
+### Launch analysis and monitor progress
 
 To analyse a FQ results file, you have to
 
 1.  Specify the required parameters in the plugin interface.
-2.  Execute plugin with clicking on the Plugin name `NuclearEnvelopeEnrichment`. This will
-    display a file-dialog where you can select the FQ results file that you want to
-    analyse (ends with `__spots.txt`) that should be analysed. This can either be a 'regular' FQ detection, or an analysis with a GMM.
+    This includes to **copy & paste** the FULL name of the FQ results file that should be analyzed.
+    This can either be a 'regular' FQ detection, or an analysis with a GMM.
+2.  Execute plugin with clicking on the Plugin name `NuclearEnvelopeEnrichment`.
 3.  This file will then be processed and the final distance enrichment histogram
-    displayed in the interface. More plots and results file will be stored on the disk.
+    displayed in the interface. More plots and result files will be stored as detailed below.
 
 Once you start the analysis, ImJoy will show you a progress window with progress-bars
 for the different steps. Once done, it will display the final result in this image.
@@ -150,8 +139,7 @@ for the different steps. Once done, it will display the final result in this ima
 
 The analysis script will create a new folder with the same name as the selected results file. To allow to redo the analysis with different settings, the plugin  will create for each performed analysis a separate sub folder `NucEnvelopDist_yymmdd-hhmm`, where is a time-stamp in the format `yymmdd-hhmm`. This folder contains several files:
 
--   **\_DistanceEnrichmentSummary.png**: image containing the pooled analysis of all slices
-    <img src="https://raw.githubusercontent.com/muellerflorian/rna-loc/master/docs/img/NED-dist_histogram" width="400px"></img>
+-   **\_DistanceEnrichmentSummary.png**: image containing the pooled analysis of all slices.
 
 -   **\_HistogramDistances.csv**: csv file containing the histograms of the RNA-membrane distance pooled from all z-slices. This can be opened with any Spreadsheet application (Excel, LibreOffice, Numbers, ...) and results from different images can then be pooled together. It contains the following data
 

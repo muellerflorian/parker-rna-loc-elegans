@@ -300,7 +300,7 @@ def process_file(FQ_file, bin_prop = (0,90,20), channels={'cells':'C3-'},data_ca
         
     # Show function name and input arguments
     function_name = sys._getframe(  ).f_code.co_name
-    utils.log_message(f"Function ({function_name}) called with:\n {str(input_args_pretty)} ", callback_fun=log_callback)
+    utils.log_message(f"Function ({function_name}) called with:\n {str(input_args)} ", callback_fun=log_callback)
 
     # Make sure input args are correct - assignments with 0 can come from ImJoy
     if Zrange[0] ==0 or Zrange[1] ==0:
@@ -475,11 +475,12 @@ def process_file(FQ_file, bin_prop = (0,90,20), channels={'cells':'C3-'},data_ca
             imgurl = 'data:image/png;base64,' + result
             progress_callback({"task":"show_results","src":imgurl})
 
-    # Save entire analysis results as json
+    # Save entire analysis results as json (remove callback functions, since those cause errors)
     input_args.pop('show_plot', None)
     input_args.pop('plot_callback', None)
     input_args.pop('progress_callback', None)
-
+    input_args.pop('log_callback', None)
+    
     analysis_results = {'args': input_args,
                         'hist_all': hist_plot_all,
                         'hist_slice': hist_slice}

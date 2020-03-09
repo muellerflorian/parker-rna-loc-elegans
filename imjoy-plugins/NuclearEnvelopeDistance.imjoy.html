@@ -6,26 +6,27 @@
 {
   "name": "NuclearEnvelopeDistance",
   "type": "native-python",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "description": "Plugin to analyze enrichment of RNAs relative to nuclear membrane.",
   "tags": ["stable","dev"],
   "ui": [
         "dZ: {id: 'dZ', type: 'number', placeholder: 0}",
         "Zmin [pix; 0 for all]: {id: 'Z_min', type: 'number', placeholder: 0}",
         "Zmax [pix; 0 for all]: {id: 'Z_max', type: 'number', placeholder: 0}",
-        "Hist [bins]: {id: 'hist_bins', type: 'string', placeholder: '-100,-50,-10,10,50,100,300'}"
+        "Hist [bins]: {id: 'hist_bins', type: 'string', placeholder: '-100,-50,-10,10,50,100,300'}",
+        "FQ file: {id: 'file_FQ', type: 'string', placeholder: 'paste-path-to-file'}"
     ],
   "cover": "",
   "inputs": null,
   "outputs": null,
   "flags": [],
   "icon": "border_outer",
-  "api_version": "0.1.5",
-  "env": "conda create -n rna-localization python=3.6",
+  "api_version": "0.1.7",
+  "env": "",
   "requirements": { "stable":["pip: -U git+https://github.com/muellerflorian/parker-rna-loc-elegans@4c6e4ed#egg=rnaloc",
                               "pip: scikit-image read-roi nested-lookup"],
                     "dev": ["pip: scikit-image read-roi nested-lookup",
-                            "pip: --editable /Volumes/PILON_HD2/fmueller/Documents/code/projects/parker-rna-loc-elegans"]},
+                            "pip: --editable D:\\Documents\\code\\GitHub\\projects\\parker-rna-loc-elegans"]},
   "dependencies": ["muellerflorian/parker-rna-loc-elegans:MembraneDistProgress"]
 }
 </config>
@@ -42,6 +43,7 @@ import base64
 import json
 import copy
 import numpy as np
+from pathlib import Path
 
 if sys.platform == "darwin":
     import matplotlib
@@ -53,29 +55,29 @@ class ImJoyPlugin():
 
     async def setup(self):
 
-        # Operation to specify root folder
-        api.register({
-            "name": "Root folder",
-            "ui": "Define root folder to load files.",
-            "run":self.config_root,
-            "type": "op"
-        })
-        self.load_root(await api.getConfig('root_folder_NE'))
-
         api.log(' ')
         api.log('== Nuclear Envelope Enrichment Plugin: initialization')
         api.log(f'Plugin is running with tag: {api.TAG}')
 
     async def run(self, ctx):
 
-        # Specify files
-        ret = await api.showFileDialog(type="file",uri_type="path",root=self.root)
+        # Get path for testing
+        if api.TAG == 'stable':
+            file_FQ = ctx.config.path_scan
+        else:
+            file_FQ = r'D:\Documents\Data\test-data\rna-loc\NucMembEnrichment\C1-N2_imb-2-670_NG-610_04_R3D__spots.txt'
 
-        if not ret:
+        # Path containing the data
+        if file_FQ == 'paste-path-to-file':
+            api.alert('Path to FQ file has to be specified.')
+            return
+        
+        file_FQ = Path(file_FQ)
+    
+        if not file_FQ.is_file():
+            api.alert('FQ file does not exist.')    
             return
 
-        file_open = ret['path']
-        api.log(f'Membrane Enrichment Plugin: analysing file{file_open}')
 
         # Open Progress window
         self.window_update = await api.createWindow({
@@ -90,8 +92,9 @@ class ImJoyPlugin():
             })
 
         # Process files
+        api.log(f'Nuclear Envelope Enrichment Plugin: analysing file{str(file_FQ)}')
         LOCtoolbox.calc_nuclear_enrichment(
-                        FQ_file=file_open,
+                        FQ_file=str(file_FQ),
                         binsHist=np.fromstring(ctx.config.hist_bins,dtype=int, sep=','),
                         channels={'nuclei':''},
                         show_plots = False,
@@ -116,25 +119,6 @@ class ImJoyPlugin():
     def update_progress(self, data):
         self.window_update.run({'data': data})
 
-    # Specify root folder
-    async def config_root(self,ctx):
-        ret = await api.showFileDialog(uri_type="path",root='~')
-
-        if ret:
-            root_folder = ret['path']
-            if os.path.isdir(root_folder):
-                self.root = root_folder
-                api.setConfig('root_folder_NE', root_folder)
-                api.log(f'Root folder set to {root_folder}')
-
-    # Load root from browser memory
-    def load_root(self,root):
-        api.log(f'Found root directory {root}')
-        if root is None or not os.path.isdir(root):
-            self.root = '~'
-        else:
-            self.root = root
-            api.log('Root folder set')
 
 api.export(ImJoyPlugin())
 </script>

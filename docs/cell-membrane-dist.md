@@ -112,8 +112,7 @@ To perform the **actual annotation**, follow these steps
 
 ## Analysis with ImJoy
 The entire functionality of the plugin can be controlled within the plugin
-window. If you expand the plugin, you will see all parameters and operations
-that can be performed
+window. If you expand the plugin, you will see all parameters.
 
 ![CMD-plugin-ui.png](img/CMD-plugin-ui.png)
 
@@ -132,14 +131,14 @@ Option           | Type | Default     | Description
 `Hist [max]`     | int  | 100 | Maximum value for bins to calculate membrane enrichment.
 `FQ file` | str  |   | **FULL** path name for FQ file to be analyzed.
 
-### Launch an analysis and monitor progress
+### Launch analysis and monitor progress
 To analyze a FQ results file, you have to
 
 1. Specify the required parameters in the plugin interface. 
     This includes to **copy & paste** the FULL name of the FQ results file that should be analyzed.
 0. Execute plugin with clicking on the Plugin name `CellMembraneDist`. 
 0. The specified file will then be processed and the final distance enrichment histogram
-displayed in the interface. More plots and results file will be stored on the disk.
+displayed in the interface. More plots and result files will be stored as detailed below.
 
 Once you start the analysis, ImJoy will show you a progress window with progressbars
 for the different steps. Once done, it will display the final result in this image.
