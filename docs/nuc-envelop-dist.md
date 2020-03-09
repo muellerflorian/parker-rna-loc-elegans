@@ -5,10 +5,10 @@ Workflow to quantify the distance distribution of RNAs to the cell membrane.
 * <a href="https://bitbucket.org/muellerflorian/fish_quant/"  target="_blank">**FISH-quant**</a>
   to detect RNA positions.
 * **ImJoy**: you can install the plugin from
-  <a href="http://imjoy.io/#/app?w=RNA-localization&plugin=muellerflorian/parker-rna-loc-elegans:NuclearEnvelopeDistance@stable&upgrade=1" target="_blank">**here.**</a>
+  <a href="http://imjoy.io/#/app?w=rna-loc-elegans&plugin=muellerflorian/parker-rna-loc-elegans:NuclearEnvelopeDistance@stable&upgrade=1" target="_blank">**here.**</a>
 
 
-ImJoy plugins will be available in the  workspace: **`RNA-localization`**
+ImJoy plugins will be available in the  workspace: **`rna-loc-elegans`**
 
 You will also need the ImJoy plugin engine, please consult the
 <a href="https://imjoy.io/docs/#/user-manual?id=python-engine/" target="_blank">**ImJoy documentation**</a>
