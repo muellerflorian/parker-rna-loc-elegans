@@ -12,6 +12,7 @@ Created on Thu Oct  4 17:43:47 2018
 
 import matplotlib.pyplot as plt
 
+import sys
 import os
 from rnaloc import annotationImporter
 from rnaloc import maskGenerator
@@ -273,7 +274,7 @@ def calc_nuclear_enrichment(FQ_file, binsHist, channels={'nuclei':''}, show_plot
                                "src": img_url})
 
 
-def process_file(FQ_file, bin_prop = (0,90,20), channels={'cells':'C3-'},data_category={'roi':''},annotation_extension ='__RoiSet.zip',img_extension='.tif',show_plots = False,Zrange=None,dZ=2,plot_callback=None,progress_callback=None):
+def process_file(FQ_file, bin_prop = (0,90,20), channels={'cells':'C3-'},data_category={'roi':''},annotation_extension ='__RoiSet.zip',img_extension='.tif',show_plots = False,Zrange=None,dZ=2,plot_callback=None,progress_callback=None,log_callback=None):
     '''
     Enrichment along the CELL MEMBRANE
     Function uses annotations generated in FIJI and creates mask based
@@ -289,8 +290,17 @@ def process_file(FQ_file, bin_prop = (0,90,20), channels={'cells':'C3-'},data_ca
         bin_prop [Tuple, 3 elements]. Specifies the bins for the histograms (min, max,delta).
 
     '''
+    
     # Get input args. Has to be FIRST call!
     input_args = locals()
+    input_args['plot_callback'] = str(input_args['plot_callback'])
+    input_args['progress_callback'] = str(input_args['progress_callback'])
+    input_args['log_callback'] = str(input_args['log_callback'])
+        
+        
+    # Show function name and input arguments
+    function_name = sys._getframe(  ).f_code.co_name
+    utils.log_message(f"Function ({function_name}) called with:\n {str(input_args)} ", callback_fun=log_callback)
 
     # Make sure input args are correct - assignments with 0 can come from ImJoy
     if Zrange[0] ==0 or Zrange[1] ==0:
@@ -304,7 +314,8 @@ def process_file(FQ_file, bin_prop = (0,90,20), channels={'cells':'C3-'},data_ca
     path_results, file_results = os.path.split(path_and_file)
     file_base, ext = os.path.splitext(file_results)
 
-    path_save = os.path.join(path_results, file_base, 'MembDist_{}'.format(time.strftime("%y%m%d-%H%M", time.localtime())))
+    path_save = os.path.join(drive, path_results, file_base, 'MembDist_{}'.format(time.strftime("%y%m%d-%H%M", time.localtime())))
+    utils.log_message(f"Save results in folder: {path_save}", callback_fun=log_callback)
     if not os.path.isdir(path_save):
         os.makedirs(path_save)
 
@@ -314,17 +325,22 @@ def process_file(FQ_file, bin_prop = (0,90,20), channels={'cells':'C3-'},data_ca
     Zrna = spots_all[:,[18]]
 
     # Open annotations
-    print(' == Open annotations')
+    utils.log_message(f'\n== Open annotations', callback_fun = log_callback)
+    
     if 'RoiSet.zip' in annotation_extension:
 
-        path_annot = os.path.join(path_results,'zstack_segmentation')
+        path_annot = os.path.join(drive, path_results,'zstack_segmentation')
+        utils.log_message(f"Opening annotation folder: {path_annot}", callback_fun=log_callback)
+        
         folderImporter = annotationImporter.FolderImporter(channels=channels,
                                                            data_category=data_category,
                                                            annot_ext=annotation_extension,
                                                            progress_callback=progress_callback)
         annotDict = folderImporter.load(path_annot)
-        print('average roi size:', annotDict['roi_size'])
-
+        str_size = str(annotDict['roi_size'])
+        utils.log_message(f'Average roi size: {str_size}', callback_fun=log_callback)
+        
+        #utils.log_message(f'{annotDict['roi_size']}', callback_fun=log_callback)
         # Generate binary masks for a selected data-set
         binaryGen = maskGenerator.BinaryMaskGenerator(erose_size=5,
                                                       obj_size_rem=500,
@@ -335,9 +351,10 @@ def process_file(FQ_file, bin_prop = (0,90,20), channels={'cells':'C3-'},data_ca
         annotatFiles = annotDict['roi']['cells']
         maskDict = binaryGen.generate(annotatFiles)
 
-
         # Use a loop and the update function to add the mask dictionary to the loaded annotation dictionary
-        print(maskDict.keys())
+        #utils.log_message(str(maskDict.keys()), callback_fun=log_callback)
+        utils.log_message(f"Keys of mask dictionary: {str(maskDict.keys())} ", callback_fun=log_callback)
+                                     
         keys_delete = []
         for k, v in annotatFiles.items():
 
@@ -348,8 +365,7 @@ def process_file(FQ_file, bin_prop = (0,90,20), channels={'cells':'C3-'},data_ca
             else:
                 keys_delete.append(k)
 
-
-        print(keys_delete)
+        utils.log_message(f"Deleted keys of mask dictionary: {str(keys_delete)} ", callback_fun=log_callback)
 
     # Bins of histogram
     binsHist = np.arange(bin_prop[0],bin_prop[1],bin_prop[2])
@@ -362,8 +378,8 @@ def process_file(FQ_file, bin_prop = (0,90,20), channels={'cells':'C3-'},data_ca
     idx = 0
 
     # Loop over all z-slices
+    utils.log_message(f'\n==  Loop over slices', callback_fun = log_callback)
     hist_slice ={}
-    print(' == Loop over slices')
     N_annot = len(annotatFiles)
 
     for idx_file, (k_annot, v_annot) in enumerate(annotatFiles.items()):
@@ -373,8 +389,8 @@ def process_file(FQ_file, bin_prop = (0,90,20), channels={'cells':'C3-'},data_ca
             perc = int(100*(idx_file+1)/(N_annot))
             progress_callback({"task":"analyze_slices","text":f"{perc}%, {k_annot}","progress":perc})
         else:
-            print(f'Slice {idx_file+1}/{N_annot}: {k_annot}')
-
+            #print(f'Slice {idx_file+1}/{N_annot}: {k_annot}')
+            utils.log_message(f'Slice {idx_file+1}/{N_annot}: {k_annot}', callback_fun = log_callback)
         # Get Z coordinate
         m = re.search('.*_Z([0-9]*)\.tif',k_annot)
         Zmask = int(m.group(1))
@@ -459,11 +475,12 @@ def process_file(FQ_file, bin_prop = (0,90,20), channels={'cells':'C3-'},data_ca
             imgurl = 'data:image/png;base64,' + result
             progress_callback({"task":"show_results","src":imgurl})
 
-    # Save entire analysis results as json
+    # Save entire analysis results as json (remove callback functions, since those cause errors)
     input_args.pop('show_plot', None)
     input_args.pop('plot_callback', None)
     input_args.pop('progress_callback', None)
-
+    input_args.pop('log_callback', None)
+    
     analysis_results = {'args': input_args,
                         'hist_all': hist_plot_all,
                         'hist_slice': hist_slice}

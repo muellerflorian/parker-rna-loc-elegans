@@ -6,25 +6,19 @@
 {
   "name": "GranuleColocalization",
   "type": "native-python",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Plugin to analyze colocalization of RNA clusters and cellular granules.",
   "tags": ["stable","dev"],
-  "ui": [],
+  "ui": ["FQ file: {id: 'file_FQ', type: 'string', placeholder: 'paste-path-to-file'}"],
   "cover": "",
   "inputs": null,
   "outputs": null,
   "flags": [],
   "icon": "border_outer",
-  "api_version": "0.1.5",
-  "env": "conda create -n rna-localization python=3.6",
-  "requirements": { "stable":[
-                                "pip: scikit-image scikit-learn matplotlib_venn seaborn pandas",
-                                "pip: -U git+https://github.com/muellerflorian/parker-rna-loc-elegans@4c6e4ed#egg=rnaloc"
-                              ],
-                    "dev": [
-                                "pip: scikit-image scikit-learn matplotlib_venn seaborn pandas",
-                                "pip: --editable /Volumes/PILON_HD2/fmueller/Documents/code/projects/parker-rna-loc-elegans"
-                            ]},
+  "api_version": "0.1.7",
+  "env": "",
+  "requirements": { "stable":["pip: -U git+https://github.com/muellerflorian/parker-rna-loc-elegans@4c6e4ed#egg=rnaloc"],
+                    "dev": ["pip: --editable D:\\Documents\\code\\GitHub\\projects\\parker-rna-loc-elegans"]},
   "dependencies": []
 }
 </config>
@@ -39,6 +33,7 @@ import base64
 import json
 import copy
 import numpy as np
+from pathlib import Path
 
 if sys.platform == "darwin":
     import matplotlib
@@ -50,22 +45,6 @@ from rnaloc import utils
 class ImJoyPlugin():
 
     async def setup(self):
-
-        # Set root folder
-        path_root = await api.getConfig('root_folder_granules')
-
-        if path_root:
-            self.root=path_root
-        else:
-            self.root='~'
-
-        # Operation to specify root folder
-        api.register({
-            "name": "Root folder",
-            "ui": "Define root folder to load files.",
-            "run":self.set_root,
-            "type": "op"
-        })
 
         # Load data
         api.register({
@@ -122,50 +101,55 @@ class ImJoyPlugin():
 
 
     async def run(self, ctx):
-        api.showStatus('Nuclear Membrane Enrichment Plugin: FINISHED!')
-
-    # Set root folder
-    async def set_root(self,ctx):
-
-        ret = await api.showFileDialog(title="Specify a root folder to initiate future file dialogs.", type="directory",root=self.root)
-        if ret:
-            root_folder = ret['path']
-            if os.path.isdir(root_folder):
-                self.root = root_folder
-                api.setConfig('root_folder_granules', root_folder)
-                api.log(f'Root folder set to {root_folder}')    
-
+        api.showStatus('Granule Colocalization Plugin: please use individual plugin functions!')
+ 
     # Load data
-    async def load_data(self,ctx):
+    def load_data(self,ctx):
 
-        # Ask for FQ results file
-        ret = await api.showFileDialog(title="Select FQ results file.",type="file",root=self.root,mode='single')
-        if ret:
-            file_load = ret['path']
-            drive, path, file_base, ext = utils.file_name_decompose(file_load)
-            path_FQ = os.path.join(drive,path)
-            file_FQ = file_base+ext
+        api.log('[GranuleColocalization][load_data]')
+
+        # Get path for testing
+        if api.TAG == 'stable':
+            file_input = ctx.config.file_load
+        else:
+            file_input = r'D:\Documents\Data\collaborations\parker-rna-loc-elegans\190729_PGranules_Detection\data\L4440_wDMP04_glh-1-21\C1\results_GMM\C1-L4440_wDMP04_glh-1-GFP_nos-2670_chs-1610_glh-1488_21_R3D_D3D_res_GMM.txt'
+
+        # Path containing the data
+        if file_input == 'paste-path-to-file':
+            api.alert('Path to FQ file has to be specified.')
+            return
+        
+        file_input = Path(file_input)
+    
+        if not file_input.is_file():
+            api.alert('FQ file does not exist.')    
+            return
             
         # Determine folders with images and to store results
+        drive, path, file_base, ext = utils.file_name_decompose(str(file_input))
+        path_FQ = os.path.join(drive, path)
+        file_FQ = file_base+ext
+
+        # Establish folder structure
         channel_identifier = (ctx.config.ch_ident_fish,ctx.config.ch_ident_granules)
         path_project = granule_coloc.get_folders(
                         path_project = {
-                                'FQ': path_FQ,
+                                'FQ': str(path_FQ),
                                 'save': '',
                                 'img_granules': '',
                                 'img_RNA': '',
                         },
                         channel_identifier=channel_identifier
         )
-        api.log('Project folders defined. See Engine for more detail.')
-        print('[GranuleColocalization][load_data]: project folders')
-        print(path_project)
+        api.log('Project folders defined: ')
+        api.log(path_project)
 
         # Read data
         spots_all, spots_all_pix, img_FISH, img_granules = granule_coloc.read_data(
                 file_FQ=file_FQ,
                 channel_identifier=channel_identifier,
-                path_project=path_project)
+                path_project=path_project,
+                log_callback=api.log)
 
         api.log('Results loaded.')
 
@@ -268,9 +252,11 @@ class ImJoyPlugin():
 
     async def analyze_coloc(self,ctx):
 
-        
+        api.showStatus('Colocalization analysis running. More details in plugin log.')
+        api.log('[GranuleColocalization][analyze_coloc]:')
+
         # DBscan: analyze last analysis
-        api.showStatus('Analyzing DB-scan results in more detail ....')
+        api.log('Analyzing DB-scan results in more detail ....')
         img_clusters_label, df_clusters = granule_coloc.dbscan_analyze(
                 clusters=self.RNA_clusters,
                 img=self.img_FISH,
@@ -279,7 +265,7 @@ class ImJoyPlugin():
                 path_save=self.path_project['save'])
 
         #Analyze co-localization
-        api.showStatus('Looking at colocalization between clusters and granules ....')
+        api.log('Looking at colocalization between clusters and granules ....')
         df_clusters, df_granules = granule_coloc.analyze_coloc(
                         clusters_label=img_clusters_label,
                         granules_label=self.img_granules_label,
@@ -289,7 +275,8 @@ class ImJoyPlugin():
                         img_clusters=self.img_FISH_MIP,
                         show_plot=False,
                         path_save=self.path_project['save'])
-
         api.showStatus(f"Done! Results are here: {self.path_project['save']}")
+        api.alert(f"Done! Results are here: {self.path_project['save']}")
+        
 api.export(ImJoyPlugin())
 </script>

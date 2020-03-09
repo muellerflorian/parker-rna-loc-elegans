@@ -3,9 +3,9 @@ Workflow to quantify the distance distribution of RNAs to the cell membrane.
 
 * <a href="https://bitbucket.org/muellerflorian/fish_quant/"  target="_blank">**FISH-quant**</a>
 to detect RNA positions.
-* **ImJoy**: you can install the plugin from <a href="http://imjoy.io/#/app?w=RNA-localization&plugin=muellerflorian/parker-rna-loc-elegans:CellMembraneDistance@stable&upgrade=1" target="_blank">**here.**</a>
+* **ImJoy**: you can install the plugin from <a href="http://imjoy.io/#/app?w=rna-loc-elegans&plugin=muellerflorian/parker-rna-loc-elegans:CellMembraneDistance@stable&upgrade=1" target="_blank">**here.**</a>
 
-ImJoy plugins will be available in the workspace: **`RNA-localization`**
+ImJoy plugins will be available in the workspace: **`rna-loc-elegans`**
 
 You will also need the ImJoy plugin engine, please consult the
 <a href="https://imjoy.io/docs/#/user-manual?id=python-engine/" target="_blank">**ImJoy documentation**</a>
@@ -28,8 +28,7 @@ To normalised for this effect, we calculate all possible distance from the membr
 for a given cell with a **distance transformation**. This transformation results in
 an image, where the pixel values are not fluorescence intensities but distance values. An example is shown below.
 The blue lines are the cell outlines. The green dots are the detected RNAs. The image is the distance transform. The intensity values are distance to the membrane in pixels.
-
-<img src="https://raw.githubusercontent.com/muellerflorian/rna-loc/master/docs/img/dist_transform.png" width="400px"></img>
+![dist_transform.png](img/dist_transform.png)
 
 We measure for all RNAs the distance to the membrane and calculate a
 histogram. We report the
@@ -38,8 +37,7 @@ histogram. We report the
 -   Normalised RNA histogram (values add to 1).
 -   Normalised distance histogram of all pixels in the cell.
 -   Normalised RNA histogram with the pixel histogram.
-
-<img src="https://raw.githubusercontent.com/muellerflorian/rna-loc/master/docs/img/CMD-summary-plot.png" width="600px"></img>
+![CMD-summary-plot.png](img/CMD-summary-plot.png)
 
 ## Data organisation
 We enforce a strict data organisation for this analysis.
@@ -114,21 +112,11 @@ To perform the **actual annotation**, follow these steps
 
 ## Analysis with ImJoy
 The entire functionality of the plugin can be controlled within the plugin
-window. If you expand the plugin, you will see all parameters and operations
-that can be performed
+window. If you expand the plugin, you will see all parameters.
 
-<img src="https://raw.githubusercontent.com/muellerflorian/rna-loc/master/docs/img/CMD-plugin-ui.png" width="350px"></img>
+![CMD-plugin-ui.png](img/CMD-plugin-ui.png)
 
-### Defining a root folder
-By default, ImJoy will open files in your home folder. If your data is at a different
-location, you can set a root folder. Each time you specify a file, ImJoy will open
-the file-dialog in this root folder. Press the button `Root folder` and specify the
-desired folder.
-
-The specified root folder is also saved, and will be resused the next time you launch
-ImJoy.
-
-### Analysis options
+### Analysis parameters
 All options are explained in the Table below. If you change these parameters, the
 changed values will be saved in the browser and reused the next time you launch
 ImJoy.
@@ -141,48 +129,44 @@ Option           | Type | Default     | Description
 `Channel`        | str  | 'C3-'   | Unique identifier for channel containing annotations.
 `Hist [bin]`    | int  |  20 | Bin size for histogram to measure membrane enrichment (in nm).
 `Hist [max]`     | int  | 100 | Maximum value for bins to calculate membrane enrichment.
-`Image-size [X]` | int  | 960  | Size of image in X.
-`Image-size [Y]` | int  | 960  | Size of image in Y.
+`FQ file` | str  |   | **FULL** path name for FQ file to be analyzed.
 
-
-### Launch an analysis and monitor progress
+### Launch analysis and monitor progress
 To analyze a FQ results file, you have to
 
-1. Specify the required parameters in the plugin interface.
-0. Execute plugin with clicking on the Plugin name `Membrane Enrichment`. This will
-display a file-dialog where you can select the FQ results file that you want to
-analyze (ends with `__spots.txt`) that should be analyzed.
-0. This file will then be processed and the final distance enrichment histogram
-displayed in the interface. More plots and results file will be stored on the disk.
+1. Specify the required parameters in the plugin interface. 
+    This includes to **copy & paste** the FULL name of the FQ results file that should be analyzed.
+0. Execute plugin with clicking on the Plugin name `CellMembraneDist`. 
+0. The specified file will then be processed and the final distance enrichment histogram
+displayed in the interface. More plots and result files will be stored as detailed below.
 
 Once you start the analysis, ImJoy will show you a progress window with progressbars
 for the different steps. Once done, it will display the final result in this image.
 
-<img src="https://raw.githubusercontent.com/muellerflorian/rna-loc/master/docs/img/CMD-progress.png" width="450px"></img>
+![CMD-progress.png](img/CMD-progress.png)
 
-
-### Stored results
+### Saved results
 The analysis script will create a new folder with the same name as the selected results file. To allow to redo the analysis with different settings, the plugin  will create for each performed analysis a separate sub folder `MembDist_yymmdd-hhmm`, where is a time-stamp in the format `yymmdd-hhmm`. This folder contains several files:
 
--   **\_DistanceEnrichmentSummary.png**: image containing the pooled analysis of all slices
-   <img src="https://raw.githubusercontent.com/muellerflorian/rna-loc/master/docs/img/CMD-summary-plot" width="600px"></img>
+-   **\_DistanceEnrichmentSummary.png**: image containing the pooled analysis of all slices.
 
 -   **\_HistogramPooled.csv**: csv file containing the histograms of the RNA-membrane distance pooled from all z-slices. This can be opened with any Spreadsheet application (Excel, LibreOffice, Numbers, ...) and results from different images
 can then be pooled together. It contains the following data
-
+    ![CMD-csv-results.png](img/CMD-csv-results.png)
     - `center`: center of the bins
     - `histRNA_all`: raw RNA distance histogram.
     - `histRNA_all_norm`: normalized RNA histogram (values add to 1).
     - `histpix_all_norm`: normalized distance histogram of all pixels in the cell.
     - `hist_RNA_all_normPix`: normalized RNA histogram with the pixel histogram.
-       <img src="https://raw.githubusercontent.com/muellerflorian/rna-loc/master/docs/img/CMD-csv-results" width="450px"></img>
--   **Z-i.png**: results of slice 'i'
-   <img src="https://raw.githubusercontent.com/muellerflorian/rna-loc/master/docs/img/CMD-results-slice.png" width="600px"></img>
+      
+
+-   **Z-i.png**: results of slice 'i':
+    ![CMD-results-slice.png](img/CMD-results-slice.png)
 
 -   **DataAll.json**: json file containing all analysis results including settings.
 
-For the example above, we would obtain the following folder structure
-(shows only the relevant part for `C1-img1`)
+For the example data above, we would obtain the following folder structure
+(shows only the relevant part for `C1-img1`):
 ```
 .
 ├─ img1/

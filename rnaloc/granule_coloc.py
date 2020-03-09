@@ -13,8 +13,9 @@ from matplotlib import colors
 from matplotlib_venn import venn2
 import seaborn as sns
 
+
 # Own libraries
-from rnaloc.utils import create_folder, create_mask_sphere, cmap_create_random
+from rnaloc.utils import create_folder, create_mask_sphere, cmap_create_random, log_message
 from rnaloc.FQtoolbox import read_FQ_matlab, get_rna
 
 
@@ -371,8 +372,6 @@ def detect_blobs_3d(img, blobs_threshold, blobs_method,show_plot=False, path_sav
     n_z, n_y, n_x = img.shape
     img_granules_label = np.zeros((n_z, n_y, n_x)).astype('uint16')
 
-    #print('Image size)')
-    #print(img_granules_label.shape)
     for idx, blob in enumerate(blobs_3D):
         z, y, x, r = blob[[0, 1, 2, 3]].astype('int')
         print(f'R,Z,Y,X: {r}, {z},{y},{x}')
@@ -545,7 +544,7 @@ def detect_blobs_2d(img, blobs_threshold, blobs_method,show_plot=False, name_sav
         plt.close()
 
 
-def get_folders(path_project, channel_identifier):
+def get_folders(path_project, channel_identifier, log_callback=None):
     """
     Determine folders for projects.
     * path_FQ = '/Volumes/PILON_HD2/fmueller/Documents/Data/smFISH_collaborations/Dylan/190729_PGranules_Detection/data/L4440_wDMP04_glh-1-21/C2/results_GMM'
@@ -594,10 +593,12 @@ def get_folders(path_project, channel_identifier):
         'img_RNA': path_img_RNA,
     }
 
+    log_message(f"Project folders:\n {str(path_project)} ", callback_fun=log_callback)
+
     return path_project
 
 
-def read_data(file_FQ, channel_identifier, path_project):
+def read_data(file_FQ, channel_identifier, path_project, log_callback=None):
     """
     Read all data.
 
@@ -612,7 +613,12 @@ def read_data(file_FQ, channel_identifier, path_project):
 
     # Read FQ results
     file_load = os.path.join(path_project['FQ'], file_FQ)
-    print(f'Loading file: {file_load}')
+    log_message(f'\nLoading FQ results file:\n{file_load}', callback_fun=log_callback)
+    
+    if not os.path.isfile(file_load):
+        log_message(f'FQ does NOT exist!', callback_fun=log_callback)
+        return None, None, None, None
+    
     fq_dict = read_FQ_matlab(file_load)
 
     # Position in pixel
@@ -624,20 +630,30 @@ def read_data(file_FQ, channel_identifier, path_project):
 
     # Load FISH image
     file_img_FISH = fq_dict['file_names']['smFISH']
-    try:
-        img_FISH = io.imread(os.path.join(path_project['img_RNA'], file_img_FISH))
-    except IOError as e:
-        print(f'Unable to open image of granules {file_img_FISH}')
-
+    file_img_FISH_full = os.path.join(path_project['img_RNA'], file_img_FISH)
+    log_message(f'\nLoading FISH image:\n{file_img_FISH_full}', callback_fun=log_callback)
+    
+    if not os.path.isfile(file_img_FISH_full):
+        log_message(f'Image does not exist!', callback_fun=log_callback)
+        return None, None, None, None
+  
+    img_FISH = io.imread(file_img_FISH_full)
+        
     # Granule image
     file_img_granules = file_img_FISH.replace(channel_identifier[0], channel_identifier[1])
+    file_img_granules_full = os.path.join(path_project['img_granules'], file_img_granules)
+    
+    log_message(f'\nLoading Granule image:\n{file_img_granules_full}', callback_fun=log_callback)
+    
     if file_img_granules == file_img_FISH:
-        raise UserWarning(f'Filename for granules identical with filename for FISH: {file_img_FISH}', file_img_FISH)
-
-    try:
-        img_granules = io.imread(os.path.join(path_project['img_granules'], file_img_granules))
-    except IOError as e:
-        print(f'Unable to open image of granules {file_img_granules}')
+        log_message(f'Filename for granules identical with filename for FISH: {file_img_FISH}', callback_fun=log_callback)
+        return None, None, None, None
+    
+    if not os.path.isfile(file_img_granules_full):
+        log_message(f'Image does not exist!', callback_fun=log_callback)
+        return None, None, None, None
+    
+    img_granules = io.imread(os.path.join(path_project['img_granules'], file_img_granules))
 
 
     return spots_all, spots_all_pix, img_FISH, img_granules

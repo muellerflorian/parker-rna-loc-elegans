@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 REQUIRES = [
-          'numpy == 1.15.0',
+          'numpy',
           'scikit-image',
           'scikit-learn',
           'nested_lookup',
