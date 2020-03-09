@@ -38,7 +38,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../img/icons8-earth-worm-80.png">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.6.0">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.6.3">
     
     
       
@@ -46,7 +46,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/application.1b62728e.css">
+      <link rel="stylesheet" href="../assets/stylesheets/application.adb8469c.css">
       
         <link rel="stylesheet" href="../assets/stylesheets/application-palette.a8b3c06d.css">
       
@@ -57,7 +57,7 @@
       
     
     
-      <script src="../assets/javascripts/modernizr.268332fc.js"></script>
+      <script src="../assets/javascripts/modernizr.86422ebf.js"></script>
     
     
       
@@ -91,7 +91,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#rna-distance-distribution-to-nuclear-envelope" tabindex="1" class="md-skip">
+      <a href="#rna-distance-distribution-to-nuclear-envelope" tabindex="0" class="md-skip">
         Skip to content
       </a>
     
@@ -100,9 +100,9 @@
   <nav class="md-header-nav md-grid">
     <div class="md-flex">
       <div class="md-flex__cell md-flex__cell--shrink">
-        <a href="https://muellerflorian.github.io/parker-rna-loc-elegans/" title="RNA localization in c. elegans" class="md-header-nav__button md-logo">
+        <a href="https://muellerflorian.github.io/parker-rna-loc-elegans/" title="RNA localization in c. elegans" aria-label="RNA localization in c. elegans" class="md-header-nav__button md-logo">
           
-            <img src="../img/icons8-earth-worm-80.png" width="24" height="24">
+            <img alt="logo" src="../img/icons8-earth-worm-80.png" width="24" height="24">
           
         </a>
       </div>
@@ -131,7 +131,7 @@
   <label class="md-search__overlay" for="__search"></label>
   <div class="md-search__inner" role="search">
     <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <input type="text" class="md-search__input" aria-label="search" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
       <label class="md-icon md-search__icon" for="__search"></label>
       <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
         &#xE5CD;
@@ -257,7 +257,7 @@
   <label class="md-nav__title md-nav__title--site" for="__drawer">
     <a href="https://muellerflorian.github.io/parker-rna-loc-elegans/" title="RNA localization in c. elegans" class="md-nav__button md-logo">
       
-        <img src="../img/icons8-earth-worm-80.png" width="48" height="48">
+        <img alt="logo" src="../img/icons8-earth-worm-80.png" width="48" height="48">
       
     </a>
     RNA localization in c. elegans
@@ -465,31 +465,18 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#defining-a-root-folder" class="md-nav__link">
-    Defining a root folder
+  <a href="#analysis-parameters" class="md-nav__link">
+    Analysis parameters
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#analysis-options" class="md-nav__link">
-    Analysis options
+  <a href="#launch-analysis-and-monitor-progress" class="md-nav__link">
+    Launch analysis and monitor progress
   </a>
   
 </li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#analyze-a-file-and-monitor-progress" class="md-nav__link">
-    Analyze a file and monitor progress
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#stored-results" class="md-nav__link">
@@ -630,31 +617,18 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#defining-a-root-folder" class="md-nav__link">
-    Defining a root folder
+  <a href="#analysis-parameters" class="md-nav__link">
+    Analysis parameters
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#analysis-options" class="md-nav__link">
-    Analysis options
+  <a href="#launch-analysis-and-monitor-progress" class="md-nav__link">
+    Launch analysis and monitor progress
   </a>
   
 </li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#analyze-a-file-and-monitor-progress" class="md-nav__link">
-    Analyze a file and monitor progress
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#stored-results" class="md-nav__link">
@@ -691,9 +665,9 @@
 <li><a href="https://bitbucket.org/muellerflorian/fish_quant/"  target="_blank"><strong>FISH-quant</strong></a>
   to detect RNA positions.</li>
 <li><strong>ImJoy</strong>: you can install the plugin from
-  <a href="http://imjoy.io/#/app?w=RNA-localization&plugin=muellerflorian/parker-rna-loc-elegans:NuclearEnvelopeDistance@stable&upgrade=1" target="_blank"><strong>here.</strong></a></li>
+  <a href="http://imjoy.io/#/app?w=rna-loc-elegans&plugin=muellerflorian/parker-rna-loc-elegans:NuclearEnvelopeDistance@stable&upgrade=1" target="_blank"><strong>here.</strong></a></li>
 </ul>
-<p>ImJoy plugins will be available in the  workspace: <strong><code>RNA-localization</code></strong></p>
+<p>ImJoy plugins will be available in the  workspace: <strong><code>rna-loc-elegans</code></strong></p>
 <p>You will also need the ImJoy plugin engine, please consult the
 <a href="https://imjoy.io/docs/#/user-manual?id=python-engine/" target="_blank"><strong>ImJoy documentation</strong></a></p>
 <h2 id="analysis-overview">Analysis overview<a class="headerlink" href="#analysis-overview" title="Permanent link">&para;</a></h2>
@@ -779,20 +753,11 @@ results are stored as described below for the manual annotation.</p>
 <p><strong>IMPORTANT</strong>: these annotations could be used for training of a neural network. If this is intended, then ALL structures, e.g. nuclei, have to be annotated. Unwanted elements, e.g. nuclei touching the cell border, can be removed in a post-processing step.</p>
 <h2 id="analysis-with-imjoy">Analysis with ImJoy<a class="headerlink" href="#analysis-with-imjoy" title="Permanent link">&para;</a></h2>
 <p>The entire functionality of the plugin can be controlled within the plugin
-window. If you expand the plugin, you will see all parameters and operations
-that can be performed</p>
-<p><img src="https://raw.githubusercontent.com/muellerflorian/rna-loc/master/docs/img/NED-plugin-ui.png" width="350px"></img></p>
-<h3 id="defining-a-root-folder">Defining a root folder<a class="headerlink" href="#defining-a-root-folder" title="Permanent link">&para;</a></h3>
-<p>By default, ImJoy will open files in your home folder. If your data is at a different
-location, you can set a root folder. Each time you specify a file, ImJoy will open
-the file-dialog in this root folder. Press the button <code>Root folder</code> and specify the
-desired folder.</p>
-<p>The specified root folder is also saved, and will be reused the next time you launch
-ImJoy.</p>
-<h3 id="analysis-options">Analysis options<a class="headerlink" href="#analysis-options" title="Permanent link">&para;</a></h3>
-<p>All options are explained in the Table below. If you change these parameters, the
-changed values will be saved in the browser and reused the next time you launch
-ImJoy.</p>
+window. If you expand the plugin, you will see all parameters of the plugins. </p>
+<p><img alt="NED-plugin-ui.png" src="../img/NED-plugin-ui.png" /></p>
+<h3 id="analysis-parameters">Analysis parameters<a class="headerlink" href="#analysis-parameters" title="Permanent link">&para;</a></h3>
+<p>If you change these parameters, the changed values will be saved in the browser 
+and reused the next time you launch ImJoy.</p>
 <table>
 <thead>
 <tr>
@@ -827,17 +792,23 @@ ImJoy.</p>
 <td>...</td>
 <td>Defines the edges of the bins that will be used. Values are separated by a comma.</td>
 </tr>
+<tr>
+<td><code>FQ file</code></td>
+<td>str</td>
+<td></td>
+<td><strong>FULL</strong> path name for FQ file to be analyzed.</td>
+</tr>
 </tbody>
 </table>
-<h2 id="analyze-a-file-and-monitor-progress">Analyze a file and monitor progress<a class="headerlink" href="#analyze-a-file-and-monitor-progress" title="Permanent link">&para;</a></h2>
+<h3 id="launch-analysis-and-monitor-progress">Launch analysis and monitor progress<a class="headerlink" href="#launch-analysis-and-monitor-progress" title="Permanent link">&para;</a></h3>
 <p>To analyse a FQ results file, you have to</p>
 <ol>
-<li>Specify the required parameters in the plugin interface.</li>
-<li>Execute plugin with clicking on the Plugin name <code>NuclearEnvelopeEnrichment</code>. This will
-    display a file-dialog where you can select the FQ results file that you want to
-    analyse (ends with <code>__spots.txt</code>) that should be analysed. This can either be a 'regular' FQ detection, or an analysis with a GMM.</li>
+<li>Specify the required parameters in the plugin interface.
+    This includes to <strong>copy &amp; paste</strong> the FULL name of the FQ results file that should be analyzed.
+    This can either be a 'regular' FQ detection, or an analysis with a GMM.</li>
+<li>Execute plugin with clicking on the Plugin name <code>NuclearEnvelopeEnrichment</code>.</li>
 <li>This file will then be processed and the final distance enrichment histogram
-    displayed in the interface. More plots and results file will be stored on the disk.</li>
+    displayed in the interface. More plots and result files will be stored as detailed below.</li>
 </ol>
 <p>Once you start the analysis, ImJoy will show you a progress window with progress-bars
 for the different steps. Once done, it will display the final result in this image.</p>
@@ -845,8 +816,7 @@ for the different steps. Once done, it will display the final result in this ima
 <p>The analysis script will create a new folder with the same name as the selected results file. To allow to redo the analysis with different settings, the plugin  will create for each performed analysis a separate sub folder <code>NucEnvelopDist_yymmdd-hhmm</code>, where is a time-stamp in the format <code>yymmdd-hhmm</code>. This folder contains several files:</p>
 <ul>
 <li>
-<p><strong>_DistanceEnrichmentSummary.png</strong>: image containing the pooled analysis of all slices
-    <img src="https://raw.githubusercontent.com/muellerflorian/rna-loc/master/docs/img/NED-dist_histogram" width="400px"></img></p>
+<p><strong>_DistanceEnrichmentSummary.png</strong>: image containing the pooled analysis of all slices.</p>
 </li>
 <li>
 <p><strong>_HistogramDistances.csv</strong>: csv file containing the histograms of the RNA-membrane distance pooled from all z-slices. This can be opened with any Spreadsheet application (Excel, LibreOffice, Numbers, ...) and results from different images can then be pooled together. It contains the following data</p>
@@ -924,20 +894,20 @@ for the different steps. Once done, it will display the final result in this ima
           </div>
         
         powered by
-        <a href="https://www.mkdocs.org">MkDocs</a>
+        <a href="https://www.mkdocs.org" target="_blank" rel="noopener">MkDocs</a>
         and
-        <a href="https://squidfunk.github.io/mkdocs-material/">
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
           Material for MkDocs</a>
       </div>
       
   <div class="md-footer-social">
     <link rel="stylesheet" href="../assets/fonts/font-awesome.css">
     
-      <a href="https://github.com/muellerflorian" class="md-footer-social__link fa fa-github-alt"></a>
+      <a href="https://github.com/muellerflorian" target="_blank" rel="noopener" title="github-alt" class="md-footer-social__link fa fa-github-alt"></a>
     
-      <a href="https://www.linkedin.com/in/muellerflorian/" class="md-footer-social__link fa fa-linkedin"></a>
+      <a href="https://www.linkedin.com/in/muellerflorian/" target="_blank" rel="noopener" title="linkedin" class="md-footer-social__link fa fa-linkedin"></a>
     
-      <a href="https://scholar.google.fr/citations?user=WrEj9t4AAAAJ" class="md-footer-social__link fa fa-google"></a>
+      <a href="https://scholar.google.fr/citations?user=WrEj9t4AAAAJ" target="_blank" rel="noopener" title="google" class="md-footer-social__link fa fa-google"></a>
     
   </div>
 
@@ -947,7 +917,7 @@ for the different steps. Once done, it will display the final result in this ima
       
     </div>
     
-      <script src="../assets/javascripts/application.808e90bb.js"></script>
+      <script src="../assets/javascripts/application.c33a9706.js"></script>
       
       <script>app.initialize({version:"1.0.4",url:{base:".."}})</script>
       
