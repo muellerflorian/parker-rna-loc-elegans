@@ -13,7 +13,7 @@
         <meta name="description" content="An ImJoy plugin to quantify RNA localization patterns">
       
       
-        <link rel="canonical" href="https://muellerflorian.github.io/parker-rna-loc-elegans/tools/">
+        <link rel="canonical" href="https://muellerflorian.github.io/parker-rna-loc-elegans/tools-imjoy/">
       
       
         <meta name="author" content="Florian MUELLER">
@@ -42,7 +42,7 @@
     
     
       
-        <title>Analysis tools - RNA localization in c. elegans</title>
+        <title>ImJoy - RNA localization in c. elegans</title>
       
     
     
@@ -91,7 +91,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#tools" tabindex="0" class="md-skip">
+      <a href="#imjoy" tabindex="0" class="md-skip">
         Skip to content
       </a>
     
@@ -117,7 +117,7 @@
             </span>
             <span class="md-header-nav__topic">
               
-                Analysis tools
+                ImJoy
               
             </span>
           
@@ -198,6 +198,8 @@
     
   </li>
 
+      
+        
       
         
       
@@ -299,6 +301,18 @@
       
       
 
+
+  <li class="md-nav__item">
+    <a href="../tools-fishquant/" title="FISH-quant" class="md-nav__link">
+      FISH-quant
+    </a>
+  </li>
+
+    
+      
+      
+      
+
   
 
 
@@ -310,11 +324,11 @@
     
     
       <label class="md-nav__link md-nav__link--active" for="__toc">
-        Analysis tools
+        ImJoy
       </label>
     
-    <a href="./" title="Analysis tools" class="md-nav__link md-nav__link--active">
-      Analysis tools
+    <a href="./" title="ImJoy" class="md-nav__link md-nav__link--active">
+      ImJoy
     </a>
     
       
@@ -328,22 +342,8 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#fish-quant-rna-detection" class="md-nav__link">
-    FISH-quant: RNA detection
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#python-with-miniconda" class="md-nav__link">
-    Python with Miniconda
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#imjoy" class="md-nav__link">
-    ImJoy
+  <a href="#basic-usage" class="md-nav__link">
+    Basic usage
   </a>
   
     <nav class="md-nav">
@@ -357,8 +357,76 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#opening-a-workspace" class="md-nav__link">
+    Opening a workspace
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#running-python-plugins" class="md-nav__link">
     Running Python plugins
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#connect-to-jupyter-notebook" class="md-nav__link">
+    Connect to Jupyter notebook
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#managing-plugin-engines" class="md-nav__link">
+    Managing plugin engines
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#frequent-usage" class="md-nav__link">
+    Frequent usage
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installing-python-for-imjoy" class="md-nav__link">
+    Installing Python for ImJoy
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#trouble-shooting" class="md-nav__link">
+    Trouble-shooting
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#plugin-running-on-wrong-engine" class="md-nav__link">
+    Plugin running on wrong engine
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#remove-conda-environment" class="md-nav__link">
+    Remove conda environment
   </a>
   
 </li>
@@ -386,13 +454,13 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
     
-    <label class="md-nav__link" for="nav-3">
+    <label class="md-nav__link" for="nav-4">
       General workflows
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-3">
+      <label class="md-nav__title" for="nav-4">
         General workflows
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -434,13 +502,13 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
     
-    <label class="md-nav__link" for="nav-4">
+    <label class="md-nav__link" for="nav-5">
       RNA localization
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-4">
+      <label class="md-nav__title" for="nav-5">
         RNA localization
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -494,13 +562,13 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6">
     
-    <label class="md-nav__link" for="nav-5">
+    <label class="md-nav__link" for="nav-6">
       About
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-5">
+      <label class="md-nav__title" for="nav-6">
         About
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -544,22 +612,8 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#fish-quant-rna-detection" class="md-nav__link">
-    FISH-quant: RNA detection
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#python-with-miniconda" class="md-nav__link">
-    Python with Miniconda
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#imjoy" class="md-nav__link">
-    ImJoy
+  <a href="#basic-usage" class="md-nav__link">
+    Basic usage
   </a>
   
     <nav class="md-nav">
@@ -573,8 +627,76 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#opening-a-workspace" class="md-nav__link">
+    Opening a workspace
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#running-python-plugins" class="md-nav__link">
     Running Python plugins
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#connect-to-jupyter-notebook" class="md-nav__link">
+    Connect to Jupyter notebook
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#managing-plugin-engines" class="md-nav__link">
+    Managing plugin engines
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#frequent-usage" class="md-nav__link">
+    Frequent usage
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installing-python-for-imjoy" class="md-nav__link">
+    Installing Python for ImJoy
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#trouble-shooting" class="md-nav__link">
+    Trouble-shooting
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#plugin-running-on-wrong-engine" class="md-nav__link">
+    Plugin running on wrong engine
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#remove-conda-environment" class="md-nav__link">
+    Remove conda environment
   </a>
   
 </li>
@@ -601,30 +723,8 @@
               
                 
                 
-                <h1 id="tools">Tools<a class="headerlink" href="#tools" title="Permanent link">&para;</a></h1>
-<p>Here we describe the tools that are used in the different analysis workflows, and when necessary how to install them. </p>
-<ul>
-<li><strong>RNA detection</strong> is performed with the Matlab package FISH-quant (more details <a href="#fish-quant-rna-detection">below</a>).</li>
-<li>Most postprocessing steps are performed with <strong>Python plugins running ImJoy</strong>. To use them, you have to install <strong>Python with Jupyter</strong> and the necessary <strong>ImJoy plugins</strong>. For more details see the respective sections below.</li>
-<li>Some annotation tasks are performed with <strong>Fiji</strong>, which you can download from <a href="https://fiji.sc/"><strong>here</strong></a>.</li>
-</ul>
-<h2 id="fish-quant-rna-detection">FISH-quant: RNA detection<a class="headerlink" href="#fish-quant-rna-detection" title="Permanent link">&para;</a></h2>
-<p><a href="https://bitbucket.org/muellerflorian/fish_quant/"><strong>FISH-quant</strong></a> is a Matlab toolbox to
-localize RNAs in 3D from smFISH images. FISH-quant is often used to perform the RNA
-detection. Eventually, we would like to implement the main FISH-quant features in ImJoy.</p>
-<p><img src="https://raw.githubusercontent.com/muellerflorian/rna-loc/master/docs/img/fq-screenshot.png" width="600px"></img></p>
-<h2 id="python-with-miniconda">Python with Miniconda<a class="headerlink" href="#python-with-miniconda" title="Permanent link">&para;</a></h2>
-<p>We recommend installing an <a href="https://docs.conda.io/en/latest/miniconda.html">Miniconda distribution of Python</a>: choose Python 3.7 and your operating system. You  can then use the annoconda prompt to excecute the different commands listed below. </p>
-<p>We recommend creating a <strong>dedicated environment</strong> to run code in this analysis package. 
-This guarantess that only necessary code is installed. Tos create an environment called <code>rna-loc-elegans</code>, open an anaconda prompt and type. Note that you will also install Jupyter, which will allow to run Python plugins in ImJoy.
-Confirm with <code>y</code> when asked if you want to proceed (<code>Proceed ([y]/n)?</code>): </p>
-<div class="highlight"><pre><span></span><code>conda create --name rna-loc-elegans python=3.7 jupyter
-</code></pre></div>
-
-<h2 id="imjoy">ImJoy<a class="headerlink" href="#imjoy" title="Permanent link">&para;</a></h2>
-<p><a href="https://imjoy.io/docs/#/">ImJoy</a> is image processing platform with an easy
- to use interface. ImJoy can be used directly in your browser, without any prior installation. </p>
-<p>While ImJoy is an app running in the browser, <strong>NO</strong> user data will be transferred over the internet. </p>
+                <h1 id="imjoy">ImJoy<a class="headerlink" href="#imjoy" title="Permanent link">&para;</a></h1>
+<p><a href="https://imjoy.io/docs/#/">ImJoy</a> is image processing platform with an easy to use interface. While ImJoy is a browser app, <strong>NO</strong> user data will be transferred over the internet. </p>
 <p>Some important <strong>features</strong>:</p>
 <ol>
 <li>Specific functionality is provided by <strong>plugins</strong>, which can be installed with simple links. Available 
@@ -637,6 +737,7 @@ Confirm with <code>y</code> when asked if you want to proceed (<code>Proceed ([y
 <p><img alt="imjoy-interface" src="../img/imjoy-interface.png" /></p>
 </li>
 </ol>
+<h2 id="basic-usage">Basic usage<a class="headerlink" href="#basic-usage" title="Permanent link">&para;</a></h2>
 <h3 id="installing-plugins">Installing plugins<a class="headerlink" href="#installing-plugins" title="Permanent link">&para;</a></h3>
 <p>We provide links to install ImJoy plugins for the different workflows. 
 These installation links also specify in which <strong>ImJoy workspaces</strong> the plugin will be installed  </p>
@@ -644,36 +745,86 @@ These installation links also specify in which <strong>ImJoy workspaces</strong>
 dialog asking if you want to install the specified plugin. To confirm, press 
 the <code>install</code> button.</p>
 <p><img alt="imjoy-plugin-installation" src="../img/imjoy-plugin-installation.png" /></p>
-<p>Once installed, ImJoy remembers the workspaces and plugins and you simply have to
-open the ImJoy app and select the workspace you want to use (which will be <code>rna-loc-elegans</code>) 
-<a href="https://imjoy.io/#/app">https://imjoy.io/#/app</a></p>
+<h3 id="opening-a-workspace">Opening a workspace<a class="headerlink" href="#opening-a-workspace" title="Permanent link">&para;</a></h3>
+<p>Once a plugin is installed, ImJoy remembers the workspaces and plugins it contains. 
+If you want to redo an analysis, you simply have to open the <a href="https://imjoy.io/#/app">ImJoy app</a> 
+and select the appropriate (<code>rna-loc-elegans</code> for this package): </p>
 <p><img alt="imjoy-workspacer.gif" src="../img/imjoy-workspace.gif" /></p>
-<h3 id="running-python-plugins">Running Python plugins<a class="headerlink" href="#running-python-plugins" title="Permanent link">&para;</a></h3>
-<p>Most of the provided plugins use Python for the processing. In order for ImJoy these plugins, you have 
-to connect ImJoy to a <strong>Jupyter notebook</strong>, which can be installed via Miniconda (see section about Python Installation <a href="#python-with-miniconda">above</a>). </p>
-<p>Once installed, you start an Jupyter Notebook via the anaconda terminal, to which ImJoy can connect. 
-Please note that this notebooks runs on your local machine, so no data-transfer over the internet is taking place. </p>
+<h2 id="running-python-plugins">Running Python plugins<a class="headerlink" href="#running-python-plugins" title="Permanent link">&para;</a></h2>
+<p>Most of the provided plugins use Python for data processing. To use these plugins, 
+you have to connect ImJoy to Plugin engin. For this repository, we use <strong>Jupyter notebooks</strong>, 
+which can be installed via Miniconda (see section about Python Installation <a href="#python-for-imjoy">below</a>). </p>
+<h3 id="connect-to-jupyter-notebook">Connect to Jupyter notebook<a class="headerlink" href="#connect-to-jupyter-notebook" title="Permanent link">&para;</a></h3>
+<p>Once installed Jupyter is installed, you can start a Jupyter Notebook via the anaconda terminal, 
+to which ImJoy can connect. Please note that this notebook runs on your local machine, so no data-transfer over the internet is taking place. </p>
 <p><img alt="terminal-launch-jupyter.png" src="../img/terminal-launch-jupyter.png" /></p>
 <ol>
-<li>Start an <strong>anaconda terminal</strong>. </li>
-<li><strong>Activate the environment</strong>:
-    <div class="highlight"><pre><span></span><code>conda activate rna-loc-elegans
-</code></pre></div></li>
-<li><strong>Start Jupyter notebook</strong>. Type
-    <div class="highlight"><pre><span></span><code>jupyter notebook --NotebookApp.allow_origin=&#39;*&#39; --no-browser
-</code></pre></div>
-    Copy the provided URL including the token, e.g. in the screenshot below: <code>http://127.0.0.1:8888/?token=8b4885e452db1af7cd7b3cfa6c62036cbae46995e473c25e</code></li>
 <li>
-<p>To <strong>connect ImJoy to the notebook</strong>, </p>
+<p>Launch a <strong>Jupyter notebook</strong>:</p>
 <ol>
-<li>go to the ImJoy app and press on the rocket symbol in the upper right corner, 
+<li>Start an <strong>anaconda terminal</strong>. </li>
+<li><strong>Activate the environment</strong>: <code>conda activate rna-loc-elegans</code></li>
+<li>
+<p><strong>Start Jupyter notebook for ImJoy</strong>: <code>imjoy --jupyter</code></p>
+<p>Copy the provided URL including the token, e.g. <code>http://127.0.0.1:8888/?token=8b4885e452db1af7cd7b3cfa6c62036cbae46995e473c25e</code></p>
+</li>
+</ol>
+</li>
+<li>
+<p><strong>Connect ImJoy to the notebook</strong>: </p>
+<p>Please note that each time you start a new Jupyter notebook, you have to go through these steps. To speed this up, you can define your own token as described <a href="#frequent-usage">below</a>.</p>
+<ol>
+<li>In the ImJoy app, press on the rocket symbol in the upper right corner, 
    select <code>Add Jupyter-Engine</code> and paste the URL from the step above. </li>
 <li>Plugins will then be automatically <strong>connected to this Jupyter Kernel</strong>. You can verify this, 
    by clicking on the puzzle symbol next to the plugin name. Depending on the plugin, installation
    might take a while, during this period the plugin name will be in red.  </li>
 </ol>
-<p><img alt="imjoy-connect-jupyter.gif" src="../img/imjoy-connect-jupyter.gif" /></p>
+<p><img alt="imjoy-connect-jupyter.gif" src="../img/imjoy-connect-jupyter.gif" width:250px_="width:250px&quot;" /></p>
 </li>
+</ol>
+<h3 id="managing-plugin-engines">Managing plugin engines<a class="headerlink" href="#managing-plugin-engines" title="Permanent link">&para;</a></h3>
+<p>ImJoy remembers the plugin engines it connected to (including the token). You can obtain the list of all
+registered engines by pressing on the rocket symbol. </p>
+<p><img alt="imjoy-plugin-manager.png" src="../img/imjoy-plugin-manager.png" /></p>
+<ul>
+<li>Connected engines will be shown with their name in black, and a red cross next to the name. Pressing the cross will disconnect ImJoy from the engine, but it will remain in the list. </li>
+<li>Known engines (but not connected) will be shown with their name in gray, with a little trash symbol next to them. Pressing on the trash symbol will remove the engine. </li>
+</ul>
+<h3 id="frequent-usage">Frequent usage<a class="headerlink" href="#frequent-usage" title="Permanent link">&para;</a></h3>
+<p>If you intend to Python plugins more frequently, you can specify your own token <code>yourtoken</code>, which will make it faster to reconnect to a Jupyter notebook:</p>
+<p><div class="highlight"><pre><span></span><code>imjoy --jupyter --token yourtoken
+</code></pre></div>
+When launched like this, you will not get the full Jupyter URL in the terminal, but <code>http://localhost:8888/?token=...</code>.</p>
+<p>When copying this link to the ImJoy app for the first time you have to replace the <code>...</code> by the token you actually specified. We recommend also giving a different name, to make it easier to identify this engine. </p>
+<p>For subsequent usage, you can launch a Jupyter notebook with the same token, and then simply select this engine in ImJoy.</p>
+<h2 id="installing-python-for-imjoy">Installing Python for ImJoy<a class="headerlink" href="#installing-python-for-imjoy" title="Permanent link">&para;</a></h2>
+<p>We recommend installing an <a href="https://docs.conda.io/en/latest/miniconda.html">Miniconda distribution of Python</a>: choose Python 3.7 and your operating system. You  can then use the annoconda prompt to excecute the different commands listed below. </p>
+<p>We further recommend creating a <strong>dedicated environment</strong> to run code in this analysis package. 
+This guarantess that only necessary code is installed. Tos create an environment called <code>rna-loc-elegans</code>, open an anaconda prompt and type. Note that you will also install Jupyter, which will allow to run Python plugins in ImJoy.
+Confirm with <code>y</code> when asked if you want to proceed (<code>Proceed ([y]/n)?</code>): </p>
+<div class="highlight"><pre><span></span><code>conda create --name rna-loc-elegans python=3.7
+</code></pre></div>
+
+<p><strong>Activate the environment</strong>:
+<div class="highlight"><pre><span></span><code>conda activate rna-loc-elegans
+</code></pre></div></p>
+<p><strong>Install code Jupyter and other code for ImJoy</strong>:
+<div class="highlight"><pre><span></span><code>pip install imjoy notebook
+</code></pre></div></p>
+<h2 id="trouble-shooting">Trouble-shooting<a class="headerlink" href="#trouble-shooting" title="Permanent link">&para;</a></h2>
+<h3 id="plugin-running-on-wrong-engine">Plugin running on wrong engine<a class="headerlink" href="#plugin-running-on-wrong-engine" title="Permanent link">&para;</a></h3>
+<p>You have several options</p>
+<ul>
+<li>Disconnect or delete the engine the plugin is connecting to (see )<a href="#managing-plugin-engines">here</a>).</li>
+<li>In the plugin menu (clicking on the little puzzle symbol left of the plugin name), select the appropriate engine.</li>
+</ul>
+<h3 id="remove-conda-environment">Remove conda environment<a class="headerlink" href="#remove-conda-environment" title="Permanent link">&para;</a></h3>
+<p>At one point, your conda environment might get corrupted. You can easily remove it, and create a new one</p>
+<ol>
+<li>Open anaconda terminal</li>
+<li><strong>Activate base environment</strong>: <code>conda activate base</code></li>
+<li><strong>Remove <code>rna-loc-elegans</code> environment</strong>: <code>conda env remove --name rna-loc-elegans</code></li>
 </ol>
                 
                   
@@ -696,7 +847,7 @@ Please note that this notebooks runs on your local machine, so no data-transfer 
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href=".." title="Overview" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../tools-fishquant/" title="FISH-quant" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -705,7 +856,7 @@ Please note that this notebooks runs on your local machine, so no data-transfer 
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Overview
+                FISH-quant
               </span>
             </div>
           </a>

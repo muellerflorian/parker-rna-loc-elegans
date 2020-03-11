@@ -202,6 +202,8 @@
         
       
         
+      
+        
   
   
     <li class="md-tabs__item">
@@ -310,8 +312,20 @@
 
 
   <li class="md-nav__item">
-    <a href="tools/" title="Analysis tools" class="md-nav__link">
-      Analysis tools
+    <a href="tools-fishquant/" title="FISH-quant" class="md-nav__link">
+      FISH-quant
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="tools-imjoy/" title="ImJoy" class="md-nav__link">
+      ImJoy
     </a>
   </li>
 
@@ -323,13 +337,13 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
     
-    <label class="md-nav__link" for="nav-3">
+    <label class="md-nav__link" for="nav-4">
       General workflows
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-3">
+      <label class="md-nav__title" for="nav-4">
         General workflows
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -371,13 +385,13 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
     
-    <label class="md-nav__link" for="nav-4">
+    <label class="md-nav__link" for="nav-5">
       RNA localization
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-4">
+      <label class="md-nav__title" for="nav-5">
         RNA localization
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -431,13 +445,13 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6">
     
-    <label class="md-nav__link" for="nav-5">
+    <label class="md-nav__link" for="nav-6">
       About
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-5">
+      <label class="md-nav__title" for="nav-6">
         About
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -490,7 +504,14 @@
                 
                 <h1 id="rna-localization-in-smfish-images">RNA localization in smFISH images<a class="headerlink" href="#rna-localization-in-smfish-images" title="Permanent link">&para;</a></h1>
 <p>This is a collection of analysis tools to study RNA localisation from smFISH images.</p>
-<p>We provide different analysis workflows (you can select them from the banners). For each we specify the requirements and the required installations. We use a number of different open-source software packages, and detail their usage in this documentation.</p>
+<p>We provide different <strong>analysis workflows</strong> (you can select them from the banners). For each we detail the tools 
+and their installations. </p>
+<p>We use a number of different <strong>open-source software packages</strong>, when necessasry we detail how to install them. </p>
+<ul>
+<li><strong>RNA detection</strong> is performed with the Matlab package FISH-quant (more details <a href="#fish-quant-rna-detection">below</a>).</li>
+<li>Most postprocessing steps are performed with <strong>Python plugins running ImJoy</strong>. To use them, you have to install <strong>Python with Jupyter</strong> and the necessary <strong>ImJoy plugins</strong>. For more details see the respective sections below.</li>
+<li>Some annotation tasks are performed with <strong>Fiji</strong>, which you can download from <a href="https://fiji.sc/"><strong>here</strong></a>.</li>
+</ul>
                 
                   
                 
@@ -513,13 +534,13 @@
       <nav class="md-footer-nav__inner md-grid">
         
         
-          <a href="tools/" title="Analysis tools" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="tools-fishquant/" title="FISH-quant" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Analysis tools
+                FISH-quant
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">
