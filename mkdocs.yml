@@ -56,10 +56,12 @@ markdown_extensions:
   - pymdownx.tasklist
   - pymdownx.superfences
   - pymdownx.tilde
+  - attr_list
 
 nav:
     - Overview: index.md   # Needed for material theme but not for others
-    - Analysis tools: tools.md  # This is strange but only with this organization this file shows upd in the overview together with the index.md
+    - FISH-quant: tools-fishquant.md  # This is strange but only with this organization this file shows upd in the overview together with the index.md
+    - ImJoy: tools-imjoy.md  # This is strange but only with this organization this file shows upd in the overview together with the index.md
 
     - General workflows:
       - Image processing: image-processing.md
