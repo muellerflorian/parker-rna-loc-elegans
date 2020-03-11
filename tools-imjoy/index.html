@@ -390,13 +390,6 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#frequent-usage" class="md-nav__link">
-    Frequent usage
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
   
@@ -427,6 +420,20 @@
           <li class="md-nav__item">
   <a href="#remove-conda-environment" class="md-nav__link">
     Remove conda environment
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reporting-bugs" class="md-nav__link">
+    Reporting bugs
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#specify-your-own-token" class="md-nav__link">
+    Specify your own token
   </a>
   
 </li>
@@ -660,13 +667,6 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#frequent-usage" class="md-nav__link">
-    Frequent usage
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
   
@@ -701,6 +701,20 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#reporting-bugs" class="md-nav__link">
+    Reporting bugs
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#specify-your-own-token" class="md-nav__link">
+    Specify your own token
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -724,8 +738,12 @@
                 
                 
                 <h1 id="imjoy">ImJoy<a class="headerlink" href="#imjoy" title="Permanent link">&para;</a></h1>
-<p><a href="https://imjoy.io/docs/#/">ImJoy</a> is image processing platform with an easy to use interface. While ImJoy is a browser app, <strong>NO</strong> user data will be transferred over the internet. </p>
-<p>Some important <strong>features</strong>:</p>
+<p><a href="https://imjoy.io/docs/#/">ImJoy</a> is image processing platform with an easy to use interface running in your browser. </p>
+<ul>
+<li>For best stability, we recommend using <strong>Chrome</strong> to run ImJoy.  </li>
+<li>While ImJoy is a browser app, <strong>NO</strong> user data will be transferred over the internet. </li>
+<li>
+<p>Some of its main <strong>features</strong> are:</p>
 <ol>
 <li>Specific functionality is provided by <strong>plugins</strong>, which can be installed with simple links. Available 
     plugins are listed in the plugin list on the left part of the interface. Depending on the implementation 
@@ -737,6 +755,8 @@
 <p><img alt="imjoy-interface" src="../img/imjoy-interface.png" /></p>
 </li>
 </ol>
+</li>
+</ul>
 <h2 id="basic-usage">Basic usage<a class="headerlink" href="#basic-usage" title="Permanent link">&para;</a></h2>
 <h3 id="installing-plugins">Installing plugins<a class="headerlink" href="#installing-plugins" title="Permanent link">&para;</a></h3>
 <p>We provide links to install ImJoy plugins for the different workflows. 
@@ -756,7 +776,13 @@ you have to connect ImJoy to Plugin engin. For this repository, we use <strong>J
 which can be installed via Miniconda (see section about Python Installation <a href="#python-for-imjoy">below</a>). </p>
 <h3 id="connect-to-jupyter-notebook">Connect to Jupyter notebook<a class="headerlink" href="#connect-to-jupyter-notebook" title="Permanent link">&para;</a></h3>
 <p>Once installed Jupyter is installed, you can start a Jupyter Notebook via the anaconda terminal, 
-to which ImJoy can connect. Please note that this notebook runs on your local machine, so no data-transfer over the internet is taking place. </p>
+to which ImJoy can connect. </p>
+<ul>
+<li>Please note that this notebook runs on your local machine, so no data-transfer over the internet is taking place. </li>
+<li>In order to connect to a Jupyter notebook, you need it's url that also contains a token (a passphrase). If you launch
+   a Jupyter notebook for the first time, you have to provide this URL to ImJoy (indicated below with <strong>First time only</strong>). 
+   For subsequent usage, ImJoy will remember it. </li>
+</ul>
 <p><img alt="terminal-launch-jupyter.png" src="../img/terminal-launch-jupyter.png" /></p>
 <ol>
 <li>
@@ -764,44 +790,42 @@ to which ImJoy can connect. Please note that this notebook runs on your local ma
 <ol>
 <li>Start an <strong>anaconda terminal</strong>. </li>
 <li><strong>Activate the environment</strong>: <code>conda activate rna-loc-elegans</code></li>
-<li>
-<p><strong>Start Jupyter notebook for ImJoy</strong>: <code>imjoy --jupyter</code></p>
-<p>Copy the provided URL including the token, e.g. <code>http://127.0.0.1:8888/?token=8b4885e452db1af7cd7b3cfa6c62036cbae46995e473c25e</code></p>
-</li>
+<li><strong>Start Jupyter notebook for ImJoy</strong>: <code>imjoy --jupyter</code></li>
+<li><strong>First time only</strong>: copy the provided URL including the token, 
+    e.g. <code>http://127.0.0.1:8888/?token=8b4885e452db1af7cd7b3cfa6c62036cbae46995e473c25e</code></li>
 </ol>
 </li>
 <li>
 <p><strong>Connect ImJoy to the notebook</strong>: </p>
-<p>Please note that each time you start a new Jupyter notebook, you have to go through these steps. To speed this up, you can define your own token as described <a href="#frequent-usage">below</a>.</p>
 <ol>
-<li>In the ImJoy app, press on the rocket symbol in the upper right corner, 
-   select <code>Add Jupyter-Engine</code> and paste the URL from the step above. </li>
-<li>Plugins will then be automatically <strong>connected to this Jupyter Kernel</strong>. You can verify this, 
-   by clicking on the puzzle symbol next to the plugin name. Depending on the plugin, installation
-   might take a while, during this period the plugin name will be in red.  </li>
-</ol>
-<p><img alt="imjoy-connect-jupyter.gif" src="../img/imjoy-connect-jupyter.gif" width:250px_="width:250px&quot;" /></p>
+<li>In the ImJoy app, press on the rocket symbol in the upper right corner.<ul>
+<li><strong>First time only</strong>: select <code>Add Jupyter-Engine</code>, paste the URL from the step above, and you can give a new name to the engine</li>
+<li><strong>Subsequent use</strong>: press on the pre-defined plugin engine to connect to it (of course you have to launch it first).</li>
+</ul>
 </li>
 </ol>
+</li>
+<li>
+<p>Plugins will then be automatically <strong>connected to this Jupyter notebook</strong>. You can verify this, 
+   by clicking on the puzzle symbol next to the plugin name. Depending on the plugin, installation
+   might take a while, during this period the plugin name will be in red.  </p>
+</li>
+</ol>
+<p><img alt="imjoy-connect-jupyter.gif" src="../img/imjoy-connect-jupyter.gif" /></p>
 <h3 id="managing-plugin-engines">Managing plugin engines<a class="headerlink" href="#managing-plugin-engines" title="Permanent link">&para;</a></h3>
 <p>ImJoy remembers the plugin engines it connected to (including the token). You can obtain the list of all
 registered engines by pressing on the rocket symbol. </p>
-<p><img alt="imjoy-plugin-manager.png" src="../img/imjoy-plugin-manager.png" /></p>
+<p><img alt="imjoy-plugin-manager.png" src="../img/imjoy-plugin-manager.png" width:100_="width:100&quot;" /></p>
 <ul>
 <li>Connected engines will be shown with their name in black, and a red cross next to the name. Pressing the cross will disconnect ImJoy from the engine, but it will remain in the list. </li>
 <li>Known engines (but not connected) will be shown with their name in gray, with a little trash symbol next to them. Pressing on the trash symbol will remove the engine. </li>
 </ul>
-<h3 id="frequent-usage">Frequent usage<a class="headerlink" href="#frequent-usage" title="Permanent link">&para;</a></h3>
-<p>If you intend to Python plugins more frequently, you can specify your own token <code>yourtoken</code>, which will make it faster to reconnect to a Jupyter notebook:</p>
-<p><div class="highlight"><pre><span></span><code>imjoy --jupyter --token yourtoken
-</code></pre></div>
-When launched like this, you will not get the full Jupyter URL in the terminal, but <code>http://localhost:8888/?token=...</code>.</p>
-<p>When copying this link to the ImJoy app for the first time you have to replace the <code>...</code> by the token you actually specified. We recommend also giving a different name, to make it easier to identify this engine. </p>
-<p>For subsequent usage, you can launch a Jupyter notebook with the same token, and then simply select this engine in ImJoy.</p>
 <h2 id="installing-python-for-imjoy">Installing Python for ImJoy<a class="headerlink" href="#installing-python-for-imjoy" title="Permanent link">&para;</a></h2>
-<p>We recommend installing an <a href="https://docs.conda.io/en/latest/miniconda.html">Miniconda distribution of Python</a>: choose Python 3.7 and your operating system. You  can then use the annoconda prompt to excecute the different commands listed below. </p>
+<p>We recommend installing an <a href="https://docs.conda.io/en/latest/miniconda.html">Miniconda distribution of Python</a>: 
+choose Python 3.7 and your operating system. You  can then use the annoconda prompt to excecute the different commands listed below. </p>
 <p>We further recommend creating a <strong>dedicated environment</strong> to run code in this analysis package. 
-This guarantess that only necessary code is installed. Tos create an environment called <code>rna-loc-elegans</code>, open an anaconda prompt and type. Note that you will also install Jupyter, which will allow to run Python plugins in ImJoy.
+This guarantess that only necessary code is installed. 
+To create an environment called <code>rna-loc-elegans</code>, open an anaconda prompt and type. Note that you will also install Jupyter, which will allow to run Python plugins in ImJoy.
 Confirm with <code>y</code> when asked if you want to proceed (<code>Proceed ([y]/n)?</code>): </p>
 <div class="highlight"><pre><span></span><code>conda create --name rna-loc-elegans python=3.7
 </code></pre></div>
@@ -809,8 +833,8 @@ Confirm with <code>y</code> when asked if you want to proceed (<code>Proceed ([y
 <p><strong>Activate the environment</strong>:
 <div class="highlight"><pre><span></span><code>conda activate rna-loc-elegans
 </code></pre></div></p>
-<p><strong>Install code Jupyter and other code for ImJoy</strong>:
-<div class="highlight"><pre><span></span><code>pip install imjoy notebook
+<p><strong>Install code Jupyter optimized for ImJoy</strong>:
+<div class="highlight"><pre><span></span><code>pip install -U imjoy
 </code></pre></div></p>
 <h2 id="trouble-shooting">Trouble-shooting<a class="headerlink" href="#trouble-shooting" title="Permanent link">&para;</a></h2>
 <h3 id="plugin-running-on-wrong-engine">Plugin running on wrong engine<a class="headerlink" href="#plugin-running-on-wrong-engine" title="Permanent link">&para;</a></h3>
@@ -826,6 +850,21 @@ Confirm with <code>y</code> when asked if you want to proceed (<code>Proceed ([y
 <li><strong>Activate base environment</strong>: <code>conda activate base</code></li>
 <li><strong>Remove <code>rna-loc-elegans</code> environment</strong>: <code>conda env remove --name rna-loc-elegans</code></li>
 </ol>
+<h3 id="reporting-bugs">Reporting bugs<a class="headerlink" href="#reporting-bugs" title="Permanent link">&para;</a></h3>
+<p>Detailed installation logs are provided in the console of the browser. Information in this log, can facilitate the correction of encountered bugs. When reporting problems with this package, please provide the log copied to text file. </p>
+<p>To acces the console log in <strong>Chrome</strong>:</p>
+<ol>
+<li>In the ImJoy app mouse-right-click. </li>
+<li>Select <code>Inspect</code>. </li>
+<li>This will open a new interface on the right size of your browser windows. Select the panel <code>Console</code> and copy the entire content, and paste it to a file.  </li>
+</ol>
+<h3 id="specify-your-own-token">Specify your own token<a class="headerlink" href="#specify-your-own-token" title="Permanent link">&para;</a></h3>
+<p>You can specify your own token <code>yourtoken</code></p>
+<p><div class="highlight"><pre><span></span><code>imjoy --jupyter --token yourtoken
+</code></pre></div>
+When launched like this, you will not get the full Jupyter URL in the terminal, but <code>http://localhost:8888/?token=...</code>.</p>
+<p>When copying this link to the ImJoy app for the first time you have to replace the <code>...</code> by the token you actually specified.</p>
+<p>The next time you start jupyter with <code>imjoy --jupyter</code> your custom token will be used</p>
                 
                   
                 
