@@ -25,14 +25,14 @@ If you press on the installation link, the ImJoy web app will open and display a
 dialog asking if you want to install the specified plugin. To confirm, press 
 the `install` button.
 
-![imjoy-plugin-installation](img/imjoy-plugin-installation.png)
+![imjoy-plugin-installation](img/imjoy-plugin-installation.png){: style="width:400px"}
 
 ### Opening a workspace
 Once a plugin is installed, ImJoy remembers the workspaces and plugins it contains. 
 If you want to redo an analysis, you simply have to open the [ImJoy app](https://imjoy.io/#/app) 
 and select the appropriate (`rna-loc-elegans` for this package): 
 
-![imjoy-workspacer.gif](img/imjoy-workspace.gif)
+![imjoy-workspacer.gif](img/imjoy-workspace.gif){: style="width:500px"}
 
 
 ## Running Python plugins 
@@ -81,7 +81,7 @@ to which ImJoy can connect.
 ImJoy remembers the plugin engines it connected to (including the token). You can obtain the list of all
 registered engines by pressing on the rocket symbol. 
 
-![imjoy-plugin-manager.png](img/imjoy-plugin-manager.png){width:100"}
+![imjoy-plugin-manager.png](img/imjoy-plugin-manager.png){: style="width:300px"}
 
 * **Connected engines** will be shown with their name in black, and a red cross next to the name. Pressing the cross will disconnect ImJoy from the engine, but it will remain in the list. 
 * **Known engines** (but not connected) will be shown with their name in gray, with a little trash symbol next to them. Pressing on the trash symbol will remove the engine. 
