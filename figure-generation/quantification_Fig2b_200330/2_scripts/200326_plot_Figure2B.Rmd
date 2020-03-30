@@ -1,7 +1,7 @@
 ---
-title: "191028_plot_Figure2B"
+title: "200326_plot_Figure2B"
 author: "Erin Nishimura"
-date: "10/28/2019"
+date: "03/26/2020"
 output: html_document
 editor_options: 
   chunk_output_type: console
@@ -23,7 +23,7 @@ library(ggplot2)
 
 ### Import the data
 
-Import "figure2_sourcedata2_191028.txt"
+Import "figure2_sourcedata2_200326.txt"
 ```{r setup, echo = FALSE, warning = FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 
@@ -43,7 +43,8 @@ knitr::opts_chunk$set(echo = TRUE)
 # fullHistTable
 # write.table(fullHistTable, file = "../1_input/figure2_sourcedata2_191028.txt", quote = FALSE, sep = "\t")
 
-HistTable <- read.table(file = "../1_input/figure2_sourcedata2_191028.txt", header = TRUE)
+HistTable <- read.table(file = "../1_input/figure2_sourcedata2_200326.txt", header = TRUE)
+help(read.table)
 ```
 
 ### Plot the barplots of _imb-2_ and _set-3_
@@ -53,12 +54,16 @@ Draw barplots of each
 
 ```{r, echo = FALSE, warning = FALSE}
 
+#HistTable
+
+par(mfrow = c(2,1))
+
 # filter data for imb-2
 imb2HistTable <- HistTable %>%
   filter(probe == "imb-2")
 
 # set plot dimensions
-par(mar = c(5.1, 5.1, 4.1, 2.1))
+par(mar = c(4.1, 4.1,2.1, 2.1))
 
 # plot imb-2
 barplot(imb2HistTable$histRNA_SCAL,
@@ -67,9 +72,10 @@ barplot(imb2HistTable$histRNA_SCAL,
         border = NA,
         col = "grey",
         family = "sans",
-        xlab = "Distance from cortex [pixel]", 
+        xlab = "Distance from nuclear periphery [pixel]", 
         ylab = "imb-2 mRNA\n[norm. frequency",
-        ylim = c(0, 2.5))
+        ylim = c(0, 2.0))
+box(lty = "solid", col = 'black')
 
 # filter data for set-3 
 set3HistTable <- HistTable %>%
@@ -82,23 +88,23 @@ barplot(set3HistTable$histRNA_SCALED,
         space = 0.1,
         col = "grey",
         family = "sans",
-        xlab = "Distance from cortex [pixel]", 
+        xlab = "Distance from nuclear periphery [pixel]", 
         ylab = "set-3 mRNA\n[norm. frequency]", 
-        ylim = c(0, 2.5))
-
-
+        ylim = c(0, 2.0))
+box(lty = "solid", col = 'black')
 
 # output plot
 #Set date
 date <- format(Sys.time(), "%y%m%d")
 #set filename
-filename <- paste("../3_output/", date, "_output_plots_Fig2a.pdf", sep = "")
+filename <- paste("../3_output/", date, "_output_plots_Fig2b.pdf", sep = "")
 filename
 
-pdf(file = filename, width = 8, height = 4)
-par(mfrow = c(1,2))
-par(mar = c(5.1, 5.1, 4.1, 2.1))
+pdf(file = filename, width = 4, height = 4)
+par(mfrow = c(2,1))
+par(mar = c(4.1, 4.1,2.1, 2.1))
 
+# plot imb-2
 barplot(imb2HistTable$histRNA_SCAL,
         names.arg = imb2HistTable$center,
         space = 0.1,
@@ -106,9 +112,11 @@ barplot(imb2HistTable$histRNA_SCAL,
         col = "grey",
         family = "sans",
         xlab = "Distance from cortex [pixel]", 
-        ylab = "imb-2 mRNA\n[norm. frequency]",
-        ylim = c(0, 2.5))
+        ylab = "imb-2 mRNA\n[norm. frequency",
+        ylim = c(0, 2.0))
+box(lty = "solid", col = 'black')
 
+# plot set-3
 barplot(set3HistTable$histRNA_SCALED,
         names.arg = set3HistTable$center,
         border = NA,
@@ -117,7 +125,8 @@ barplot(set3HistTable$histRNA_SCALED,
         family = "sans",
         xlab = "Distance from cortex [pixel]", 
         ylab = "set-3 mRNA\n[norm. frequency]", 
-        ylim = c(0, 2.5))
+        ylim = c(0, 2.0))
+box(lty = "solid", col = 'black')
   
 dev.off()
 dev.off()
