@@ -140,8 +140,11 @@ def calc_nuclear_enrichment(FQ_file, binsHist, channels={'nuclei':''}, show_plot
                     continue
 
         # Get z-range for loop
-        Zloop = np.logical_and(Zrna <= Zmask + dZ,Zrna >= Zmask - dZ).flatten()
-        Zloop = (Zrna == Zmask).flatten()
+        if dZ==0:
+            Zloop = np.logical_and(Zrna <= Zmask + dZ,Zrna >= Zmask - dZ).flatten()
+        else:
+            Zloop = (Zrna == Zmask).flatten()
+            
         spots_loop = spots_all[Zloop,:]
         spots_loop_XY = np.divide(spots_loop[:,[0,1]],fq_dict['settings']['microscope']['pix_xy']).astype(int)
 
