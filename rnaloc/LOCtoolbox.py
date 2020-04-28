@@ -405,7 +405,11 @@ def process_file(FQ_file, bin_prop = (0,90,20), channels={'cells':'C3-'},data_ca
                 continue
 
         # Get z-range for loop
-        Zloop = np.logical_and(Zrna <= Zmask + dZ,Zrna >= Zmask - dZ).flatten()
+        if dZ>0:
+            Zloop = np.logical_and(Zrna <= Zmask + dZ,Zrna >= Zmask - dZ).flatten()
+        else:
+             Zloop = (Zrna == Zmask).flatten()
+                
         spots_loop = spots_all[Zloop,:]
         spots_loop_XY = spots_loop[:,[16, 17]].astype(int)
 
