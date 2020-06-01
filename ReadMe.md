@@ -4,7 +4,7 @@
 
 # Analyze RNA localization in c. elegans
 
-This repository provide the different analyze workflows to analyze **RNA localization patterns** in c. elegans 
+This repository provide the different workflows to analyze **RNA localization patterns** in c. elegans 
 from single molecule FISH (smFISH images), described in our paper:
 
 __Title:__ mRNA localization is linked to translation regulation in the Caenorhabditis elegans germ lineage.
