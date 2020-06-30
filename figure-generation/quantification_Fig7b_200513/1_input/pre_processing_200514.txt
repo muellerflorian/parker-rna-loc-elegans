@@ -1,0 +1,2 @@
+sed -E 's/,/	/g' Fig_7_quant_200514.csv > figure7_sourcedata_200514.txt
+sed -E 's/,/    /g' Fig_7_all_clusters_200520.csv > figure7_sourcedata2_200520.txt

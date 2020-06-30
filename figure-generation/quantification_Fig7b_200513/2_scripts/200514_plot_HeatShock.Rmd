@@ -1,0 +1,371 @@
+---
+title: "200514_plotHeatShock"
+author: "Erin Nishimura"
+date: "05/14/2020"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+## Load Packages
+
+dplyr  
+
+ggplot2
+
+```{r setup,  echo = FALSE, warning = FALSE, message = FALSE}
+
+print("script initiated on", quote = FALSE)
+Sys.time()
+
+#loading packages
+library(dplyr)
+library(ggplot2)
+library(RColorBrewer)
+
+```
+
+
+## Import
+
+Import the data. Organize the order of factor data. Clean up the dataframe.
+
+```{r, echo = TRUE}
+
+# import the data
+clusterTable <- read.table(file = "../1_input/figure7_sourcedata_200514.txt", header = TRUE) 
+
+
+RNAsPerClusterTable <- read.table(file = "../1_input/figure7_sourcedata2_200520.txt", header = TRUE) 
+
+```
+
+## Exploratory Data Analysis
+
+Explore the data. Determine the dimensions & the data structure
+
+```{r pressure, echo=TRUE}
+dim(clusterTable)
+head(clusterTable)
+str(clusterTable)
+
+# Set factor levels
+clusterTable$Condition <- factor(clusterTable$Condition, levels = c("No_HS", "HS"))
+
+clusterTable$Probe <- factor(clusterTable$Probe, levels = c("gpd-2", "set-3", "B04957"))
+str(clusterTable)
+```
+
+
+## Statistics - Percentage of clusters co-localizing with P granule markers
+
+Calculate a set of p values determining differences between heat shock and non-heat shock conditions, this time describing differences between the metric that shows the fraction of probset-specific mRNA clusters to overlap with P granule markers.
+
+```{r, echo=TRUE}
+
+# Calculate p-values for each probe set
+# Metric: the fraction of mRNA clusters overlapping with P granules
+# Conditions: heat shock versus no heat shock conditions
+
+# Calculate the t-test - Fract_clusters_in_Pgran
+calculate_fract_pvalue <- function(data, Probeset){
+  # Filter for given probeset
+  transcript_quantTable <- data %>%
+    filter(Probe == Probeset)
+  
+  # Save the p-value
+  ttestresult <- t.test(Fract_clusters_in_Pgran*100 ~ Condition, data = transcript_quantTable)
+  
+  # Return the p-value
+  return(ttestresult)
+}
+
+```
+
+```{r, echo=FALSE}
+# Calculate p values:
+
+
+
+print("t.test calculation - gpd-2 Probe set; Fraction of gpd-2 clusters co-localizing to P granules in non-heat shock versus heat shock conditions:")
+calculate_fract_pvalue(clusterTable, "gpd-2")
+
+print("t.test calculation - set-3 Probe set; Fraction of set-3 clusters co-localizing to P granules in non-heat shock versus heat shock conditions:")
+calculate_fract_pvalue(clusterTable, "set-3")
+
+print("t.test calculation - B04957 Probe set; Fraction of B049457 clusters co-localizing to P granules in non-heat shock versus heat shock conditions:")
+calculate_fract_pvalue(clusterTable, "B04957")
+
+
+# Save p values:
+pvalue_1 <- calculate_fract_pvalue(clusterTable, "gpd-2")$p.value
+pvalue_2 <- calculate_fract_pvalue(clusterTable, "set-3")$p.value
+pvalue_3 <- calculate_fract_pvalue(clusterTable, "B04957")$p.value
+```
+
+## Plot - Figure 7B - Percentage of clusters co-localizing with P granule markers
+
+For each probeset, plot the percentage of RNA clusters that co-localize to P granules under non-heat schock and heat shock conditions.
+
+```{r, echo=FALSE}
+
+
+
+# gpd-2, filter & plot
+plot_data <- clusterTable %>%
+    filter(Probe == "gpd-2")
+
+p1 <- ggplot(plot_data, aes(Condition, Fract_clusters_in_Pgran*100, fill=Condition)) +
+  geom_boxplot(position=position_dodge(0.8), outlier.shape = NA) +
+  geom_point(position=position_jitterdodge(dodge.width=0.8), alpha = 0.5) +
+  ylim(c(0, 100))+
+  annotate(geom="text", x=1.5, y=80, label=pvalue_1, color="#66CC66")+
+  annotate(geom="text", x=1.5, y=90, label = "gpd-2")+
+  scale_fill_manual(values=c("#CCCCCC", "#66CC66")) +
+  theme_classic() + 
+  theme(strip.text = element_text(face = "italic"),
+        panel.grid.major = element_line(colour = "grey"), 
+        axis.text.y = element_text(angle=90), 
+        axis.text.x = element_text(angle=90))  
+
+# set-3, filter and plot:
+
+plot_data <- clusterTable %>%
+    filter(Probe == "set-3")
+
+p2 <- ggplot(plot_data, aes(Condition, Fract_clusters_in_Pgran*100, fill=Condition)) +
+  geom_boxplot(position=position_dodge(0.8), outlier.shape = NA) +
+  geom_point(position=position_jitterdodge(dodge.width=0.8), alpha = 0.5) +
+  ylim(c(0, 100))+
+  annotate(geom="text", x=1.5, y=80, label=pvalue_2, color="#66CC66")+
+  annotate(geom="text", x=1.5, y=90, label = "set-3")+
+  scale_fill_manual(values=c("#CCCCCC", "#66CC66")) +
+  theme_classic() + 
+  theme(strip.text = element_text(face = "italic"),
+        panel.grid.major = element_line(colour = "grey"), 
+        axis.text.y = element_text(angle=90), 
+        axis.text.x = element_text(angle=90))  
+
+# B04957, filter & plot: 
+
+plot_data <- clusterTable %>%
+    filter(Probe == "B04957")
+
+p3 <- ggplot(plot_data, aes(Condition, Fract_clusters_in_Pgran*100, fill=Condition)) +
+  geom_boxplot(position=position_dodge(0.8), outlier.shape = NA) +
+  geom_point(position=position_jitterdodge(dodge.width=0.8), alpha = 0.5) +
+  ylim(c(0, 100))+
+  annotate(geom="text", x=1.5, y=80, label=pvalue_3, color="#66CC66")+
+  annotate(geom="text", x=1.5, y=90, label = "B04957")+
+  scale_fill_manual(values=c("#CCCCCC", "#66CC66")) +
+  theme_classic() + 
+  theme(strip.text = element_text(face = "italic"),
+        panel.grid.major = element_line(colour = "grey"), 
+        axis.text.y = element_text(angle=90), 
+        axis.text.x = element_text(angle=90))  
+
+# Display output plots
+
+p1
+p2
+p3
+
+# Save output plots to a .pdf file
+date <- format(Sys.time(), "%y%m%d")
+#set filename
+filename <- paste("../3_output/", date, "_output_plots_Fig7B.pdf", sep = "")
+
+#export pdf
+pdf(file = filename, width = 6, height = 6)
+p1
+p2
+p3
+dev.off()
+dev.off()
+
+```
+
+## Statistics - Raw # of clusters co-localizing with P granule markers
+
+Now, let's switch to looking at the raw numbers of RNA clusters for each probeset.
+
+Are there differences between no heat shock & heat shock between the number of raw RNA clusters that co-localize with P granule markers, for each probeset?
+
+```{r, echo=TRUE}
+
+# Calculate p-values for each probe set
+# Metric: total number of mRNA clusters overlapping with P granules
+# Conditions: heat shock versus no heat shock conditions
+
+# Calculate the t-test - Fract_clusters_in_Pgran
+calculate_raw_pvalue <- function(data, Probeset){
+  # Filter for given probeset
+  transcript_quantTable <- data %>%
+    filter(Probe == Probeset)
+  
+  # Save the p-value
+  ttestresult <- t.test(Overlap ~ Condition, data = transcript_quantTable)
+  
+  # Return the p-value
+  return(ttestresult)
+}
+
+```
+
+
+```{r, echo=FALSE}
+# Calculate p values:
+
+
+print("t.test calculation - gpd-2 Probe set; Raw # of gpd-2 clusters co-localizing to P granules in non-heat shock versus heat shock conditions:")
+calculate_raw_pvalue(clusterTable, "gpd-2")
+
+print("t.test calculation - set-3 Probe set; Raw # of set-3 clusters co-localizing to P granules in non-heat shock versus heat shock conditions:")
+calculate_raw_pvalue(clusterTable, "set-3")
+
+print("t.test calculation - B04957 Probe set; Raw # of B049457 clusters co-localizing to P granules in non-heat shock versus heat shock conditions:")
+calculate_raw_pvalue(clusterTable, "B04957")
+
+# Save p values:
+pvalue_4 <- calculate_raw_pvalue(clusterTable, "gpd-2")$p.value
+pvalue_5 <- calculate_raw_pvalue(clusterTable, "set-3")$p.value
+pvalue_6 <- calculate_raw_pvalue(clusterTable, "B04957")$p.value
+
+```
+
+
+## Plot - Supplemental Figure - Raw # of clusters co-localizing with P granule markers  
+
+For each probeset, plot the number of RNA clusters that co-localize to P granules under non-heat schock and heat shock conditions.
+
+
+```{r, echo=FALSE}
+
+# Plot boxplot
+#clusterTable$Probe <- factor(clusterTable$Probe, levels = c("gpd-2", "set-3", "B04957"))
+
+p4 <- ggplot(clusterTable, aes(Probe, Overlap, fill=Condition)) +
+  geom_boxplot(position=position_dodge(0.8), outlier.shape = NA) +
+  geom_point(position=position_jitterdodge(dodge.width=0.8), alpha = 0.5) +
+  ylim(c(0, 60))+
+  annotate(geom="text", x=1, y=58, label=pvalue_4)+
+  annotate(geom="text", x=2, y=53, label=pvalue_5)+
+  annotate(geom="text", x=3, y=48, label=pvalue_6)+
+  scale_fill_manual(values=c("#CCCCCC", "#66CC66")) +
+  theme_classic() + 
+  theme(strip.text = element_text(face = "italic"),
+        panel.grid.major = element_line(colour = "grey"), 
+        axis.text.y = element_text(angle=90), 
+        axis.text.x = element_text(angle=90))  
+
+p4
+
+# Export .pdf plot
+
+#set filename
+filename <- paste("../3_output/", date, "_output_plots_FigS7.pdf", sep = "")
+
+#export pdf
+pdf(file = filename, width = 8, height = 6)
+p4
+dev.off()
+dev.off()
+
+
+``` 
+    
+    
+## Supplemental Figure - 13A - RNA cluster characteristics with and without heat shock
+
+Create a figure that describes the phenotype of heat shock by illustrating how many clusters there are before and and after heat shock and also how many RNAs are expected to be within each cluster before and after heat shock.
+
+Exploratory data analysis on the metrics:
+
+
+```{r, echo = FALSE}
+
+
+# Exploratory Data Analysis
+dim(RNAsPerClusterTable)
+head(RNAsPerClusterTable)
+
+
+# Set factor levels
+RNAsPerClusterTable$Condition <- factor(RNAsPerClusterTable$Condition, levels = c("No_HS", "HS"))
+
+RNAsPerClusterTable$Probe <- factor(RNAsPerClusterTable$Probe, levels = c("gpd-2", "set-3", "B04957"))
+
+str(RNAsPerClusterTable)
+
+```
+
+Merge and process the information
+```{r, echo = FALSE}
+
+# Calcualte the mean quantity of RNAs per cluster for each embryo
+per_embryo_RNA_cluster_table <- RNAsPerClusterTable %>%
+  group_by(Image_n, Probe) %>%
+  mutate(number_RNAs = mean(n_rna), quantity = n()) %>%
+  distinct(Image_n, .keep_all=TRUE)  
+
+dim(per_embryo_RNA_cluster_table)
+
+# Calculate the mean RNAs per cluster for each condition & probeset
+# Calcualte the mean number of clusters for each condition & probeset
+
+per_Condition_RNA_cluster_table <- per_embryo_RNA_cluster_table %>%
+  group_by(Condition, Probe) %>%
+  mutate(mean_RNAs = mean(number_RNAs), se_RNA = sd(number_RNAs)/sqrt(number_RNAs), number_clusters = mean(quantity), sd_clusters = sd(quantity)) %>%
+  distinct(Condition, .keep_all=TRUE)  
+
+
+```
+
+
+## Plot Figure S13A
+
+```{r, echo = FALSE}
+
+
+plot_S13A <- ggplot(per_Condition_RNA_cluster_table, aes(number_clusters, mean_RNAs, color=Probe))+
+  geom_point( aes(shape=Condition, color=Probe), size = 6) + 
+  geom_segment(aes(x = number_clusters, y = (mean_RNAs-se_RNA), xend= number_clusters, yend= (mean_RNAs+se_RNA)))+  
+  geom_segment(aes(x = (number_clusters-sd_clusters), y = mean_RNAs, xend= (number_clusters+sd_clusters), yend= mean_RNAs))+
+  ylim(c(5, 10))+
+  xlab("Number of clusters") + 
+  ylab("Number of RNAs per cluster")+
+  scale_color_manual(values = c("#00AFBB", "#E7B800", "#FC4E07"))+
+  scale_shape_manual(values=c(19, 17))+
+  theme_classic() + 
+  theme(strip.text = element_text(face = "italic"),
+        panel.grid.major = element_line(colour = "grey"), 
+        axis.text.y = element_text(angle=90), 
+        axis.text.x = element_text(angle=90))    
+  
+plot_S13A
+
+
+```
+
+```{r, echo = FALSE}
+
+# Save plot
+
+# Export .pdf plot
+
+#set filename
+filename <- paste("../3_output/", date, "_output_plots_FigS13A.pdf", sep = "")
+
+#export pdf
+pdf(file = filename, width = 8, height = 6, useDingbats=FALSE)
+plot_S13A
+dev.off()
+dev.off()
+
+```
+
+## Session info
+
+```{r, echo = TRUE}
+sessionInfo()
+```

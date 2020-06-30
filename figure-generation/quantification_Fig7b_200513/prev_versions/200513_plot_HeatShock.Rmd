@@ -1,0 +1,301 @@
+---
+title: "200513_plotHeatShock"
+author: "Erin Nishimura"
+date: "05/13/2020"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+## Load Packages
+
+dplyr  
+
+ggplot2
+
+```{r setup,  echo = FALSE, warning = FALSE, message = FALSE}
+
+print("script initiated on", quote = FALSE)
+Sys.time()
+
+#loading packages
+library(dplyr)
+library(ggplot2)
+
+```
+
+
+## Import
+
+Import the data. Organize the order of factor data. Clean up the dataframe.
+
+```{r, echo = FALSE}
+
+# import the data
+clusterTable <- read.table(file = "1_input/figure7_sourcedata_200514.txt", header = TRUE) 
+
+```
+
+## Exploratory Data Analysis
+
+Explore the data. Determine the dimensions & the data structure
+
+```{r pressure, echo=TRUE}
+dim(clusterTable)
+head(clusterTable)
+str(clusterTable)
+```
+
+```{r}
+# B04957 p-value
+B04957Table <- clusterTable %>%
+    filter(Probe=="B04957")
+ttestresult <- t.test(X._clusters_in_Pgran*100 ~ Condition, data = B04957Table)
+pvalue_1 <- ttestresult$p.value
+pvalue_1
+
+# gpd-2 p-value
+gpdTable <- clusterTable %>%
+    filter(Probe=="gpd-2")
+ttestresult <- t.test(X._clusters_in_Pgran*100 ~ Condition, data = gpdTable)
+pvalue_2 <- ttestresult$p.value
+pvalue_2
+
+
+# set-3 p-value
+setTable <- clusterTable %>%
+    filter(Probe=="set-3")
+ttestresult <- t.test(X._clusters_in_Pgran*100 ~ Condition, data = setTable)
+pvalue_3 <- ttestresult$p.value
+pvalue_3
+
+
+```
+
+
+```{r}
+clusterTable$Probe
+plot_data <- clusterTable %>%
+    filter(Probe == "B04957")
+
+plot_data
+plot_data <- clusterTable
+
+plot_data$Condition <- factor(plot_data$Condition, levels = c("No_HS", "HS"))
+
+ggplot(plot_data, aes(Probe, X._clusters_in_Pgran, fill=Condition)) +
+  geom_boxplot(position=position_dodge(0.8), outlier.shape = NA) +
+  geom_point(position=position_jitterdodge(dodge.width=0.8), alpha = 0.5) +
+  annotate(geom="text", x=1, y=45, label=pvalue_1, color="#66CCCC")+
+  annotate(geom="text", x=2, y=42.5, label=pvalue_2, color="#009966")+
+  annotate(geom="text", x=3, y=40, label=pvalue_3, color="#FFCC00")+  
+  scale_fill_manual(values=c("#CCCCCC", "#66CCCC")) +
+  theme_classic() + 
+  theme(strip.text = element_text(face = "italic"),
+        panel.grid.major = element_line(colour = "grey"), 
+        axis.text.y = element_text(angle=90), 
+        axis.text.x = element_text(angle=90))  
+
+
+p1 <- ggplot(plot_data, aes(Condition, Number_of_clusters_with_overlap, fill=Condition)) +
+  geom_boxplot(position=position_dodge(0.8), outlier.shape = NA) +
+  geom_point(position=position_jitterdodge(dodge.width=0.8), alpha = 0.5) +
+  scale_fill_manual(values=c("#CCCCCC", "#66CCCC")) +
+  theme_classic() + 
+  theme(strip.text = element_text(face = "italic"),
+        panel.grid.major = element_line(colour = "grey"), 
+        axis.text.y = element_text(angle=90), 
+        axis.text.x = element_text(angle=90))  
+
+p1
+p4 <-
+  p1 + facet_wrap( ~ Probe, nrow = 1) + theme(legend.position = "none") +
+  ggtitle("facetted plot")
+
+p4
+library(ggplot2)
+p1 <- qplot(mpg, wt, data = mtcars, colour = cyl)
+p2 <- qplot(mpg, data = mtcars) + ggtitle("title")
+p3 <- qplot(mpg, data = mtcars, geom = "dotplot")
+p4 <-
+  p1 + facet_wrap( ~ carb, nrow = 1) + theme(legend.position = "none") +
+  ggtitle("facetted plot")
+
+
+plot_data1 <- plot_data %>%
+    filter(Probe == "B04957")
+
+plot_data2 <- plot_data %>%
+    filter(Probe == "gpd-2")
+
+plot_data3 <- plot_data %>%
+    filter(Probe == "set-3")
+
+par(mfrow = c(3, 1))
+ggplot(plot_data1, aes(Probe, Number_of_clusters_with_overlap, fill=Condition)) +
+  geom_boxplot(position=position_dodge(0.8), outlier.shape = NA) +
+  geom_point(position=position_jitterdodge(dodge.width=0.8), alpha = 0.5) +
+  annotate(geom="text", x=1, y=45, label=pvalue_1, color="#66CCCC")+
+  scale_fill_manual(values=c("#CCCCCC", "#66CCCC")) +
+  theme_classic() + 
+  theme(strip.text = element_text(face = "italic"),
+        panel.grid.major = element_line(colour = "grey"), 
+        axis.text.y = element_text(angle=90), 
+        axis.text.x = element_text(angle=90))  
+
+ggplot(plot_data2, aes(Probe, Number_of_clusters_with_overlap, fill=Condition)) +
+  geom_boxplot(position=position_dodge(0.8), outlier.shape = NA) +
+  geom_point(position=position_jitterdodge(dodge.width=0.8), alpha = 0.5) +
+  annotate(geom="text", x=1, y=42.5, label=pvalue_2, color="#009966")+
+  scale_fill_manual(values=c("#CCCCCC", "#66CCCC")) +
+  theme_classic() + 
+  theme(strip.text = element_text(face = "italic"),
+        panel.grid.major = element_line(colour = "grey"), 
+        axis.text.y = element_text(angle=90), 
+        axis.text.x = element_text(angle=90))  
+
+ggplot(plot_data3, aes(Probe, Number_of_clusters_with_overlap, fill=Condition)) +
+  geom_boxplot(position=position_dodge(0.8), outlier.shape = NA) +
+  geom_point(position=position_jitterdodge(dodge.width=0.8), alpha = 0.5) +
+  annotate(geom="text", x=1, y=40, label=pvalue_3, color="#FFCC00")+  
+  scale_fill_manual(values=c("#CCCCCC", "#66CCCC")) +
+  theme_classic() + 
+  theme(strip.text = element_text(face = "italic"),
+        panel.grid.major = element_line(colour = "grey"), 
+        axis.text.y = element_text(angle=90), 
+        axis.text.x = element_text(angle=90))  
+
+    
+    
+
+
++
+  geom_jitter(shape=16, position=position_jitter(0.2), alpha = 0.5) +
+  scale_fill_manual(values=c("#CCCCCC", "#66CCCC", "#009966", "#FFCC00")) +
+  ylim(c(0, 8))+
+  annotate(geom="text", x=1.5, y=6.25, label=pvalue1, color="#66CCCC")+
+  annotate(geom="text", x=2.5, y=7, label=pvalue2, color="#009966")+
+  annotate(geom="text", x=3.5, y=7.75, label=pvalue3, color="#FFCC00")+
+  theme_classic() + 
+  theme(strip.text = element_text(face = "italic"),
+        panel.grid.major = element_line(colour = "grey"), 
+        axis.text.y = element_text(angle=90), 
+        axis.text.x = element_text(angle=90))    
+    
+``` 
+    
+## Statistics 
+
+Perform t-test:
+
+```{r, echo=FALSE}
+
+# Calculate the t-test
+calculate_pvalue <- function(data, RNAiKD){
+  transcript_quantTable <- data %>%
+    filter(RNAi == "L4440" | RNAi == RNAiKD)
+
+  #Adjust factor levels
+  transcript_quantTable$RNAi <- factor(transcript_quantTable$RNAi, levels = c("L4440", RNAiKD))
+  
+  # Save the p-value
+  ttestresult <- t.test(clustersize ~ RNAi, data = transcript_quantTable)
+  
+  return(ttestresult)
+}
+
+# Calculate p values
+
+print("t.test calculation - mex-3 RNAi v. L4440 control. Number of molecules per cluster")
+calculate_pvalue(clusterTable, "mex-3")
+
+print("t.test calculation - spn-4 RNAi v. L4440 control. Number of molecules per cluster")
+calculate_pvalue(clusterTable, "spn-4")
+
+print("t.test calculation - mex-3 spn-4 RNAi v. L4440 control. Number of molecules per cluster")
+calculate_pvalue(clusterTable, "spn-4_mex-3")
+
+# Save p values
+pvalue1 <- calculate_pvalue(clusterTable, "mex-3")$p.value
+pvalue2 <- calculate_pvalue(clusterTable, "spn-4")$p.value
+pvalue3 <- calculate_pvalue(clusterTable, "spn-4_mex-3")$p.value
+
+# p <- pvalue3
+# (0.05 < p )
+# (0.005 < p )
+# (0.0005 < p )
+# (0.00005 < p )
+# (0.000005 < p )
+```
+
+## Plot violin plots 
+
+Plot the dataset and add t.test p values on top
+
+```{r, echo = FALSE, warning = FALSE}
+plot_data <- clusterTable %>%
+    filter(RNAi == "L4440" | RNAi == "mex-3" | RNAi == "spn-4" | RNAi == "spn-4_mex-3")
+
+plot_data$RNAi <- factor(plot_data$RNAi, levels = c("L4440", "mex-3", "spn-4", "spn-4_mex-3"))
+
+p_violinplot <- ggplot(plot_data, aes(RNAi, log(clustersize), fill=RNAi)) +
+  geom_violin(bw = 0.2) +
+  geom_jitter(shape=16, position=position_jitter(0.2), alpha = 0.5) +
+  scale_fill_manual(values=c("#CCCCCC", "#66CCCC", "#009966", "#FFCC00")) +
+  ylim(c(0, 8))+
+  annotate(geom="text", x=1.5, y=6.25, label=pvalue1, color="#66CCCC")+
+  annotate(geom="text", x=2.5, y=7, label=pvalue2, color="#009966")+
+  annotate(geom="text", x=3.5, y=7.75, label=pvalue3, color="#FFCC00")+
+  theme_classic() + 
+  theme(strip.text = element_text(face = "italic"),
+        panel.grid.major = element_line(colour = "grey"), 
+        axis.text.y = element_text(angle=90), 
+        axis.text.x = element_text(angle=90))
+  
+
+p_violinplot
+
+print("Number of clusters per RNAi condition")
+# Enumerate clusters
+clusterTable %>%
+  group_by(RNAi) %>% 
+  summarize(n())
+
+#print("Number of embryos per RNAi condition")
+# Enumerate embryos
+#clusterTable %>%
+#  group_by(RNAi, Image) %>% 
+#  summarize(n())
+
+```
+
+## output plot
+
+Save the plot data in a file 
+
+```{r, echo = FALSE, warning = FALSE}
+
+#Set date
+date <- format(Sys.time(), "%y%m%d")
+#set filename
+filename <- paste("../3_output/", date, "_output_plots_Fig6E.pdf", sep = "")
+
+#export pdf
+pdf(file = filename, width = 6, height = 6)
+p_violinplot
+dev.off()
+dev.off()
+
+#Report
+print("The following output plot was saved: ", quote = FALSE)
+print(filename, quote = FALSE)
+
+
+```
+
+
+# Get versions
+
+```{r, echo = TRUE}
+sessionInfo()
+```
