@@ -23,7 +23,7 @@ The user can adjust a threshold for the detection of these blobs.
 
 Spatial overlap of clusters and granules is then computed.
 
-<img src="https://raw.githubusercontent.com/muellerflorian/rna-loc/master/docs/img/GRANULES-venn-diagram.png" width="400px"></img>
+<img src="https://raw.githubusercontent.com/muellerflorian/parker-rna-loc-elegans/master/docs/img/GRANULES-venn-diagram.png" width="400px"></img>
 
 
 ## Data organisation
@@ -40,6 +40,7 @@ We enforce the following data organisation for this analysis.
 As an example, we have one image `img1` with 4 channels. The first two channels contain
 analysed smFISH data, the third one contains the image of the granules, and the 4th the DAPI image.
 
+```
     .
     ├─ img1/
     │  ├─ C3-img1.tif                          # Granules image
@@ -60,7 +61,7 @@ analysed smFISH data, the third one contains the image of the granules, and the 
     │  │  ├─ Channel_C2/                       # Results for channel 2
     │  │  │  ├─ ....
     .
-
+```
 
 ## RNA detection
 Please consult the dedicated section [here](rna-detection.md).
@@ -93,15 +94,15 @@ to apply the currently selected threshold. Note that for testing thresholds the 
 maximum intensity projection (otherwise it takes too long). Once the detection is finished, ImJoy will display a
 window with the results as shown below.
 
-<img src="https://raw.githubusercontent.com/muellerflorian/rna-loc/master/docs/img/GRANULES-blob-2d.png" width="500px"></img>
+<img src="https://raw.githubusercontent.com/muellerflorian/parker-rna-loc-elegans/master/docs/img/GRANULES-blob-2d.png" width="500px"></img>
 
 Once you identified a good threshold, you can click on `Detect granules in 3D`, to perform the analysis on the full 3D image.
 
 **Note**: if you load a new FISH results from the same sample, you don't need to redo the granule detection. The ImJoy plugin
 stored the last analysis, and it can be reused. In this case, you only have to readjust the DB-scan parameters.
 
-
 ### DB-scan
+
 In order to identify RNA clusers, we anlalyze the 3D RNA positions with a DB-scan. Here you have to set two parameters
 
 Here spatial clusters are called based on two criteria (1) maximum allowed distance
@@ -142,4 +143,4 @@ analyzed channel is created. A number of images and csv files summarizing the an
     - `ABC`: granules or RNA clusters
 * **`VENN_diagram_overlap.png`**:: VENN diagram showing total number of clusters/granules and how many co-localize.
 
-<img src="https://raw.githubusercontent.com/muellerflorian/rna-loc/master/docs/img/GRANULES-summary.png" width="500px"></img>
+<img src="https://raw.githubusercontent.com/muellerflorian/parker-rna-loc-elegans/master/docs/img/GRANULES-summary.png" width="500px"></img>

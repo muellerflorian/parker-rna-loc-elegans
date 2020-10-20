@@ -4,11 +4,13 @@
 # Analyze RNA localization in c. elegans
 
 This repository provide the different workflows to analyze **RNA localization patterns** in c. elegans 
-from single molecule FISH (smFISH images), described in our paper:
+from single molecule FISH (smFISH images), described in [our paper](https://pubmed.ncbi.nlm.nih.gov/32541012):
 
 __Title:__ mRNA localization is linked to translation regulation in the Caenorhabditis elegans germ lineage.
 
 __Authors:__ Dylan M. Parker, Lindsay P. Winkenbach, Samuel P. Boyson, Matthew N. Saxton, Camryn Daidone, Zainab A. Al-Mazaydeh, Marc T. Nishimura, Florian Mueller, Erin Osborne Nishimura
+
+__Publisher:__ Development. 2020 Jul 8;147(13):dev186817. doi: 10.1242/dev.186817.
 
 Analysis is performed with Matlab and Python. Python scripts are provided as [ImJoy plugins](https://www.nature.com/articles/s41592-019-0627-0) to simplify usage. 
 

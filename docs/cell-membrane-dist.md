@@ -10,12 +10,9 @@ ImJoy plugins will be available in the workspace: **`rna-loc-elegans`**
 You will also need the ImJoy plugin engine, please consult the
 <a href="https://imjoy.io/docs/#/user-manual?id=python-engine/" target="_blank">**ImJoy documentation**</a>
 
-## Test date
-You can download already processed test data for the Cell membrane enrichment plugin,
-from
-<a href="https://www.dropbox.com/s/0sbsmbg5xlccamp/img1.zip?dl=0"  target="_blank">**Dropbox.**</a>
-
-The zip archive contains data following the naming conventions of the examples below.
+## Test data
+You can download already processed test data for the Cell membrane enrichment plugin, from 
+the GitHub release page. The zip archive contains data following the naming conventions of the examples below.
 
 ## Analysis overview
 For each RNA, we determine the distance to the closest membrane. One thing to keep in mind more pixel close

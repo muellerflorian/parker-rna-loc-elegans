@@ -26,7 +26,7 @@ outside of a nucleus. Distances for all RNAs will be summarised in histogram. Th
     to the nuclei. The RNA counts are then normalised with this pixel histogram.
 2.  The normalised histogram is then further normalised such that it sums up to 1.
 
-<img src="https://raw.githubusercontent.com/muellerflorian/rna-loc/master/docs/img/NED-dist_histogram.png" width="500px"></img>
+<img src="https://raw.githubusercontent.com/muellerflorian/parker-rna-loc-elegans/master/docs/img/NED-dist_histogram.png" width="500px"></img>
 
 ## Data organisation
 
@@ -45,6 +45,7 @@ about can be found in the dedicated section below.
 As an example, we have one image `img1` with 3 channels. The first channels contain
 analysed smFISH data, the third one contains the cell membrane annotations for two Z slices (slice 3 and 8).
 
+```
     .
     ├─ img1/
     │  ├─ C1-img1.tif                          # smFISH image (channel 1)
@@ -61,6 +62,11 @@ analysed smFISH data, the third one contains the cell membrane annotations for t
     │  │  ├─ C3-img1_Z8__RoiSet.zip            # Membrane annotation of slice 2
     ├─ img2/
     .
+```
+
+### Test data
+You can download already processed test data for the Cell membrane enrichment plugin, from 
+the GitHub release page. The zip archive contains data following the naming conventions of the examples below.
 
 ## Annotations of nuclear envelope
 
