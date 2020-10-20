@@ -696,7 +696,7 @@ outside of a nucleus. Distances for all RNAs will be summarised in histogram. Th
     to the nuclei. The RNA counts are then normalised with this pixel histogram.</li>
 <li>The normalised histogram is then further normalised such that it sums up to 1.</li>
 </ol>
-<p><img src="https://raw.githubusercontent.com/muellerflorian/rna-loc/master/docs/img/NED-dist_histogram.png" width="500px"></img></p>
+<p><img src="https://raw.githubusercontent.com/muellerflorian/parker-rna-loc-elegans/master/docs/img/NED-dist_histogram.png" width="500px"></img></p>
 <h2 id="data-organisation">Data organisation<a class="headerlink" href="#data-organisation" title="Permanent link">&para;</a></h2>
 <p>We enforce a strict data organisation for this analysis. More information
 about can be found in the dedicated section below.</p>
@@ -712,23 +712,24 @@ about can be found in the dedicated section below.</p>
 </ol>
 <p>As an example, we have one image <code>img1</code> with 3 channels. The first channels contain
 analysed smFISH data, the third one contains the cell membrane annotations for two Z slices (slice 3 and 8).</p>
-<pre><code>.
-├─ img1/
-│  ├─ C1-img1.tif                          # smFISH image (channel 1)
-│  ├─ C1-img1__spots.txt                   # FQ detection results (channel 1)
-│  ├─ C1-img1__settings_MATURE.txt         # FQ detection settings (channel 1)
-│  ├─ C2-img2.tif                          # smFISH image of (channel 2)
-│  ├─ C2-img2__spots.txt                   # FQ detection results (channel 2)
-│  ├─ C2-img2__settings_MATURE.txt         # FQ detection settings (channel 2)
-│  ├─ embryo_contour.roi                   # Embryo outline
-│  ├─ zstack_segmentation/
-│  │  ├─ C3-img1_Z3.tif                    # Image of z-slice 1
-│  │  ├─ C3-img1_Z3__RoiSet.zip            # Membrane annotation of slice 1
-│  │  ├─ C3-img1_Z8.tif                    # Image of z-slice 2
-│  │  ├─ C3-img1_Z8__RoiSet.zip            # Membrane annotation of slice 2
-├─ img2/
-.
-</code></pre>
+<div class="highlight"><pre><span></span><code>    .
+    ├─ img1/
+    │  ├─ C1-img1.tif                          # smFISH image (channel 1)
+    │  ├─ C1-img1__spots.txt                   # FQ detection results (channel 1)
+    │  ├─ C1-img1__settings_MATURE.txt         # FQ detection settings (channel 1)
+    │  ├─ C2-img2.tif                          # smFISH image of (channel 2)
+    │  ├─ C2-img2__spots.txt                   # FQ detection results (channel 2)
+    │  ├─ C2-img2__settings_MATURE.txt         # FQ detection settings (channel 2)
+    │  ├─ embryo_contour.roi                   # Embryo outline
+    │  ├─ zstack_segmentation/
+    │  │  ├─ C3-img1_Z3.tif                    # Image of z-slice 1
+    │  │  ├─ C3-img1_Z3__RoiSet.zip            # Membrane annotation of slice 1
+    │  │  ├─ C3-img1_Z8.tif                    # Image of z-slice 2
+    │  │  ├─ C3-img1_Z8__RoiSet.zip            # Membrane annotation of slice 2
+    ├─ img2/
+    .
+</code></pre></div>
+
 <h2 id="annotations-of-nuclear-envelope">Annotations of nuclear envelope<a class="headerlink" href="#annotations-of-nuclear-envelope" title="Permanent link">&para;</a></h2>
 <p>In order to be able to compute the enrichment towards cell membrane or nuclear
 envelope, these membranes have to be annotated in EACH z-slice that should be

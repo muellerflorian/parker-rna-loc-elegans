@@ -713,7 +713,7 @@ The user can adjust a threshold for the detection of these blobs.</p>
 </li>
 </ol>
 <p>Spatial overlap of clusters and granules is then computed.</p>
-<p><img src="https://raw.githubusercontent.com/muellerflorian/rna-loc/master/docs/img/GRANULES-venn-diagram.png" width="400px"></img></p>
+<p><img src="https://raw.githubusercontent.com/muellerflorian/parker-rna-loc-elegans/master/docs/img/GRANULES-venn-diagram.png" width="400px"></img></p>
 <h2 id="data-organisation">Data organisation<a class="headerlink" href="#data-organisation" title="Permanent link">&para;</a></h2>
 <p>We enforce the following data organisation for this analysis.</p>
 <ol>
@@ -726,27 +726,28 @@ The user can adjust a threshold for the detection of these blobs.</p>
 </ol>
 <p>As an example, we have one image <code>img1</code> with 4 channels. The first two channels contain
 analysed smFISH data, the third one contains the image of the granules, and the 4th the DAPI image.</p>
-<pre><code>.
-├─ img1/
-│  ├─ C3-img1.tif                          # Granules image
-│  ├─ C4-img1.tif                          # DAPI image
-│  ├─ C1/                                  # CHANNEL 1
-│  │  ├─ C1-img1.tif                       # smFISH image
-│  │  ├─ C1-img1__settings_MATURE.txt      # FQ detection settings
-│  │  ├─ results_GMM/                      # Spot decomposition results
-│  │  │  ├─ C1-img1_res_GMM.txt
-│  ├─ C2/                                  # CHANNEL 2
-│  │  ├─ C2-img1.tif                       # smFISH image
-│  │  ├─ C2-img1__settings_MATURE.txt      # FQ detection settings
-│  │  ├─ results_GMM/                      # Spot decomposition results
-│  │  │  ├─ C2-img1_res_GMM.txt
-│  ├─ coloc_granules/                      # Analysis results
-│  │  ├─ Channel_C1/                       # Results for channel 1
-│  │  │  ├─ ....
-│  │  ├─ Channel_C2/                       # Results for channel 2
-│  │  │  ├─ ....
-.
-</code></pre>
+<div class="highlight"><pre><span></span><code>    .
+    ├─ img1/
+    │  ├─ C3-img1.tif                          # Granules image
+    │  ├─ C4-img1.tif                          # DAPI image
+    │  ├─ C1/                                  # CHANNEL 1
+    │  │  ├─ C1-img1.tif                       # smFISH image
+    │  │  ├─ C1-img1__settings_MATURE.txt      # FQ detection settings
+    │  │  ├─ results_GMM/                      # Spot decomposition results
+    │  │  │  ├─ C1-img1_res_GMM.txt
+    │  ├─ C2/                                  # CHANNEL 2
+    │  │  ├─ C2-img1.tif                       # smFISH image
+    │  │  ├─ C2-img1__settings_MATURE.txt      # FQ detection settings
+    │  │  ├─ results_GMM/                      # Spot decomposition results
+    │  │  │  ├─ C2-img1_res_GMM.txt
+    │  ├─ coloc_granules/                      # Analysis results
+    │  │  ├─ Channel_C1/                       # Results for channel 1
+    │  │  │  ├─ ....
+    │  │  ├─ Channel_C2/                       # Results for channel 2
+    │  │  │  ├─ ....
+    .
+</code></pre></div>
+
 <h2 id="rna-detection">RNA detection<a class="headerlink" href="#rna-detection" title="Permanent link">&para;</a></h2>
 <p>Please consult the dedicated section <a href="../rna-detection/">here</a>.</p>
 <h2 id="analysis-in-imjoy">Analysis in ImJoy<a class="headerlink" href="#analysis-in-imjoy" title="Permanent link">&para;</a></h2>
@@ -768,7 +769,7 @@ all necessary data.</p>
 to apply the currently selected threshold. Note that for testing thresholds the analysis is only performed on a 2D
 maximum intensity projection (otherwise it takes too long). Once the detection is finished, ImJoy will display a
 window with the results as shown below.</p>
-<p><img src="https://raw.githubusercontent.com/muellerflorian/rna-loc/master/docs/img/GRANULES-blob-2d.png" width="500px"></img></p>
+<p><img src="https://raw.githubusercontent.com/muellerflorian/parker-rna-loc-elegans/master/docs/img/GRANULES-blob-2d.png" width="500px"></img></p>
 <p>Once you identified a good threshold, you can click on <code>Detect granules in 3D</code>, to perform the analysis on the full 3D image.</p>
 <p><strong>Note</strong>: if you load a new FISH results from the same sample, you don't need to redo the granule detection. The ImJoy plugin
 stored the last analysis, and it can be reused. In this case, you only have to readjust the DB-scan parameters.</p>
@@ -817,7 +818,7 @@ analyzed channel is created. A number of images and csv files summarizing the an
 </li>
 <li><strong><code>VENN_diagram_overlap.png</code></strong>:: VENN diagram showing total number of clusters/granules and how many co-localize.</li>
 </ul>
-<p><img src="https://raw.githubusercontent.com/muellerflorian/rna-loc/master/docs/img/GRANULES-summary.png" width="500px"></img></p>
+<p><img src="https://raw.githubusercontent.com/muellerflorian/parker-rna-loc-elegans/master/docs/img/GRANULES-summary.png" width="500px"></img></p>
                 
                   
                 
