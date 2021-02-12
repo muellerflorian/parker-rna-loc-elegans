@@ -66,7 +66,9 @@ analysed smFISH data, the third one contains the cell membrane annotations for t
 
 ### Test data
 You can download already processed test data for the Cell membrane enrichment plugin, from 
-the GitHub release page. The zip archive contains data following the naming conventions of the examples below.
+the [**GitHub release page**](https://github.com/muellerflorian/parker-rna-loc-elegans/releases/tag/v2.0).
+
+The zip archive contains data following the naming conventions of the examples below.
 
 ## Annotations of nuclear envelope
 

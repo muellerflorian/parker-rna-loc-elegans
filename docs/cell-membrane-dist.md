@@ -12,7 +12,9 @@ You will also need the ImJoy plugin engine, please consult the
 
 ## Test data
 You can download already processed test data for the Cell membrane enrichment plugin, from 
-the GitHub release page. The zip archive contains data following the naming conventions of the examples below.
+the [**GitHub release page**](https://github.com/muellerflorian/parker-rna-loc-elegans/releases/tag/v2.0).
+
+The zip archive contains data following the naming conventions of the examples below.
 
 ## Analysis overview
 For each RNA, we determine the distance to the closest membrane. One thing to keep in mind more pixel close
